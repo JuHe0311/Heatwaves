@@ -52,7 +52,7 @@ def one_year(i,one_grid, year_begin, year_end):
 # one_grid: data frame of one grid cell
 # year_begin: the year of the beginning of the dataframe (integer)
 # year_end: the year of the end of the dataframe (integer)
-def calc_threshold2(i,x,y, one_grid, year_begin, year_end):
+def calc_threshold(i,x,y, one_grid, year_begin, year_end):
     temp_list = []
     while (one_grid.x[i] == x) & (one_grid.y[i] == y):
         temp_list.append(one_year(i,one_grid, year_begin, year_end))
@@ -136,4 +136,50 @@ def create_extr_dataset(data, thresholds, len_lat, len_lon, years):
                 data_count = data_count + 365
             thresh_count = thresh_count + 365
     return extr_dataset
-    
+
+# function to convert temperature from kelvin to degrees celcius
+def conv_to_degreescelcius(data):
+    for i in range(len(data)):
+        data.t2m[i] = data.t2m[i] - 273.15
+       
+###########################################
+
+
+#load data and preprocessing
+d = xarray.open_dataset("path")
+
+#create integer based (x,y) coordinates
+d['x'] = (('longitude'), np.arange(len(d.longitude)))
+d['y'] = (('latitude'), np.arange(len(d.latitude)))
+#convert to dataframe
+vt = d.to_dataframe()
+#reset index
+vt.reset_index(inplace=True)
+# add correct times
+datetimes = pd.to_datetime(vt['time'])
+# assign your new columns
+vt['day'] = datetimes.dt.day
+vt['month'] = datetimes.dt.month
+vt['year'] = datetimes.dt.year
+vt = cut_366(vt)
+conv_to_degreescelcius(vt)
+
+
+# calculate threshold
+first_year = ...
+last_year = ...
+longitudes = ...
+latitudes = ...
+thresh = calc_thresh_all(vt, first_year, last_year, longitudes, latitudes)
+# save threshold for later applications
+thresh.to_csv(path_or_buf = ".path", index=False)
+
+# create extreme dataset
+years = last_year - first_year
+extr = create_extr_dataset(vt, thresh, longitudes,latitudes,years)
+# save extreme dataset for later use
+extr.to_csv(path_or_buf = ".path", index=False)
+
+
+
+
