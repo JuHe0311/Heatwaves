@@ -172,7 +172,7 @@ def conv_to_degreescelcius(data):
 
 
 #load data and preprocessing
-d = xarray.open_dataset("path")
+d = xarray.open_dataset(data_path)
 
 #create integer based (x,y) coordinates
 d['x'] = (('longitude'), np.arange(len(d.longitude)))
@@ -196,13 +196,13 @@ longitudes = ...
 latitudes = ...
 thresh = calc_thresh_all(vt, starty, endy, longitudes, latitudes)
 # save threshold for later applications
-thresh.to_csv(path_or_buf = ".path", index=False)
+thresh.to_csv(path_or_buf = save_path/"thresh.csv", index=False)
 
 # create extreme dataset
 years = last_year - first_year
 extr = create_extr_dataset(vt, thresh, longitudes,latitudes,years)
 # save extreme dataset for later use
-extr.to_csv(path_or_buf = ".path", index=False)
+extr.to_csv(path_or_buf = save_path/"extr_dataset.csv", index=False)
 
 
 
