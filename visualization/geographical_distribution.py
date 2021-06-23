@@ -47,3 +47,5 @@ for name, col in cols.items():
     # colorbar
     cb = obj['fig'].colorbar(obj['pc'], fraction=.022, pad=.02)
     cb.set_label('{}'.format(name), fontsize=15)   
+    
+    # save the images
