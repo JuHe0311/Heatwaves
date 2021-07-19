@@ -98,7 +98,7 @@ def calc_thresh_all(data, start_year, end_year, len_lon, len_lat):
     for lat in range(len_lat):
         for lon in range(len_lon):
             for i in range(365):
-                threshold,tmp = calc_threshold2((i+j),lon, lat, data, start_year, end_year)
+                threshold,tmp = calc_threshold((i+j),lon, lat, data, start_year, end_year)
                 date = str(data.month[i])+"/"+str(data.day[i])
                 thresholds_test.loc[l] = [data.latitude[i+j], data.longitude[i+j], date, threshold]
                 l = l+1
