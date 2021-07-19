@@ -1,5 +1,6 @@
 # create dataset of extreme temperature events
 
+# output: extreme dataset, original dataset
 # Imports:
 import os
 import xarray
