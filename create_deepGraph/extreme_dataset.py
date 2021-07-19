@@ -103,9 +103,6 @@ def calc_thresh_all(data, start_year, end_year, len_lon, len_lat):
                 thresholds_test.loc[l] = [data.latitude[i+j], data.longitude[i+j], date, threshold]
                 l = l+1
             j = tmp+1
-            print(j)
-            print(lon)
-            print(lat)
     return thresholds_test
 
 
