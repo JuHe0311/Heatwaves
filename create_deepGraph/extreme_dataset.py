@@ -192,8 +192,8 @@ conv_to_degreescelcius(vt)
 
 
 # calculate threshold
-longitudes = ...
-latitudes = ...
+longitudes = len(d.longitude)
+latitudes = len(d.latitude)
 thresh = calc_thresh_all(vt, starty, endy, longitudes, latitudes)
 # save threshold for later applications
 thresh.to_csv(path_or_buf = save_path/"thresh.csv", index=False)
