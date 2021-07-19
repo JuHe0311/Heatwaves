@@ -1,6 +1,34 @@
-# input: Pandas Dataframe called extr
+# Imports:
+import os
+import xarray
+# for plots
+import matplotlib.pyplot as plt
+# the usual
+import numpy as np
+import pandas as pd
+import itertools
+import scipy
+import argparse
+############### Argparser #############
 
 
+def make_argparser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--data", help="Give the path to the dataset to be worked on.",
+                        type=str)
+    parser.add_argument("-s", "--save_path",  help="Give a path where to save the resulting files",
+                        type=str)
+    return parser
+
+
+parser = make_argparser()
+args = parser.parse_args()
+
+data_path = args.data
+save_path = args.save_path
+
+extr = pd.DataFrame(data_path)
+print(extr)
 # connectors calculate the distance between every pair of nodes based on their 3D location
 # connectors
 
@@ -80,3 +108,5 @@ def area(group):
 cpv['area'] = gv.apply(area)
 
 cpv.rename(columns={'daily_mag_sum': 'HWMId_magnitude'}, inplace=True)
+
+cpv.to_csv(path_or_buf = save_path/"cpv.csv", index=False)
