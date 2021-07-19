@@ -100,13 +100,7 @@ cpv['n_unique_g_ids'] = cpv['g_ids'].apply(len)
 # append time spans
 cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
 
-
-#somehow change spatial coverage aka find a good synonmy for this
-# append spatial coverage
-def area(group):
-    return group.drop_duplicates('g_id').t2m.sum()
-cpv['area'] = gv.apply(area)
-
 cpv.rename(columns={'daily_mag_sum': 'HWMId_magnitude'}, inplace=True)
 
+# save cpv
 cpv.to_csv(path_or_buf = save_path/"cpv.csv", index=False)
