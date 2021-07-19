@@ -201,8 +201,8 @@ thresh.to_csv(path_or_buf = save_path/"thresh.csv", index=False)
 years = last_year - first_year
 extr = create_extr_dataset(vt, thresh, longitudes,latitudes,years)
 # save extreme dataset for later use
-extr.to_csv(path_or_buf = save_path"extr_dataset.csv", index=False)
+extr.to_csv(path_or_buf = "../../Results/extr_dataset.csv", index=False)
 
 # save original dataset for later use
-vt.to_csv(path_or_buf = save_path"original_dataset.csv", index=False)
+vt.to_csv(path_or_buf = "../../Results/original_dataset.csv", index=False)
 
