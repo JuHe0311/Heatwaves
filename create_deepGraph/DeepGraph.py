@@ -67,15 +67,14 @@ g.create_edges_ft(ft_feature=('itime', 1),
                                'dx': np.int8,
                                'dy': np.int8}, 
                   max_pairs=1e7)
+# rename fast track relation
+g.e.rename(columns={'ft_r': 'dt'}, inplace=True)
 
 # all singular components (components comprised of one node only)
 # are consolidated under the label 0
 g.append_cp(consolidate_singles=True)
 # we don't need the edges any more
 del g.e
-
-# rename fast track relation
-g.e.rename(columns={'ft_r': 'dt'}, inplace=True)
 
 # create supernode table of connected nodes --> partitioning of the graph by the component membership of the nodes
 # feature functions, will be applied to each component of g
