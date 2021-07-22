@@ -16,8 +16,6 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", help="Give the path to the dataset to be worked on.",
                         type=str)
-    parser.add_argument("-s", "--save_path",  help="Give a path where to save the resulting files",
-                        type=str)
     return parser
 
 
@@ -25,7 +23,6 @@ parser = make_argparser()
 args = parser.parse_args()
 
 data_path = args.data
-save_path = args.save_path
 
 extr = pd.DataFrame(data_path)
 print(extr)
@@ -105,4 +102,4 @@ cpv.rename(columns={'daily_mag_sum': 'HWMId_magnitude'}, inplace=True)
 # discard singular components
 cpv.drop(0, inplace=True)
 # save cpv
-cpv.to_csv(path_or_buf = save_path/"cpv.csv", index=False)
+cpv.to_csv(path_or_buf = "../../Results/cpv.csv", index=False)
