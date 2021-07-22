@@ -24,7 +24,7 @@ args = parser.parse_args()
 
 data_path = args.data
 
-extr = pd.DataFrame(data_path)
+extr = pd.read_csv(data_path)
 print(extr)
 # connectors calculate the distance between every pair of nodes based on their 3D location
 # connectors
