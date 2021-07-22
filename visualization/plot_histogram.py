@@ -1,13 +1,12 @@
+# creates a histogram of a property of a dataset. Needs a path to a dataframe and a property as a string to plot --> property needs to be the name of a column 
+# from the dataframe
+
 # Imports:
-import os
-import xarray
 # for plots
 import matplotlib.pyplot as plt
 # the usual
 import numpy as np
 import pandas as pd
-import itertools
-import scipy
 import argparse
 
 
