@@ -200,6 +200,24 @@ thresh.to_csv(path_or_buf = "../../Results/thresh.csv", index=False)
 # create extreme dataset
 years = endy - starty
 extr = create_extr_dataset(vt, thresh, longitudes,latitudes,years)
+
+# adapt extreme dataset
+# append some neccessary stuff to the extr dataset
+# append a column indicating geographical locations (i.e., supernode labels)
+extr['g_id'] = extr.groupby(['longitude', 'latitude']).grouper.group_info[0]
+extr['g_id'] = extr['g_id'].astype(np.uint32)    
+
+# append integer-based time
+times = pd.date_range(extr.time.min(), extr.time.max(), freq='D')
+tdic = {time: itime for itime, time in enumerate(times)}
+extr['itime'] = extr.time.apply(lambda x: tdic[x])
+extr['itime'] = extr['itime'].astype(np.uint16)
+# sort by time
+extr.sort_values('time', inplace=True)
+
+#remove columns 75 and 25 percentile
+extr.drop(['seventyfive_percentile', 'twentyfive_percentile'], axis=1, inplace=True)
+
 # save extreme dataset for later use
 extr.to_csv(path_or_buf = "../../Results/extr_dataset.csv", index=False)
 
