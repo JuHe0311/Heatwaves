@@ -195,7 +195,7 @@ longitudes = len(d.longitude)
 latitudes = len(d.latitude)
 thresh = calc_thresh_all(vt, starty, endy, longitudes, latitudes)
 # save threshold for later applications
-thresh.to_csv(path_or_buf = save_path/"thresh.csv", index=False)
+thresh.to_csv(path_or_buf = "../../Results/thresh.csv", index=False)
 
 # create extreme dataset
 years = last_year - first_year
