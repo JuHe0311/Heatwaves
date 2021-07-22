@@ -90,7 +90,7 @@ cpv, gv = g.partition_nodes('cp', feature_funcs, return_gv=True)
 
 # append geographical id sets
 cpv['g_ids'] = gv['g_id'].apply(set)
-
+print(cpv)
 # append cardinality of g_id sets
 cpv['n_unique_g_ids'] = cpv['g_ids'].apply(len)
 
