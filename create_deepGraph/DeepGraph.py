@@ -5,6 +5,7 @@ import xarray
 import matplotlib.pyplot as plt
 # the usual
 import numpy as np
+import deepgraph as dg
 import pandas as pd
 import itertools
 import scipy
