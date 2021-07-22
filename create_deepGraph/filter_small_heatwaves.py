@@ -33,11 +33,6 @@ def make_argparser():
 parser = make_argparser()
 args = parser.parse_args()
 
-data_path = args.data_original
-extr_path = args.data_extreme
-save_path = args.save_path
-cpv_path = args.cpv
-
 # create variables
 vt = pd.DataFrame(args.data_original)
 cpv = pd.DataFrame(args.cpv)
@@ -68,7 +63,7 @@ def s_grid_2d_dy(dy, sources, targets):
     targets = targets[dya <= 1]
     return sources, targets
 
- 
+
   
 # filter out small heatwave events from the initial deep graph g
 vt['small'] = np.ones(len(vt), dtype=int) * -1
@@ -79,3 +74,63 @@ for small in range(len(it)):
     cp_index = g.v.cp.isin(it.iloc[small])
     g.v.loc[cp_index, 'small'] = small
 g.filter_by_values_v('small', 1)
+
+# redo cpv and cpg as they did not take over the changes made to g
+
+# create supernode table of connected nodes --> partitioning of the graph by the component membership of the nodes
+# feature functions, will be applied to each component of g
+feature_funcs = {'time': [np.min, np.max],
+                 'itime': [np.min, np.max],
+                 't2m': [np.mean],
+                 'daily_mag': [np.sum],
+                 'latitude': [np.mean],
+                 'longitude': [np.mean], 't2m': [np.max]}
+
+# partition the node table
+cpv_small, gv = g.partition_nodes('cp', feature_funcs, return_gv=True)
+
+# append geographical id sets
+cpv_small['g_ids'] = gv['g_id'].apply(set)
+
+# append cardinality of g_id sets
+cpv_small['n_unique_g_ids'] = cpv_small['g_ids'].apply(len)
+
+# append time spans
+cpv_small['dt'] = cpv_small['time_amax'] - cpv_small['time_amin']
+
+cpv_small.rename(columns={'daily_mag_sum': 'HWMId_magnitude'}, inplace=True)
+
+# create superedges between the supernodes to find heatwave clusters with strong regional overlaps
+
+# compute intersection of geographical locations
+def cp_node_intersection(g_ids_s, g_ids_t):
+    intsec = np.zeros(len(g_ids_s), dtype=object)
+    intsec_card = np.zeros(len(g_ids_s), dtype=np.int)
+    for i in range(len(g_ids_s)):
+        intsec[i] = g_ids_s[i].intersection(g_ids_t[i])
+        intsec_card[i] = len(intsec[i])
+    return intsec_card
+
+# compute a spatial overlap measure between clusters
+def cp_intersection_strength(n_unique_g_ids_s, n_unique_g_ids_t, intsec_card):
+    min_card = np.array(np.vstack((n_unique_g_ids_s, n_unique_g_ids_t)).min(axis=0), 
+                        dtype=np.float64)
+    intsec_strength = intsec_card / min_card
+    return intsec_strength
+
+# compute temporal distance between clusters
+def time_dist(dtime_amin_s, dtime_amin_t):
+    dt = dtime_amin_t - dtime_amin_s
+    return dt
+
+# initiate DeepGraph
+cpg = dg.DeepGraph(cpv_small)
+
+cpg.create_edges(connectors=[cp_node_intersection, 
+                             cp_intersection_strength],
+                 no_transfer_rs=['intsec_card'],
+                 logfile='create_cpe',
+                 step_size=1e7)
+
+ cpv_small.to_csv(path_or_buf = "../../Results/cpv_small.csv", index=False)
+
