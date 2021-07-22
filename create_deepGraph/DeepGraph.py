@@ -102,5 +102,7 @@ cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
 
 cpv.rename(columns={'daily_mag_sum': 'HWMId_magnitude'}, inplace=True)
 
+# discard singular components
+cpv.drop(0, inplace=True)
 # save cpv
 cpv.to_csv(path_or_buf = save_path/"cpv.csv", index=False)
