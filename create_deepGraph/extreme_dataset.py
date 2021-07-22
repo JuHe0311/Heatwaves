@@ -198,7 +198,7 @@ thresh = calc_thresh_all(vt, starty, endy, longitudes, latitudes)
 thresh.to_csv(path_or_buf = "../../Results/thresh.csv", index=False)
 
 # create extreme dataset
-years = last_year - first_year
+years = endy - starty
 extr = create_extr_dataset(vt, thresh, longitudes,latitudes,years)
 # save extreme dataset for later use
 extr.to_csv(path_or_buf = "../../Results/extr_dataset.csv", index=False)
