@@ -166,7 +166,43 @@ def create_extr_dataset(data, thresholds, len_lat, len_lon, years):
 def conv_to_degreescelcius(data):
     for i in range(len(data)):
         data.t2m[i] = data.t2m[i] - 273.15
-       
+
+# function calculates the 75th and 25th percentile of a specific day(in a month) from a set of values
+# input:
+# day, month: day and month for which the percentiles should be calculated
+# x,y: specify the grid for which the percentiles are calculated: x = lon, y = lat
+# data: data for which the percentiles should be calculated
+def calc_75_25_percentile(day, month, x, y, data):
+    a_list = list(data.t2m[(data.day == day) & (data.month == month) & (data.x == x) & (data.y == y)])
+    threshold_seventyfive = np.percentile(a_list,75)
+    threshold_twentyfive = np.percentile(a_list, 25)
+    return threshold_seventyfive, threshold_twentyfive
+
+# calculates the daily magnitude index of a day, appends the daily magnitude of a day to the dataframe
+# input:
+# data: data to calculate the 75th and 25th percentile for each day
+# extr_data: dataframe that the daily magnitude index is calculated for
+def daily_magnitude(data, extr_data):
+    list_sf = []
+    list_tf = []
+    list_dm = []
+    for i in range(len(extr_data)):
+        sf, tf = calc_75_25_percentile(extr_data.day[i], extr_data.month[i], extr_data.x[i], extr_data.y[i], data)
+        list_sf.append(sf)
+        list_tf.append(tf)
+    extr_data['seventyfive_percentile'] = list_sf
+    extr_data['twentyfive_percentile'] = list_tf
+    
+    for i in range(len(extr_data)):
+        if extr_data.t2m[i] > extr_data.twentyfive_percentile[i]:
+            dm1 = extr_data.t2m[i] - extr_data.twentyfive_percentile[i]
+            dm2 = extr_data.seventyfive_percentile[i] - extr_data.twentyfive_percentile[i]
+            dm = float(dm1/dm2)
+        else:
+            dm = 0
+        list_dm.append(dm)
+    extr_data['daily_mag'] = list_dm
+    
 ###########################################
 
 
@@ -201,6 +237,9 @@ thresh.to_csv(path_or_buf = "../../Results/thresh.csv", index=False)
 years = endy - starty
 extr = create_extr_dataset(vt, thresh, longitudes,latitudes,years)
 
+# calculate the daily magnitudes of the extr dataset
+daily_magnitude(vt, extr)
+
 # adapt extreme dataset
 # append some neccessary stuff to the extr dataset
 # append a column indicating geographical locations (i.e., supernode labels)
@@ -214,6 +253,7 @@ extr['itime'] = extr.time.apply(lambda x: tdic[x])
 extr['itime'] = extr['itime'].astype(np.uint16)
 # sort by time
 extr.sort_values('time', inplace=True)
+
 
 #remove columns 75 and 25 percentile
 extr.drop(['seventyfive_percentile', 'twentyfive_percentile'], axis=1, inplace=True)
