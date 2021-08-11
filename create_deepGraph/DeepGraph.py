@@ -102,5 +102,7 @@ cpv.rename(columns={'daily_mag_sum': 'HWMId_magnitude'}, inplace=True)
 
 # discard singular components
 cpv.drop(0, inplace=True)
+
+print(cpv)
 # save cpv
 cpv.to_csv(path_or_buf = "../../Results/cpv.csv", index=False)
