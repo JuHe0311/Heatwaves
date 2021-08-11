@@ -29,6 +29,8 @@ extr = pd.read_csv(data_path)
 print(extr)
 # connectors calculate the distance between every pair of nodes based on their 3D location
 # connectors
+# add correct times
+print(extr['time'].dtype)
 
 # distance between x coordinates of two nodes
 def grid_2d_dx(x_s, x_t):
