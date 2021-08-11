@@ -30,7 +30,7 @@ print(extr)
 # connectors calculate the distance between every pair of nodes based on their 3D location
 # connectors
 # add correct times
-pd.to_datetime(extr['time'])
+extr.to_datetime(extr['time'])
 print(extr['time'].dtype)
 
 # distance between x coordinates of two nodes
