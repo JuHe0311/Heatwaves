@@ -26,12 +26,10 @@ args = parser.parse_args()
 data_path = args.data
 
 extr = pd.read_csv(data_path)
-print(extr)
 # connectors calculate the distance between every pair of nodes based on their 3D location
 # connectors
 # add correct times
 extr['time']=pd.to_datetime(extr['time'])
-print(extr['time'].dtype)
 
 # distance between x coordinates of two nodes
 def grid_2d_dx(x_s, x_t):
@@ -93,12 +91,10 @@ cpv, gv = g.partition_nodes('cp', feature_funcs, return_gv=True)
 
 # append geographical id sets
 cpv['g_ids'] = gv['g_id'].apply(set)
-print(cpv)
 # append cardinality of g_id sets
 cpv['n_unique_g_ids'] = cpv['g_ids'].apply(len)
 pd.to_datetime(cpv['time_amax'])
 pd.to_datetime(cpv['time_amin'])
-print(cpv['time_amax'].dtype)
 # append time spans
 cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
 
