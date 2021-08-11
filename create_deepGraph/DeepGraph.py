@@ -93,6 +93,8 @@ cpv['g_ids'] = gv['g_id'].apply(set)
 print(cpv)
 # append cardinality of g_id sets
 cpv['n_unique_g_ids'] = cpv['g_ids'].apply(len)
+pd.to_datetime(cpv['time_amax'])
+pd.to_datetime(cpv['time_amin'])
 print(cpv['time_amax'].dtype)
 # append time spans
 cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
