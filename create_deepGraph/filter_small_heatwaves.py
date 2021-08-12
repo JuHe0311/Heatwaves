@@ -40,7 +40,7 @@ cpv_path = args.cpv
 vt = pd.read_csv(vt_path)
 cpv = pd.read_csv(cpv_path)
 extr = pd.read_csv(args.data_extreme)
-
+cpv['dt']=pd.to_timedelta(cpv['dt'])
 # create g
 g = dg.DeepGraph(extr)
 
