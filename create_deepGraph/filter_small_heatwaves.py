@@ -66,7 +66,24 @@ def s_grid_2d_dy(dy, sources, targets):
     targets = targets[dya <= 1]
     return sources, targets
 
+# discard singular components
+#cpv.drop(0, inplace=True)
+# initiate DeepGraph
+cpg = dg.DeepGraph(cpv)
 
+# filter out all heatwaves that are shorter than 3 consecutive days
+cpg.v['small'] = 0
+for i in range(1,len(cpg.v)):
+    if cpg.v.dt.loc[i].days > 1:
+        cpg.v.small.loc[i] = 1        
+#cpg.filter_by_values_v('small', 1)
+
+# create edges
+cpg.create_edges(connectors=[cp_node_intersection, 
+                             cp_intersection_strength],
+                 no_transfer_rs=['intsec_card'],
+                 logfile='create_cpe',
+                 step_size=1e7)
   
 # filter out small heatwave events from the initial deep graph g
 vt['small'] = np.ones(len(vt), dtype=int) * -1
