@@ -25,8 +25,6 @@ def make_argparser():
                         type=str)
     parser.add_argument("-dcpv", "--cpv", help="Give the path to the partitioned dataset.",
                         type=str)
-    parser.add_argument("-s", "--save_path",  help="Give a path where to save the extreme output dataset",
-                        type=str)
     return parser
 
 
@@ -132,5 +130,5 @@ cpg.create_edges(connectors=[cp_node_intersection,
                  logfile='create_cpe',
                  step_size=1e7)
 
- cpv_small.to_csv(path_or_buf = "../../Results/cpv_small.csv", index=False)
+cpv_small.to_csv(path_or_buf = "../../Results/cpv_small.csv", index=False)
 
