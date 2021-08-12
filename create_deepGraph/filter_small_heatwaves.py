@@ -32,9 +32,13 @@ parser = make_argparser()
 args = parser.parse_args()
 
 # create variables
-vt = pd.DataFrame(args.data_original)
-cpv = pd.DataFrame(args.cpv)
-extr = pd.DataFrame(args.data_extreme)
+vt_path = pd.DataFrame(args.data_original)
+cpv_path = pd.DataFrame(args.cpv)
+#extr_path = pd.DataFrame(args.data_extreme)
+
+vt = pd.read_csv(vt_path)
+cpv = pd.read_csv(cpv_path)
+extr = pd.read_csv(args.data_extreme)
 
 # create g
 g = dg.DeepGraph(extr)
