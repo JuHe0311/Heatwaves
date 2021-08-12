@@ -70,7 +70,7 @@ def s_grid_2d_dy(dy, sources, targets):
 #cpv.drop(0, inplace=True)
 # initiate DeepGraph
 cpg = dg.DeepGraph(cpv)
-
+print(cpg.v.dt.dtype)
 print(cpg.v)
 
 # filter out all heatwaves that are shorter than 3 consecutive days
