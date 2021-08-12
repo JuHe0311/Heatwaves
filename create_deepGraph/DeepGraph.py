@@ -95,6 +95,8 @@ cpv.rename(columns={'daily_mag_sum': 'HWMId_magnitude'}, inplace=True)
 
 # discard singular components
 cpv.drop(0, inplace=True)
+cpv['dt']=pd.to_timedelta(cpv['dt'])
+
 #optional, can be deleted
 print(cpv)
 # save cpv
