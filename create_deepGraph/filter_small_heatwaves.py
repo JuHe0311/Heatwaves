@@ -5,6 +5,7 @@
 
 import os
 import xarray
+import deepgraph as dg
 # for plots
 import matplotlib.pyplot as plt
 # the usual
