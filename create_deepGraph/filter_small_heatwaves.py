@@ -32,8 +32,8 @@ parser = make_argparser()
 args = parser.parse_args()
 
 # create variables
-vt_path = pd.DataFrame(args.data_original)
-cpv_path = pd.DataFrame(args.cpv)
+vt_path = args.data_original
+cpv_path = args.cpv
 #extr_path = pd.DataFrame(args.data_extreme)
 
 vt = pd.read_csv(vt_path)
