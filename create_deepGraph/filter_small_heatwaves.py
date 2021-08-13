@@ -41,6 +41,8 @@ vt = pd.read_csv(vt_path)
 cpv = pd.read_csv(cpv_path)
 extr = pd.read_csv(args.data_extreme)
 cpv['dt']=pd.to_timedelta(cpv['dt'])
+cpv['g_ids'] = set(cpv['g_ids'])
+
 # create g
 g = dg.DeepGraph(extr)
 
@@ -93,8 +95,6 @@ def time_dist(dtime_amin_s, dtime_amin_t):
 #cpv.drop(0, inplace=True)
 # initiate DeepGraph
 cpg = dg.DeepGraph(cpv)
-print(cpg.v.dt.dtype)
-print(cpg.v)
 
 # filter out all heatwaves that are shorter than 3 consecutive days
 cpg.v['small'] = 0
