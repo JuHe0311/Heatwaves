@@ -41,8 +41,8 @@ vt = pd.read_csv(vt_path)
 cpv = pd.read_csv(cpv_path)
 extr = pd.read_csv(args.data_extreme)
 cpv['dt']=pd.to_timedelta(cpv['dt'])
-cpv['g_ids'] = set(cpv['g_ids'])
-
+#cpv['g_ids'] = set(cpv['g_ids'])
+print(cpv['g_ids'].loc[1].dtype)
 # create g
 g = dg.DeepGraph(extr)
 
