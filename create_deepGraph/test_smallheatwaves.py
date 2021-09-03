@@ -173,5 +173,5 @@ cpg.create_edges(connectors=[cp_node_intersection,
                  no_transfer_rs=['intsec_card'],
                  logfile='create_cpe',
                  step_size=1e7)
-
+print(cpv_small)
 cpv_small.to_csv(path_or_buf = "../../Results/cpv_small.csv", index=False)
