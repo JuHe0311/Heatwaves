@@ -21,8 +21,6 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", help="Give the path to the dataset to be worked on.",
                         type=str)
-    parser.add_argument("-s", "--save_path",  help="Give a path where to save the extreme output dataset",
-                        type=str)
     parser.add_argument("-sy", "--startyear",  help="Give a start year to be analyzed."
                         "\nPossible years are to be within 1980-2020", default=1980, type=int)
     parser.add_argument("-ey", "--endyear",  help="Give an end year to be analyzed."
@@ -34,7 +32,6 @@ parser = make_argparser()
 args = parser.parse_args()
 
 data_path = args.data
-save_path = args.save_path
 starty = args.startyear
 endy = args.endyear
 
