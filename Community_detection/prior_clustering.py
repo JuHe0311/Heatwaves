@@ -15,7 +15,7 @@ from sklearn.model_selection import ShuffleSplit
 import seaborn as sns
 from scipy.cluster.hierarchy import linkage, fcluster
 import cppv
-import con_sep
+import con_sep as cs
 
 ############### Functions #################
 
@@ -57,8 +57,8 @@ for i in range(100):
     # ccpv is the dataset with the train set
     ccpg = dg.DeepGraph(ccpv)
 
-    ccpg.create_edges(connectors=[con_sep.cp_node_intersection, 
-                                 con_sep.cp_intersection_strength],
+    ccpg.create_edges(connectors=[cs.cp_node_intersection, 
+                                 cs.cp_intersection_strength],
                      no_transfer_rs=['intsec_card'],
                      logfile='create_cpe',
                      step_size=1e7)
@@ -84,7 +84,7 @@ for i in range(100):
     ccpv['F'] = ccpv['F'].apply(lambda x: fdic[x])
     
     # create edges between nodes in one family and add to the matrix count_edges
-    ccpg.create_edges(connectors=con_sep.same_fams, selectors=con_sep.sel_fams)
+    ccpg.create_edges(connectors=cs.same_fams, selectors=cs.sel_fams)
     edges = ccpg.e
     edges.reset_index(inplace=True)
     edges.sort_values(by=['s','t'])
