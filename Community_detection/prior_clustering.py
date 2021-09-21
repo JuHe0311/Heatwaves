@@ -21,7 +21,7 @@ from scipy.cluster.hierarchy import linkage, fcluster
 # create superedges between the supernodes to find heatwave clusters with strong regional overlaps
 # compute intersection of geographical locations
 def cp_node_intersection(g_ids_s, g_ids_t):
-    intsec = np.zeros(len(g_ids_s), dtype=object)
+    intsec = np.zeros(len(g_ids_s), dtype=int)
     intsec_card = np.zeros(len(g_ids_s), dtype=np.int)
     for i in range(len(g_ids_s)):
         intsec[i] = g_ids_s[i].intersection(g_ids_t[i])
