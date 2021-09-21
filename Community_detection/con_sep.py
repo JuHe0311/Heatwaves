@@ -1,6 +1,6 @@
 import numpy as np
 
-#### connectors and selectors needed for the deep graphs #####
+#### this module contains all connectors and selectors needed for deep graphs #####
 
 # connectors calculate the distance between every pair of nodes based on their 3D location
 # connectors
