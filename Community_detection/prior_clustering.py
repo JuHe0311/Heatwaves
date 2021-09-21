@@ -52,7 +52,7 @@ def make_argparser():
 parser = make_argparser()
 args = parser.parse_args()
 cpv = pd.read_csv(args.data, dtype={'g_ids':object})
-cpv['g_ids'] = set((cpv['g_ids']))
+cpv['g_ids'] = set(map(int, cpv['g_ids]))
 #cpv['g_ids'] = cpv['g_ids'].apply(set)
 print(cpv)
 #print(cpv['g_ids'].dtype)
