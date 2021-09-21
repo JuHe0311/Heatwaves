@@ -1,5 +1,33 @@
-# input is the cpv pandas Dataframe
+# Imports:
+import os
+import xarray
+# for plots
+import matplotlib.pyplot as plt
+# the usual
+import numpy as np
+import deepgraph as dg
+import pandas as pd
+import itertools
+import scipy
+import argparse
+import sklearn
+from sklearn.model_selection import ShuffleSplit
+import seaborn as sns
+from scipy.cluster.hierarchy import linkage, fcluster
 
+############### Argparser #############
+
+def make_argparser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--data", help="Give the path to the dataset to be worked on.",
+                        type=str)
+    return parser
+
+parser = make_argparser()
+args = parser.parse_args()
+cpv = pd.read_csv(args.data)
+
+# create an array that counts the number of times two heatwaves are put in the same cluster
 count_edges = np.zeros((cpv.index[-1],cpv.index[-1]))
 count_edges.shape
 
@@ -59,8 +87,7 @@ for i in range(100):
         count_edges[t-1][s-1] = count_edges[t-1][s-1] + 1
 
 # reshape the count_edges matrix
-# indices dictionary: keys are the original cp values of the respective heatwaves, values are the index numbers in
-# the new array count_edges_2
+# indices dictionary: keys are the original cp values of the respective heatwaves, values are the index numbers in the new array count_edges_2
 indices = ccpv.index.values
 indices.sort()
 indices = { i : 0 for i in indices}
@@ -89,5 +116,7 @@ for i in range(len(c_e_2)):
     target = c_e_2.target.iloc[i]
     c_e_2.source.iloc[i] = list(indices.keys())[list(indices.values()).index(source)]
     c_e_2.target.iloc[i] = list(indices.keys())[list(indices.values()).index(target)]
+print(c_e_2)
 
-
+# save dataframe to subsequently create a graph and do community clustering on it
+c_e_2.to_csv(path_or_buf = "../../Results/c_e.csv", index=False)
