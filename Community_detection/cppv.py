@@ -10,15 +10,9 @@ import pandas as pd
 import itertools
 import scipy
 import argparse
-import con_sel as cs
+import con_sep as cs
 
 
-# compute temporal distance between clusters
-def time_dist(dtime_amin_s, dtime_amin_t):
-    dt = dtime_amin_t - dtime_amin_s
-    return dt
-
-  
 #### create cpv dataset --> partition nodes based on their spatio-temporal neigborhood ####  
 # create the graph
 def create_cpv(extr_data, vt):
