@@ -63,7 +63,7 @@ def time_dist(dtime_amin_s, dtime_amin_t):
   
 #### create cpv dataset --> partition nodes based on their spatio-temporal neigborhood ####  
 # create the graph
-def create_cpv(extr_data):
+def create_cpv(extr_data, vt):
   extr_data['time']=pd.to_datetime(extr_data['time'])
   g = dg.DeepGraph(extr_data)
 
