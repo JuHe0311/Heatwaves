@@ -47,13 +47,16 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", help="Give the path to the dataset to be worked on.",
                         type=str)
+    parser.add_argument("-do", "--original_data", help="Give the path to the original dataset to be worked on.",
+                        type=str)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
 extr = pd.read_csv(args.data)
+vt = pd.read_csv(args.original_data)
 
-cpv = cppv.create_cpv(extr)
+cpv = cppv.create_cpv(extr,vt)
 
 # create an array that counts the number of times two heatwaves are put in the same cluster
 count_edges = np.zeros((cpv.index[-1],cpv.index[-1]))
