@@ -10,50 +10,8 @@ import pandas as pd
 import itertools
 import scipy
 import argparse
+import con_sel as cs
 
-#### connectors and selectors needed for the deep graphs #####
-
-# connectors calculate the distance between every pair of nodes based on their 3D location
-# connectors
-# distance between x coordinates of two nodes
-def grid_2d_dx(x_s, x_t):
-    dx = x_t - x_s
-    return dx
-  
-# distance between y coordinates of two nodes
-def grid_2d_dy(y_s, y_t):
-    dy = y_t - y_s
-    return dy
-
-# selectors
-def s_grid_2d_dx(dx, sources, targets):
-    dxa = np.abs(dx)
-    sources = sources[dxa <= 1]
-    targets = targets[dxa <= 1]
-    return sources, targets
-
-def s_grid_2d_dy(dy, sources, targets):
-    dya = np.abs(dy)
-    sources = sources[dya <= 1]
-    targets = targets[dya <= 1]
-    return sources, targets
-
-# create superedges between the supernodes to find heatwave clusters with strong regional overlaps
-# compute intersection of geographical locations
-def cp_node_intersection(g_ids_s, g_ids_t):
-    intsec = np.zeros(len(g_ids_s), dtype=object)
-    intsec_card = np.zeros(len(g_ids_s), dtype=np.int)
-    for i in range(len(g_ids_s)):
-        intsec[i] = g_ids_s[i].intersection(g_ids_t[i])
-        intsec_card[i] = len(intsec[i])
-    return intsec_card
-
-# compute a spatial overlap measure between clusters
-def cp_intersection_strength(n_unique_g_ids_s, n_unique_g_ids_t, intsec_card):
-    min_card = np.array(np.vstack((n_unique_g_ids_s, n_unique_g_ids_t)).min(axis=0), 
-                        dtype=np.float64)
-    intsec_strength = intsec_card / min_card
-    return intsec_strength
 
 # compute temporal distance between clusters
 def time_dist(dtime_amin_s, dtime_amin_t):
@@ -69,8 +27,8 @@ def create_cpv(extr_data, vt):
 
   # create the edges of the graph --> based on neighboring grids in a 3D dataset
   g.create_edges_ft(ft_feature=('itime', 1), 
-                  connectors=[grid_2d_dx, grid_2d_dy], 
-                  selectors=[s_grid_2d_dx, s_grid_2d_dy],
+                  connectors=[cs.grid_2d_dx, cs.grid_2d_dy], 
+                  selectors=[cs.s_grid_2d_dx, cs.s_grid_2d_dy],
                   r_dtype_dic={'ft_r': np.bool,
                                'dx': np.int8,
                                'dy': np.int8}, 
@@ -119,8 +77,8 @@ def create_cpv(extr_data, vt):
           cpg.v.small.loc[i] = 1        
 
   # create edges
-  cpg.create_edges(connectors=[cp_node_intersection, 
-                             cp_intersection_strength],
+  cpg.create_edges(connectors=[cs.cp_node_intersection, 
+                             cs.cp_intersection_strength],
                  no_transfer_rs=['intsec_card'],
                  logfile='create_cpe',
                  step_size=1e7)
@@ -151,8 +109,8 @@ def create_cpv(extr_data, vt):
   # initiate DeepGraph
   cpg = dg.DeepGraph(cpv_small)
 
-  cpg.create_edges(connectors=[cp_node_intersection, 
-                             cp_intersection_strength],
+  cpg.create_edges(connectors=[cs.cp_node_intersection, 
+                             cs.cp_intersection_strength],
                  no_transfer_rs=['intsec_card'],
                  logfile='create_cpe',
                  step_size=1e7)
