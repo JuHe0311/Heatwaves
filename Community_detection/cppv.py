@@ -11,25 +11,6 @@ import itertools
 import scipy
 import argparse
 
-############### Argparser #############
-
-def make_argparser():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-do", "--data_original", help="Give the path to the original dataset.",
-                        type=str)
-    parser.add_argument("-d", "--data", help="Give the path to the extreme dataset.",
-                        type=str)
-    return parser
-
-parser = make_argparser()
-args = parser.parse_args()
-
-vt = pd.read_csv(args.data_original)
-extr = pd.read_csv(args.data)
-# add correct times
-extr['time']=pd.to_datetime(extr['time'])
-
-
 #### connectors and selectors needed for the deep graphs #####
 
 # connectors calculate the distance between every pair of nodes based on their 3D location
@@ -83,6 +64,7 @@ def time_dist(dtime_amin_s, dtime_amin_t):
 #### create cpv dataset --> partition nodes based on their spatio-temporal neigborhood ####  
 # create the graph
 def create_cpv(extr_data):
+  extr_data['time']=pd.to_datetime(extr_data['time'])
   g = dg.DeepGraph(extr_data)
 
   # create the edges of the graph --> based on neighboring grids in a 3D dataset
