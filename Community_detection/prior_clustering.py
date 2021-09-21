@@ -14,7 +14,7 @@ import sklearn
 from sklearn.model_selection import ShuffleSplit
 import seaborn as sns
 from scipy.cluster.hierarchy import linkage, fcluster
-import cpv as cp
+import cppv
 
 ############### Functions #################
 
@@ -53,7 +53,7 @@ parser = make_argparser()
 args = parser.parse_args()
 extr = pd.read_csv(args.data)
 
-cpv = cp.create_cpv(extr)
+cpv = cppv.create_cpv(extr)
 
 # create an array that counts the number of times two heatwaves are put in the same cluster
 count_edges = np.zeros((cpv.index[-1],cpv.index[-1]))
