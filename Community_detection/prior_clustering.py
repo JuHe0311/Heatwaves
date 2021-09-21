@@ -18,29 +18,17 @@ import cppv
 
 ############### Functions #################
 
-# create superedges between the supernodes to find heatwave clusters with strong regional overlaps
-# compute intersection of geographical locations
-def cp_node_intersection(g_ids_s, g_ids_t):
-    intsec = np.zeros(len(g_ids_s), dtype=object)
-    intsec_card = np.zeros(len(g_ids_s), dtype=np.int)
-    for i in range(len(g_ids_s)):
-        intsec[i] = g_ids_s[i].intersection(g_ids_t[i])
-        intsec_card[i] = len(intsec[i])
-    return intsec_card
+# create edges between nodes in one family and add to the matrix count_edges
+# connector
+def same_fams(F_s, F_t):
+    dist = F_s - F_t
+    return dist
 
-# compute a spatial overlap measure between clusters
-def cp_intersection_strength(n_unique_g_ids_s, n_unique_g_ids_t, intsec_card):
-    min_card = np.array(np.vstack((n_unique_g_ids_s, n_unique_g_ids_t)).min(axis=0), 
-                        dtype=np.float64)
-    intsec_strength = intsec_card / min_card
-    return intsec_strength
-
-# compute temporal distance between clusters
-def time_dist(dtime_amin_s, dtime_amin_t):
-    dt = dtime_amin_t - dtime_amin_s
-    return dt
-
-
+# selector
+def sel_fams(dist,sources, targets):
+    sources = sources[dist == 0]
+    targets = targets[dist == 0]
+    return sources, targets  
 ############### Argparser #################
 
 def make_argparser():
