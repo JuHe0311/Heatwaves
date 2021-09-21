@@ -98,6 +98,6 @@ cpv.drop(0, inplace=True)
 cpv['dt']=pd.to_timedelta(cpv['dt'])
 
 #optional, can be deleted
-print(cpv)
+return cpv
 # save cpv
 cpv.to_csv(path_or_buf = "../../Results/cpv.csv", index=False)
