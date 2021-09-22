@@ -110,3 +110,9 @@ def create_cpv(extr_data, vt):
                  step_size=1e7)
   cpv_small.to_csv(path_or_buf = "../../Results/cpv_small.csv", index=False)
   return cpv_small
+
+
+def create_dg(extr_data):
+  extr_data['time']=pd.to_datetime(extr_data['time'])
+  g = dg.DeepGraph(extr_data)
+  return g
