@@ -11,7 +11,7 @@ import itertools
 import scipy
 
 
-def plot_clusters(nodes, plot_title):
+def plot_clusters(nodes, plot_title,vt):
   # idea: create partition by g_ids: count how many heatwaves contain the g_id, plot this then
     # feature functions, will be applied to each g_id
     # I need to adapt the feature functions somehow!
