@@ -16,8 +16,27 @@ import igraph as ig
 import seaborn as sns
 from scipy.cluster.hierarchy import linkage, fcluster
 import cairo
+import plotting as pt
 
-############### Argparser #############
+############### Functions ################
+
+# getting all nodes and supernodes of indices of one cluster (indices are given to the function by a list)
+def get_clustnodes(a_list):
+    # nodes
+    nodes = pd.DataFrame()
+    for i in a_list:
+        for j in range(len(g_temp.v)):
+            if g_temp.v.cp.iloc[j] == i:
+                nodes = nodes.append(g_temp.v.iloc[j])
+            
+    # getting all supernodes   
+    supernodes = pd.DataFrame()
+    for i in a_list:
+        supernodes = supernodes.append(cpv.loc[i])
+    return nodes, supernodes
+
+
+############### Argparser ################
 
 def make_argparser():
     parser = argparse.ArgumentParser()
@@ -39,4 +58,30 @@ graph.vs["label"] = graph.vs["name"]
 graph.es.select(weight=0).delete() 
 dendrogram_multi = graph.community_multilevel(weights=graph.es['weight'])
 # save plot somehow
-ig.plot(dendrogram_multi, "dendrogram_multi.png")
+ig.plot(dendrogram_multi, "../../Results/dendrogram_multi.png")
+
+# creates a dictionary of all clusters with the correct cp names of the heatwaves
+cluster_list = list(dendrogram_multi)
+clust = []
+cluster_dict = {}
+for i in range(len(cluster_list)):
+    for j in cluster_list[i]:
+        clust.append(graph.vs[j]["name"])
+    cluster_dict[i] = clust
+    clust = []
+print(cluster_dict)
+# create clustnodes
+
+# deep graph that is sorted by cp value
+g_temp = g
+g_temp.v.sort_values(by=['cp'], inplace=True)
+
+ccpv_multi1, ccpv_multi1_supernodes = get_clustnodes(cluster_dict[0])
+ccpv_multi2, ccpv_multi2_supernodes = get_clustnodes(cluster_dict[1])
+
+# plot
+plot_clusters(ccpv_multi1, 'n_heatwave_multistep cluster 1 weighted')
+plot_clusters(ccpv_multi2, 'n_heatwave_multistep cluster 2 weighted')
+# save
+
+
