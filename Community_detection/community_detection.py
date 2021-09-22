@@ -31,7 +31,6 @@ args = parser.parse_args()
 c_e_2 = pd.read_csv(args.data)
 
 # create a weighted graph
-method = # insert argument here
 graph = ig.Graph.TupleList(c_e_2.values, 
                        weights=True, directed=False)
 graph.vs["label"] = graph.vs["name"]
