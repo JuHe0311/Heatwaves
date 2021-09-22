@@ -17,6 +17,7 @@ import seaborn as sns
 from scipy.cluster.hierarchy import linkage, fcluster
 import cairo
 import plotting as pt
+import cppv as cp
 
 ############### Functions ################
 
@@ -42,13 +43,15 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", help="Give the path to the dataframe from which the graph should be created.",
                         type=str)
+    parser.add_argument("-de", "--data_extreme", help="Give the path to the extreme value dataset.",
+                        type=str)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
 
 c_e_2 = pd.read_csv(args.data)
-
+extr = pd.read_csv(args.data_extreme)
 # create a weighted graph
 graph = ig.Graph.TupleList(c_e_2.values, 
                        weights=True, directed=False)
@@ -73,15 +76,18 @@ print(cluster_dict)
 # create clustnodes
 
 # deep graph that is sorted by cp value
-g_temp = g
+g_temp = cp.create_dg(extr)
 g_temp.v.sort_values(by=['cp'], inplace=True)
 
 ccpv_multi1, ccpv_multi1_supernodes = get_clustnodes(cluster_dict[0])
 ccpv_multi2, ccpv_multi2_supernodes = get_clustnodes(cluster_dict[1])
+ccpv_multi3, ccpv_multi3_supernodes = get_clustnodes(cluster_dict[2])
+
 
 # plot
 plot_clusters(ccpv_multi1, 'n_heatwave_multistep cluster 1 weighted')
 plot_clusters(ccpv_multi2, 'n_heatwave_multistep cluster 2 weighted')
+plot_clusters(ccpv_multi3, 'n_heatwave_multistep cluster 3 weighted')
 # save
 
 
