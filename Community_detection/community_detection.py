@@ -1,7 +1,34 @@
-# input is a Dataframe from which a graph is created
+# Imports:
+import os
+import xarray
+# for plots
+import matplotlib.pyplot as plt
+# the usual
+import numpy as np
+import deepgraph as dg
+import pandas as pd
+import itertools
+import scipy
+import argparse
+import sklearn
+from sklearn.model_selection import ShuffleSplit
+import igraph as ig
+import seaborn as sns
+from scipy.cluster.hierarchy import linkage, fcluster
+import cairo
 
-# arguments: weights=True or False --> states if the graph should be weighted or not, method of community detection --> possible arguments:
-# walktrap, multilevel
+############### Argparser #############
+
+def make_argparser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--data", help="Give the path to the dataframe from which the graph should be created.",
+                        type=str)
+    return parser
+
+parser = make_argparser()
+args = parser.parse_args()
+
+c_e_2 = pd.read_csv(args.data)
 
 # create a weighted graph
 method = # insert argument here
@@ -10,16 +37,7 @@ graph = ig.Graph.TupleList(c_e_2.values,
 graph.vs["label"] = graph.vs["name"]
 
 # next to do: delete all edges with weight zero!
-graph.es.select(weight=0).delete()
-
-if method == "walktrap":
-  dendrogram_walktrap = graph.community_walktrap(weights=graph.es['weight'])
-  clusters = dendrogram_walktrap.as_clustering()
-  pal = ig.drawing.colors.ClusterColoringPalette(len(clusters))
-  graph.vs['color']=pal.get_many(clusters.membership)
-  ig.plot(graph)
-  # save plot somehow
-else: 
-  dendrogram_multi = graph.community_multilevel(weights=graph.es['weight'])
-  ig.plot(dendrogram_multi)
-  # save plot somehow
+graph.es.select(weight=0).delete() 
+dendrogram_multi = graph.community_multilevel(weights=graph.es['weight'])
+# save plot somehow
+ig.plot(dendrogram_multi, "dendrogram_multi.png")
