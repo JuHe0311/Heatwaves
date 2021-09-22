@@ -87,5 +87,5 @@ def plot_clusters(nodes, plot_title):
         # colorbar
         cb = obj['fig'].colorbar(obj['pc'], fraction=.022, pad=.02)
         cb.set_label('{}'.format(name), fontsize=15) 
-        obj['fig'].savefig('../../Results/clust_{:03d}.png'.format(i),
+        obj['fig'].savefig('../../Results/clust_%s.png'.format(i) % plot_title,
                        dpi=300, bbox_inches='tight')
