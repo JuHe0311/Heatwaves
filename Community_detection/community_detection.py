@@ -45,6 +45,8 @@ def make_argparser():
                         type=str)
     parser.add_argument("-de", "--data_extreme", help="Give the path to the extreme value dataset.",
                         type=str)
+    parser.add_argument("-do", "--data_original", help="Give the path to the original value dataset.",
+                        type=str)
     return parser
 
 parser = make_argparser()
@@ -52,6 +54,9 @@ args = parser.parse_args()
 
 c_e_2 = pd.read_csv(args.data)
 extr = pd.read_csv(args.data_extreme)
+vt = pd.read_csv(args.data_original)
+g,cpv = cp.create_cpv(extr,vt)
+
 # create a weighted graph
 graph = ig.Graph.TupleList(c_e_2.values, 
                        weights=True, directed=False)
@@ -76,7 +81,7 @@ print(cluster_dict)
 # create clustnodes
 
 # deep graph that is sorted by cp value
-g_temp = cp.create_dg(extr)
+g_temp = g
 g_temp.v.sort_values(by=['cp'], inplace=True)
 
 ccpv_multi1, ccpv_multi1_supernodes = get_clustnodes(cluster_dict[0])
