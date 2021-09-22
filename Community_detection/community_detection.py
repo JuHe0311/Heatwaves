@@ -88,7 +88,7 @@ g_temp.v.sort_values(by=['cp'], inplace=True)
 #ccpv_multi2, ccpv_multi2_supernodes = get_clustnodes(cluster_dict[1])
 #ccpv_multi3, ccpv_multi3_supernodes = get_clustnodes(cluster_dict[2])
 
-for i in range(len(clusters_dict)):
+for i in range(len(cluster_dict)):
     ccpv_multi,ccpv_multi_supernodes = get_clustnodes(cluster_dict[i])
     pt.plot_clusters(ccpv_multi, 'n_heatwave_multistep cluster %s weighted' % i)
 # plot
