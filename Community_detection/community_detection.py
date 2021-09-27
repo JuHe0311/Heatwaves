@@ -83,18 +83,10 @@ print(cluster_dict)
 # deep graph that is sorted by cp value
 g_temp = g
 g_temp.v.sort_values(by=['cp'], inplace=True)
-
-#ccpv_multi1, ccpv_multi1_supernodes = get_clustnodes(cluster_dict[0])
-#ccpv_multi2, ccpv_multi2_supernodes = get_clustnodes(cluster_dict[1])
-#ccpv_multi3, ccpv_multi3_supernodes = get_clustnodes(cluster_dict[2])
-
+# plot
 for i in range(len(cluster_dict)):
     ccpv_multi,ccpv_multi_supernodes = get_clustnodes(cluster_dict[i])
     pt.plot_clusters(ccpv_multi, 'n_heatwave_multistep cluster %s weighted' % i, vt)
-# plot
-#pt.plot_clusters(ccpv_multi1, 'n_heatwave_multistep cluster 1 weighted')
-#pt.plot_clusters(ccpv_multi2, 'n_heatwave_multistep cluster 2 weighted')
-#pt.plot_clusters(ccpv_multi3, 'n_heatwave_multistep cluster 3 weighted')
-# save
+
 
 
