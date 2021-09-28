@@ -32,6 +32,10 @@ vt = d.to_dataframe()
 vt.reset_index(inplace=True)
 # add correct times
 datetimes = pd.to_datetime(vt['time'])
+# assign your new columns
+vt['day'] = datetimes.dt.day
+vt['month'] = datetimes.dt.month
+vt['year'] = datetimes.dt.year
 # append dayofyear 
 vt['ytime'] = vt.time.apply(lambda x: x.dayofyear)
 # append integer-based time
