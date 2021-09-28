@@ -51,6 +51,6 @@ extr = ex.extr_events(vt,thresholds)
 
 # save thresholds and extreme dataset
 thresholds.to_csv(path_or_buf = "../../Results/thresholds.csv", index=False)
-extr.to_csv(path_or_buf = "../../Results/extreme_datasetd.csv", index=False)
+extr.to_csv(path_or_buf = "../../Results/extreme_dataset.csv", index=False)
 
 
