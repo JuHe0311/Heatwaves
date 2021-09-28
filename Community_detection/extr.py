@@ -12,6 +12,7 @@ import sklearn
 #### Methods ####
 
 def calc_thresh(data):
+    thresholds = pd.DataFrame(columns=['latitude', 'longitude', 'ytime', 'threshold'])
     first = np.arange(350,366)
     second = np.arange(1,366)
     third = np.arange(1,16)
