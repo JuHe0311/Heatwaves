@@ -40,9 +40,9 @@ tdic = {time: itime for itime, time in enumerate(times)}
 vt['itime'] = vt.time.apply(lambda x: tdic[x])
 vt['itime'] = vt['itime'].astype(np.uint16)
 # remove 366th day (29th of february, every 4 years)
-vt = cut_366(vt)
+vt = ex.cut_366(vt)
 # convert temperature from kelvin to degrees celcius
-conv_to_degreescelcius(vt)
+ex.conv_to_degreescelcius(vt)
 
 # calculate thresholds
 thresholds = ex.calc_thresh(vt)
