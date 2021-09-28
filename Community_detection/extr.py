@@ -32,9 +32,9 @@ def calc_thresh(data):
                 thresholds.loc[count] = [tmp2.iloc[1].latitude, tmp2.iloc[1].longitude, y_tim, thresh]
                 count=count+1
     return thresholds
-  
+
 def extr_events(data, thresholds):
-    extr_dataset = pd.DataFrame(columns=['latitude', 'longitude', 'time', 't2m', 'x', 'y', 'ytime'])
+    extr_dataset = pd.DataFrame(columns=['latitude', 'longitude', 'time', 't2m', 'x', 'y', 'ytime','day', 'month', 'year'])
     count = 0
     for i in range(len(data)):
         thresh = thresholds[(thresholds.longitude == data.loc[i].longitude) & 
@@ -42,7 +42,8 @@ def extr_events(data, thresholds):
         if (thresh.threshold.values <= data.loc[i].t2m):
             extr_dataset.loc[count] = [data.loc[i].latitude, data.loc[i].longitude, 
                                                    data.loc[i].time, data.loc[i].t2m, 
-                                                   data.loc[i].x, data.loc[i].y, data.loc[i].ytime]
+                                                   data.loc[i].x, data.loc[i].y, data.loc[i].ytime, data.loc[i].day,
+                                      data.loc[i].month, data.loc[i].year]
             count = count + 1
     return extr_dataset
   
