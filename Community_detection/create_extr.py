@@ -49,8 +49,10 @@ vt = ex.cut_366(vt)
 ex.conv_to_degreescelcius(vt)
 
 # calculate thresholds
+thresholds = pd.DataFrame(columns=['latitude', 'longitude', 'ytime', 'threshold'])
 thresholds = ex.calc_thresh(vt)
 # calculate extreme dataset
+extr = pd.DataFrame(columns=['latitude', 'longitude', 'time', 't2m', 'x', 'y', 'day', 'month', 'year','itime'])
 extr = ex.extr_events(vt,thresholds)
 
 # save thresholds and extreme dataset
