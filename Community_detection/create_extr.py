@@ -65,7 +65,7 @@ extr['g_id'] = extr['g_id'].astype(np.uint32)
 # sort by time
 extr.sort_values('time', inplace=True)
 #remove columns 75 and 25 percentile
-extr.drop(['seventyfive_percentile', 'twentyfive_percentile'], axis=1, inplace=True)
+extr.drop(['seventyfive_percentile', 'twentyfive_percentile', 'day', 'month','year'], axis=1, inplace=True)
 
 # save thresholds and extreme dataset
 thresholds.to_csv(path_or_buf = "../../Results/thresholds.csv", index=False)
