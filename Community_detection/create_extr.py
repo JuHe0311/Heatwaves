@@ -53,6 +53,20 @@ thresholds = ex.calc_thresh(vt)
 # calculate extreme dataset
 extr = ex.extr_events(vt,thresholds)
 
+# calculate the daily magnitudes of the extr dataset
+ex.daily_magnitude(vt, extr)
+
+# adapt extreme dataset
+# append some neccessary stuff to the extr dataset
+# append a column indicating geographical locations (i.e., supernode labels)
+extr['g_id'] = extr.groupby(['longitude', 'latitude']).grouper.group_info[0]
+extr['g_id'] = extr['g_id'].astype(np.uint32)    
+
+# sort by time
+extr.sort_values('time', inplace=True)
+#remove columns 75 and 25 percentile
+extr.drop(['seventyfive_percentile', 'twentyfive_percentile'], axis=1, inplace=True)
+
 # save thresholds and extreme dataset
 thresholds.to_csv(path_or_buf = "../../Results/thresholds.csv", index=False)
 extr.to_csv(path_or_buf = "../../Results/extreme_dataset.csv", index=False)
