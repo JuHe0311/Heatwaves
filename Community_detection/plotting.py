@@ -65,7 +65,7 @@ def plot_clusters(nodes, plot_title,vt):
                         'urcrnrlat': vt.latitude.max() + 1}
     
         # configure scatter plots
-        kwds_scatter = {'s': 1000,
+        kwds_scatter = {'s': 2000,
                         'marker': 's',
                         'c': col.values,
                         'cmap': 'viridis_r',
