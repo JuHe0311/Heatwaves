@@ -58,6 +58,7 @@ vt = pd.read_csv(args.data_original)
 g,cpv = cp.create_cpv(extr,vt)
 
 # create a weighted graph
+# weights of edges are the intersection strengths between two nodes
 graph = ig.Graph.TupleList(c_e_2.values, 
                        weights=True, directed=False)
 graph.vs["label"] = graph.vs["name"]
