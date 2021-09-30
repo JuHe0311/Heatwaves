@@ -70,6 +70,7 @@ cpg.create_edges(connectors=[cs.cp_node_intersection,
 values = cpg.e['intsec_strength'].values
 values = np.array(values)
 threshold = np.percentile(values,95)
+print(threshold)
 cpg_temp = cpg.e.stack().reset_index()
 cpg_temp = cpg_temp.drop(['level_2'], axis=1)
 cpg_temp.columns = ['source','target','intsec_strenght']
@@ -79,8 +80,8 @@ cpg_temp.columns = ['source','target','intsec_strenght']
 graph = ig.Graph.TupleList(cpg_temp.values, directed=False, weights=True)
 graph.vs["label"] = graph.vs["name"]
 
-# next to do: delete all edges with weight zero!
-graph.es.select(weight=0).delete() 
+# next to do: delete all edges that do not have the weight 1!
+graph.es.select(weight_ne=1.0).delete()
 dendrogram_multi = graph.community_multilevel(weights=graph.es['weight'])
 # save plot somehow
 ig.plot(dendrogram_multi, "../../Results/unweighted_dendrogram_multi.png")
