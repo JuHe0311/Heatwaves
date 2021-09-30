@@ -38,7 +38,7 @@ vt = pd.read_csv(args.original_data)
 cpv = cppv.create_cpv(extr,vt)
 
 # create an array that counts the number of times two heatwaves are put in the same cluster
-print(cpv)
+print(len(cpv))
 count_edges = np.zeros((cpv.index[-1],cpv.index[-1]))
 count_edges.shape
 
