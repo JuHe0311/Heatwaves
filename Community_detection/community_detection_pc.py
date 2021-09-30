@@ -67,7 +67,7 @@ graph.vs["label"] = graph.vs["name"]
 graph.es.select(weight=0).delete() 
 dendrogram_multi = graph.community_multilevel(weights=graph.es['weight'])
 # save plot somehow
-ig.plot(dendrogram_multi, "../../Results/dendrogram_multi.png")
+ig.plot(dendrogram_multi, "../../Results/dendrogram_multi_prior_clustering.png")
 
 # creates a dictionary of all clusters with the correct cp names of the heatwaves
 cluster_list = list(dendrogram_multi)
@@ -87,7 +87,7 @@ g_temp.v.sort_values(by=['cp'], inplace=True)
 # plot
 for i in range(len(cluster_dict)):
     ccpv_multi,ccpv_multi_supernodes = get_clustnodes(cluster_dict[i])
-    pt.plot_clusters(ccpv_multi, 'n_heatwave_multistep cluster %s weighted' % i, vt)
+    pt.plot_clusters(ccpv_multi, 'n_heatwave_multistep cluster %s prior_clustering' % i, vt)
 
 
 
