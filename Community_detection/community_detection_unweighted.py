@@ -42,8 +42,6 @@ def get_clustnodes(a_list):
 
 def make_argparser():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--data", help="Give the path to the dataframe from which the graph should be created.",
-                        type=str)
     parser.add_argument("-de", "--data_extreme", help="Give the path to the extreme value dataset.",
                         type=str)
     parser.add_argument("-do", "--data_original", help="Give the path to the original value dataset.",
@@ -53,7 +51,6 @@ def make_argparser():
 parser = make_argparser()
 args = parser.parse_args()
 
-c_e_2 = pd.read_csv(args.data)
 extr = pd.read_csv(args.data_extreme)
 vt = pd.read_csv(args.data_original)
 g,cpv = cp.create_cpv(extr,vt)
