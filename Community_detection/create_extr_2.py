@@ -19,15 +19,18 @@ def make_argparser():
                         type=str)
     parser.add_argument("-t", "--thresholds", help="Give the path to the thresholds",
                         type=str)
+    parser.add_argument("-m", "--minmax", help="Give the path to the minmax table",
+                        type=str)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
 vt = pd.read_csv(args.data)
 thresholds = pd.read_csv(args.thresholds)
+minmax = pd.read_csv(args.minmax)
 
 # calculate extreme dataset
-extr = ex.extr_events(vt,thresholds)
+extr = ex.extr_events(vt,thresholds,minmax)
 
 # calculate the daily magnitudes of the extr dataset
 ex.daily_magnitude(vt, extr)
