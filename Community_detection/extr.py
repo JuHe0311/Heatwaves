@@ -39,7 +39,7 @@ def calc_thresh(data):
                 count=count+1
     return thresholds,minmax
 
-def extr_events(data, thresholds):
+def extr_events(data, thresholds,hwmid):
     extr_dataset = pd.DataFrame(columns=['latitude', 'longitude', 'time', 't2m', 'x', 'y', 'ytime','day', 'month', 'year'])
     count = 0
     list_dm = []
