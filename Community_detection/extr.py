@@ -17,12 +17,18 @@ def calc_thresh(data):
     second = np.arange(1,366)
     third = np.arange(1,16)
     time = np.concatenate((first, second, third), axis=None)
+    minmax = pd.DataFrame(columns=['sf', 'tf', 'latitude', 'longitude'])
     count = 0
+    count_hwmid = 0
     x = np.arange(max(data.x)+1)
     y = np.arange(max(data.y)+1)
     for i in x:
         for j in y:
             tmp = data[(data.x == i) & (data.y == j)]
+            t2m_tmp = list(tmp.t2m)
+            minmax.loc[count_hwmid] = [np.percentile(t2m_tmp,75),np.percentile(t2m_tmp,25),tmp.iloc[1].latitude, 
+                                       tmp.iloc[1].longitude]
+            count_hwmid = count_hwmid + 1
             for k in range(0,365):
                 time_tmp = time[k:k+31]
                 tmp2 = tmp[tmp.ytime.isin(time_tmp)]
@@ -31,11 +37,12 @@ def calc_thresh(data):
                 y_tim = k+1
                 thresholds.loc[count] = [tmp2.iloc[1].latitude, tmp2.iloc[1].longitude, y_tim, thresh]
                 count=count+1
-    return thresholds
+    return thresholds,minmax
 
 def extr_events(data, thresholds):
-    extr_dataset = pd.DataFrame(columns=['latitude', 'longitude', 'time', 't2m', 'x', 'y', 'ytime','day', 'month', 'year', 'itime'])
+    extr_dataset = pd.DataFrame(columns=['latitude', 'longitude', 'time', 't2m', 'x', 'y', 'ytime','day', 'month', 'year'])
     count = 0
+    list_dm = []
     for i in range(len(data)):
         thresh = thresholds[(thresholds.longitude == data.loc[i].longitude) & 
                             (thresholds.latitude == data.loc[i].latitude) & (thresholds.ytime == data.loc[i].ytime)]
@@ -43,8 +50,20 @@ def extr_events(data, thresholds):
             extr_dataset.loc[count] = [data.loc[i].latitude, data.loc[i].longitude, 
                                                    data.loc[i].time, data.loc[i].t2m, 
                                                    data.loc[i].x, data.loc[i].y, data.loc[i].ytime, data.loc[i].day,
-                                      data.loc[i].month, data.loc[i].year, data.loc[i].itime]
+                                      data.loc[i].month, data.loc[i].year]
+            tmp = hwmid[(hwmid.longitude == extr_dataset.loc[count].longitude) & 
+                      (hwmid.latitude == extr_dataset.loc[count].latitude)]
+            sf = tmp.sf
+            tf = tmp.tf
+            if (extr_dataset.loc[count].t2m > tf.values):
+                dm1 = extr_dataset.loc[count].t2m - tf.values
+                dm2 = sf.values - tf.values
+                dm = float(dm1/dm2)
+            else:
+                dm = 0
             count = count + 1
+            list_dm.append(dm)
+    extr_dataset['daily_mag'] = list_dm
     return extr_dataset
   
 def calc_percentile(a_list):
@@ -71,39 +90,4 @@ def conv_to_degreescelcius(data):
     for i in range(len(data)):
         data.t2m[i] = data.t2m[i] - 273.15
   
-# function calculates the 75th and 25th percentile of a specific day(in a month) from a set of values
-# input:
-# day, month: day and month for which the percentiles should be calculated
-# x,y: specify the grid for which the percentiles are calculated: x = lon, y = lat
-# data: data for which the percentiles should be calculated
-def calc_75_25_percentile(day, month, x, y, data):
-    a_list = list(data.t2m[(data.day == day) & (data.month == month) & (data.x == x) & (data.y == y)])
-    threshold_seventyfive = np.percentile(a_list,75)
-    threshold_twentyfive = np.percentile(a_list, 25)
-    return threshold_seventyfive, threshold_twentyfive
 
-# calculates the daily magnitude index of a day, appends the daily magnitude of a day to the dataframe
-# input:
-# data: data to calculate the 75th and 25th percentile for each day
-# extr_data: dataframe that the daily magnitude index is calculated for
-def daily_magnitude(data, extr_data):
-    list_sf = []
-    list_tf = []
-    list_dm = []
-    for i in range(len(extr_data)):
-        sf, tf = calc_75_25_percentile(extr_data.day[i], extr_data.month[i], extr_data.x[i], extr_data.y[i], data)
-        list_sf.append(sf)
-        list_tf.append(tf)
-    extr_data['seventyfive_percentile'] = list_sf
-    extr_data['twentyfive_percentile'] = list_tf
-    
-    for i in range(len(extr_data)):
-        if extr_data.t2m[i] > extr_data.twentyfive_percentile[i]:
-            dm1 = extr_data.t2m[i] - extr_data.twentyfive_percentile[i]
-            dm2 = extr_data.seventyfive_percentile[i] - extr_data.twentyfive_percentile[i]
-            dm = float(dm1/dm2)
-        else:
-            dm = 0
-        list_dm.append(dm)
-    extr_data['daily_mag'] = list_dm
-   
