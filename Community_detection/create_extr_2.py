@@ -32,9 +32,6 @@ minmax = pd.read_csv(args.minmax)
 # calculate extreme dataset
 extr = ex.extr_events(vt,thresholds,minmax)
 
-# calculate the daily magnitudes of the extr dataset
-ex.daily_magnitude(vt, extr)
-
 # adapt extreme dataset
 # append some neccessary stuff to the extr dataset
 # append a column indicating geographical locations (i.e., supernode labels)
