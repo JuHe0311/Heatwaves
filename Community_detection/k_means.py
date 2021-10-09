@@ -31,7 +31,7 @@ args = parser.parse_args()
 
 extr = pd.read_csv(args.data)
 vt = pd.read_csv(args.data_original)
-g,cpv = cp.create_cpv(extr,vt)
+g,cpg,cpv = cp.create_cpv(extr,vt)
 
 km = KMeans(n_clusters=5)
 y_predicted = km.fit_predict(cpv[['longitude_mean','latitude_mean']])
