@@ -28,6 +28,7 @@ datetimes = pd.to_datetime(vt['time'])
 vt['day'] = datetimes.dt.day
 vt['month'] = datetimes.dt.month
 vt['year'] = datetimes.dt.year
+print(vt)
 # append dayofyear 
 vt['ytime'] = vt.time.apply(lambda x: x.dayofyear)
 # append integer-based time
