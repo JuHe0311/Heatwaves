@@ -57,7 +57,7 @@ cpv['F'] = cpv['F'].apply(lambda x: fdic[x])
 pt.raster_plot_families(cpg,'10 biggest')
 
 # create F col
-vt['F'] = np.ones(len(g.v), dtype=int) * -1
+g.v['F'] = np.ones(len(g.v), dtype=int) * -1
 gcpv = cpv.groupby('F')
 it = gcpv.apply(lambda x: x.index.values)
 
