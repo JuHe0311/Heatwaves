@@ -62,7 +62,7 @@ gcpv = cpv.groupby('F')
 it = gcpv.apply(lambda x: x.index.values)
 
 for F in range(len(it)):
-    cp_index = vt.cp.isin(it.iloc[F])
+    cp_index = g.v.cp.isin(it.iloc[F])
     vt.loc[cp_index, 'F'] = F
 
 # feature funcs
