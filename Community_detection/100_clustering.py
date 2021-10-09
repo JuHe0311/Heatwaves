@@ -1,3 +1,8 @@
+# takes the extreme dataset and the original dataset and computes heatwaves by creating deep graphs, creating supernodes of neighboring extreme events and deleting
+# heatwaves shorter than 3 days
+# does UPGMA clustering 100 times for every time removes randomly 1% of the data
+# every time creates edges between all heatwaves that are clustered into one cluster, counts numbers of edges between heatwaves and saves it in c_e.csv
+
 # Imports:
 import os
 import xarray
