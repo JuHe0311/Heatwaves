@@ -128,10 +128,11 @@ def plot_families(number_families,fgv,v,plot_title):
 def raster_plot_families(cpg,plot_title):
   cpgt = dg.DeepGraph(cpg.v[cpg.v.F <= 10])
   obj = cpgt.plot_rects_label_numeric('F', 'time_amin', 'time_amax', 
-                                    colors=np.log(cpgt.v.vol_sum.values))
+                                    colors=np.log(cpgt.v.HWMId_magnitude.values))
   obj['ax'].set_xlabel('time', fontsize=20)
   obj['ax'].set_ylabel('family', fontsize=20)
   obj['ax'].grid()
-  
+  cb = obj['fig'].colorbar(obj['c'], fraction=.022, pad=.02)
+  cb.set_label('HWMId index', fontsize=15) 
   obj['fig'].savefig('../../Results/raster_%s.png' % plot_title,
                        dpi=300, bbox_inches='tight')
