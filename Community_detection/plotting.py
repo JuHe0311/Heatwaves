@@ -124,7 +124,7 @@ def plot_families(number_families,fgv,v,plot_title):
     cb.set_label('n_cps', fontsize=15) 
     obj['ax'].set_title('Family {}'.format(F))
     
-    obj['fig'].savefig('../../Results/fam_%s.png' % plot_title,
+    obj['fig'].savefig('../../Results/%s_fam_%s.png' % (plot_title,F),
                        dpi=300, bbox_inches='tight')
     
 def raster_plot_families(cpg,plot_title):
