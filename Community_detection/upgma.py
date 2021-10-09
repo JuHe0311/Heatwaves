@@ -1,0 +1,84 @@
+# Imports:
+import os
+import xarray
+# for plots
+import matplotlib.pyplot as plt
+# the usual
+import numpy as np
+import deepgraph as dg
+import pandas as pd
+import itertools
+import scipy
+import argparse
+import sklearn
+from sklearn.model_selection import ShuffleSplit
+import seaborn as sns
+from scipy.cluster.hierarchy import linkage, fcluster
+import cppv
+import con_sep as cs
+import plotting as pt
+
+############### Argparser #################
+
+def make_argparser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--data", help="Give the path to the dataset to be worked on.",
+                        type=str)
+    parser.add_argument("-do", "--original_data", help="Give the path to the original dataset to be worked on.",
+                        type=str)
+    return parser
+
+parser = make_argparser()
+args = parser.parse_args()
+extr = pd.read_csv(args.data)
+vt = pd.read_csv(args.original_data)
+
+cpg,cpv = cppv.create_cpv(extr,vt)
+
+# clustering step
+    
+# create condensed distance matrix
+dv = 1 - ccpg.e.intsec_strength.values
+del ccpg.e
+
+# create linkage matrix
+lm = linkage(dv, method='average', metric='euclidean')
+del dv
+
+# form flat clusters and append their labels to cpv
+ccpv['F'] = fcluster(lm, 1000, criterion='maxclust')
+del lm
+# relabel families by size
+f = ccpv['F'].value_counts().index.values
+fdic = {j: i for i, j in enumerate(f)}
+ccpv['F'] = ccpv['F'].apply(lambda x: fdic[x])
+
+pt.raster_plot_families(cpg,'10 biggest')
+
+# create F col
+v['F'] = np.ones(len(v), dtype=int) * -1
+gcpv = cpv.groupby('F')
+it = gcpv.apply(lambda x: x.index.values)
+
+for F in range(len(it)):
+    cp_index = v.cp.isin(it.iloc[F])
+    v.loc[cp_index, 'F'] = F
+
+# feature funcs
+def n_cp_nodes(cp):
+    return len(cp.unique())
+
+feature_funcs = {'vol': [np.sum],
+                 'lat': np.min,
+                 'lon': np.min,
+                 'cp': n_cp_nodes}
+
+# create family-g_id intersection graph
+fgv = g.partition_nodes(['F', 'g_id'], feature_funcs=feature_funcs)
+fgv.rename(columns={'lat_amin': 'lat',
+                    'lon_amin': 'lon',
+                    'cp_n_cp_nodes': 'n_cp_nodes'}, inplace=True)
+
+pt.plot_families(5,fgv,vt,'families')
+
+
