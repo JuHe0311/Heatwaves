@@ -37,6 +37,6 @@ km = KMeans(n_clusters=5)
 y_predicted = km.fit_predict(cpv[['longitude_mean','latitude_mean']])
 cpv['F'] = y_predicted
 
-sns_plot = sns.scatterplot(cpv['longitude_mean'],cpv['latitude_mean'], hue=cpv['F'])
-sns_plot.savefig("../../Results/k_means.png")
+sns.scatterplot(cpv['longitude_mean'],cpv['latitude_mean'], hue=cpv['F'])
+plt.savefig("../../Results/k_means.png")
 
