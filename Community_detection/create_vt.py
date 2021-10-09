@@ -28,4 +28,4 @@ d['y'] = (('latitude'), np.arange(len(d.latitude)))
 vt = d.to_dataframe()
 #reset index
 vt.reset_index(inplace=True)
-vt.to_csv(path_or_buf = "Results/vt_raw.csv", index=False)
+vt.to_csv(path_or_buf = "../../Results/vt_raw.csv", index=False)
