@@ -75,19 +75,13 @@ def calc_percentile(a_list):
 # data: a dataframe (pandas) that contains a day and month column
 # output is the changed dataframe
 def cut_366(data):
-    length = len(data)
-    i = 0
-    while i <= (length-1):
-        if (data.day[i] == 29) & (data.month[i] == 2):
-            data = data.drop(data.index[i])
-            data = data.reset_index(drop=True)
-            length = length -1
-        i = i + 1
+    data.drop(data.loc[(data['day']==29) & (data['month']==2)].index, inplace=True)
     return data
-  
+
+ 
 # function to convert temperature from kelvin to degrees celcius
-def conv_to_degreescelcius(data):
-    for i in range(len(data)):
-        data.t2m[i] = data.t2m[i] - 273.15
-  
+def conv_to_degreescelcius_2(data):
+    data.t2m = data.t2m - 273.15  
+
+
 
