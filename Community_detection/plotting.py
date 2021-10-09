@@ -89,3 +89,35 @@ def plot_clusters(nodes, plot_title,vt):
         cb.set_label('{}'.format(name), fontsize=15) 
         obj['fig'].savefig('../../Results/clust_%s.png' % plot_title,
                        dpi=300, bbox_inches='tight')
+
+        
+def plot_families(number_families,fgv,v):
+  families = np.arange(number_families)
+  for F in families:
+
+    # for easy filtering, we create a new DeepGraph instance for 
+    # each component
+    gt = dg.DeepGraph(fgv.loc[F])
+
+    # configure map projection
+    kwds_basemap = {'llcrnrlon': v.lon.min() - 1,
+                    'urcrnrlon': v.lon.max() + 1,
+                    'llcrnrlat': v.lat.min() - 1,
+                    'urcrnrlat': v.lat.max() + 1}
+
+    # configure scatter plots
+    kwds_scatter = {'s': 1,
+                    'c': gt.v.n_cp_nodes.values,
+                    'cmap': 'viridis_r',
+                    'edgecolors': 'none'}
+
+    # create scatter plot on map
+    obj = gt.plot_map(lat='lat', lon='lon',kwds_basemap=kwds_basemap, kwds_scatter=kwds_scatter)
+
+    # configure plots
+    obj['m'].drawcoastlines(linewidth=.8)
+    obj['m'].drawparallels(range(-50, 50, 20), linewidth=.2)
+    obj['m'].drawmeridians(range(0, 360, 20), linewidth=.2)
+    cb = obj['fig'].colorbar(obj['pc'], fraction=.022, pad=.02)
+    cb.set_label('n_cps', fontsize=15) 
+    obj['ax'].set_title('Family {}'.format(F))
