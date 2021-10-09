@@ -13,13 +13,13 @@ import extr as ex
 
 def make_argparser():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-do", "--original_data", help="Give the path to the original dataset to be worked on.",
+    parser.add_argument("-d", "--data", help="Give the path to the original dataset to be worked on.",
                         type=str)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
-vt = pd.read_csv(args.original_data)
+vt = pd.read_csv(args.data)
 
 # add correct times
 datetimes = pd.to_datetime(vt['time'])
