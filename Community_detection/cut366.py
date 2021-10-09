@@ -24,18 +24,7 @@ vt = pd.read_csv(args.data)
 
 # add correct times
 datetimes = pd.to_datetime(vt['time'])
-# assign your new columns
-vt['day'] = datetimes.dt.day
-vt['month'] = datetimes.dt.month
-vt['year'] = datetimes.dt.year
-print(vt)
-# append dayofyear 
-vt['ytime'] = vt.time.apply(lambda x: x.dayofyear)
-# append integer-based time
-times = pd.date_range(vt.time.min(), vt.time.max(), freq='D')
-tdic = {time: itime for itime, time in enumerate(times)}
-vt['itime'] = vt.time.apply(lambda x: tdic[x])
-vt['itime'] = vt['itime'].astype(np.uint16)
+
 # remove 366th day (29th of february, every 4 years)
 vt = ex.cut_366(vt)
 vt.to_csv(path_or_buf = "../../Results/vt_366cut.csv", index=False)
