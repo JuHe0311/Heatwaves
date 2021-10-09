@@ -107,9 +107,11 @@ def plot_families(number_families,fgv,v,plot_title):
 
     # configure scatter plots
     kwds_scatter = {'s': 2200,
-                    'c': gt.v.n_cp_nodes.values,
-                    'cmap': 'viridis_r',
-                    'edgecolors': 'none'}
+                        'marker': 's',
+                        'c': gt.v.n_cp_nodes.values,
+                        'cmap': 'viridis_r',
+                        'alpha': .5,
+                        'edgecolors': 'none'}
 
     # create scatter plot on map
     obj = gt.plot_map(lat='latitude', lon='longitude',kwds_basemap=kwds_basemap, kwds_scatter=kwds_scatter)
