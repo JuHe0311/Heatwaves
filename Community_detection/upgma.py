@@ -76,8 +76,8 @@ feature_funcs = {'daily_mag': [np.sum],
 
 # create family-g_id intersection graph
 fgv = g.partition_nodes(['F', 'g_id'], feature_funcs=feature_funcs)
-fgv.rename(columns={'latitude_amin': 'lat',
-                    'longitude_amin': 'lon',
+fgv.rename(columns={'latitude_amin': 'latitude',
+                    'longitude_amin': 'longitude',
                     'cp_n_cp_nodes': 'n_cp_nodes'}, inplace=True)
 
 pt.plot_families(5,fgv,vt,'families')
