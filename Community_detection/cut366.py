@@ -1,14 +1,13 @@
+# takes csv file (created with create_vt) and adds neccessary columns (days, months, years, ytime, itime) and removes the 366th day of the dataset 
+# 366th day = 29th of february
+# saves output as vt_366cut.csv
+
 # data i/o
-import os
 import xarray
 import argparse
-# for plots
-import matplotlib.pyplot as plt
-
 # the usual
 import numpy as np
 import pandas as pd
-import sklearn
 import extr as ex
 
 ### Argparser ###
@@ -21,15 +20,8 @@ def make_argparser():
 
 parser = make_argparser()
 args = parser.parse_args()
-d = xarray.open_dataset(args.original_data)
+vt = pd.read_csv(args.original_data)
 
-#create integer based (x,y) coordinates
-d['x'] = (('longitude'), np.arange(len(d.longitude)))
-d['y'] = (('latitude'), np.arange(len(d.latitude)))
-#convert to dataframe
-vt = d.to_dataframe()
-#reset index
-vt.reset_index(inplace=True)
 # add correct times
 datetimes = pd.to_datetime(vt['time'])
 # assign your new columns
@@ -45,4 +37,4 @@ vt['itime'] = vt.time.apply(lambda x: tdic[x])
 vt['itime'] = vt['itime'].astype(np.uint16)
 # remove 366th day (29th of february, every 4 years)
 vt = ex.cut_366(vt)
-vt.to_csv(path_or_buf = "../../Results/vt.csv", index=False)
+vt.to_csv(path_or_buf = "../../Results/vt_366cut.csv", index=False)
