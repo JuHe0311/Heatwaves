@@ -1,15 +1,13 @@
+# takes net_cdf file and converts it into a pandas dataframe with xarray
+# creates integer based coordinates
+# saves pandas dataframe under Results
+
 # data i/o
-import os
 import xarray
 import argparse
-# for plots
-import matplotlib.pyplot as plt
-
 # the usual
 import numpy as np
 import pandas as pd
-import sklearn
-import extr as ex
 
 ### Argparser ###
 
