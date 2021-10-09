@@ -32,6 +32,7 @@ minmax = pd.read_csv(args.minmax)
 # calculate extreme dataset
 extr = ex.extr_events(vt,thresholds,minmax)
 
+extr['time']=pd.to_datetime(extr['time'])
 # adapt extreme dataset
 # append some neccessary stuff to the extr dataset
 # append a column indicating geographical locations (i.e., supernode labels)
