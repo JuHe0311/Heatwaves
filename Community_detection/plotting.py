@@ -121,3 +121,11 @@ def plot_families(number_families,fgv,v):
     cb = obj['fig'].colorbar(obj['pc'], fraction=.022, pad=.02)
     cb.set_label('n_cps', fontsize=15) 
     obj['ax'].set_title('Family {}'.format(F))
+    
+def raster_plot_families(cpg):
+  cpgt = dg.DeepGraph(cpg.v[cpg.v.F <= 10])
+  obj = cpgt.plot_rects_label_numeric('F', 'time_amin', 'time_amax', 
+                                    colors=np.log(cpgt.v.vol_sum.values))
+  obj['ax'].set_xlabel('time', fontsize=20)
+  obj['ax'].set_ylabel('family', fontsize=20)
+  obj['ax'].grid()
