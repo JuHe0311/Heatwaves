@@ -80,7 +80,7 @@ def cut_366(data):
 
  
 # function to convert temperature from kelvin to degrees celcius
-def conv_to_degreescelcius_2(data):
+def conv_to_degreescelcius(data):
     data.t2m = data.t2m - 273.15  
 
 
