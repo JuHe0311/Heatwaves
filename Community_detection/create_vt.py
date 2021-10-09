@@ -26,6 +26,8 @@ d['x'] = (('longitude'), np.arange(len(d.longitude)))
 d['y'] = (('latitude'), np.arange(len(d.latitude)))
 #convert to dataframe
 vt = d.to_dataframe()
+# add correct times
+datetimes = pd.to_datetime(vt['time'])
 # assign your new columns
 vt['day'] = datetimes.dt.day
 vt['month'] = datetimes.dt.month
