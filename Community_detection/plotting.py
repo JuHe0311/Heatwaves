@@ -112,7 +112,7 @@ def plot_families(number_families,fgv,v,plot_title):
                     'edgecolors': 'none'}
 
     # create scatter plot on map
-    obj = gt.plot_map(lat='lat', lon='lon',kwds_basemap=kwds_basemap, kwds_scatter=kwds_scatter)
+    obj = gt.plot_map(lat='latitude', lon='longitude',kwds_basemap=kwds_basemap, kwds_scatter=kwds_scatter)
 
     # configure plots
     obj['m'].drawcoastlines(linewidth=.8)
