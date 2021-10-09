@@ -69,15 +69,15 @@ for F in range(len(it)):
 def n_cp_nodes(cp):
     return len(cp.unique())
 
-feature_funcs = {'vol': [np.sum],
-                 'lat': np.min,
-                 'lon': np.min,
+feature_funcs = {'daily_mag': [np.sum],
+                 'latitude': np.min,
+                 'longitude': np.min,
                  'cp': n_cp_nodes}
 
 # create family-g_id intersection graph
 fgv = g.partition_nodes(['F', 'g_id'], feature_funcs=feature_funcs)
-fgv.rename(columns={'lat_amin': 'lat',
-                    'lon_amin': 'lon',
+fgv.rename(columns={'latitude_amin': 'lat',
+                    'longitude_amin': 'lon',
                     'cp_n_cp_nodes': 'n_cp_nodes'}, inplace=True)
 
 pt.plot_families(5,fgv,vt,'families')
