@@ -109,7 +109,7 @@ def create_cpv(extr_data, vt):
                  logfile='create_cpe',
                  step_size=1e7)
   cpv_small.to_csv(path_or_buf = "../../Results/cpv_small.csv", index=False)
-  return g,cpv_small
+  return cpg,cpv_small
 
 
 
