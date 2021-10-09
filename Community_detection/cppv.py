@@ -34,7 +34,7 @@ def create_cpv(extr_data, vt):
   # are consolidated under the label 0
   g.append_cp(consolidate_singles=True)
   # we don't need the edges any more
-  del g.e
+ # del g.e
 
   # create supernode table of connected nodes --> partitioning of the graph by the component membership of the nodes
   # feature functions, will be applied to each component of g
