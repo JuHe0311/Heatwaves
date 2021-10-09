@@ -37,7 +37,11 @@ extr = ex.extr_events(vt,thresholds,minmax)
 # append a column indicating geographical locations (i.e., supernode labels)
 extr['g_id'] = extr.groupby(['longitude', 'latitude']).grouper.group_info[0]
 extr['g_id'] = extr['g_id'].astype(np.uint32)    
-
+# append integer-based time
+times = pd.date_range(vt.time.min(), vt.time.max(), freq='D')
+tdic = {time: itime for itime, time in enumerate(times)}
+vt['itime'] = vt.time.apply(lambda x: tdic[x])
+vt['itime'] = vt['itime'].astype(np.uint16)
 # sort by time
 extr.sort_values('time', inplace=True)
 extr.drop(['day', 'month','year'], axis=1, inplace=True)
