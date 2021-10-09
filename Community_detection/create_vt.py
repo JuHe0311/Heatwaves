@@ -26,6 +26,18 @@ d['x'] = (('longitude'), np.arange(len(d.longitude)))
 d['y'] = (('latitude'), np.arange(len(d.latitude)))
 #convert to dataframe
 vt = d.to_dataframe()
+# assign your new columns
+vt['day'] = datetimes.dt.day
+vt['month'] = datetimes.dt.month
+vt['year'] = datetimes.dt.year
+print(vt)
+# append dayofyear 
+vt['ytime'] = vt.time.apply(lambda x: x.dayofyear)
+# append integer-based time
+times = pd.date_range(vt.time.min(), vt.time.max(), freq='D')
+tdic = {time: itime for itime, time in enumerate(times)}
+vt['itime'] = vt.time.apply(lambda x: tdic[x])
+vt['itime'] = vt['itime'].astype(np.uint16)
 #reset index
 vt.reset_index(inplace=True)
 vt.to_csv(path_or_buf = "../../Results/vt_raw.csv", index=False)
