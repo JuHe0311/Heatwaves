@@ -106,7 +106,7 @@ def plot_families(number_families,fgv,v,plot_title):
                     'urcrnrlat': v.latitude.max() + 1}
 
     # configure scatter plots
-    kwds_scatter = {'s': 1,
+    kwds_scatter = {'s': 2200,
                     'c': gt.v.n_cp_nodes.values,
                     'cmap': 'viridis_r',
                     'edgecolors': 'none'}
