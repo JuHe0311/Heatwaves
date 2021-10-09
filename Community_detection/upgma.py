@@ -38,20 +38,21 @@ cpg,cpv = cppv.create_cpv(extr,vt)
 # clustering step
     
 # create condensed distance matrix
-dv = 1 - ccpg.e.intsec_strength.values
-del ccpg.e
+dv = 1 - cpg.e.intsec_strength.values
+del cpg.e
 
 # create linkage matrix
 lm = linkage(dv, method='average', metric='euclidean')
 del dv
 
 # form flat clusters and append their labels to cpv
-ccpv['F'] = fcluster(lm, 1000, criterion='maxclust')
+cpv['F'] = fcluster(lm, 1000, criterion='maxclust')
 del lm
+
 # relabel families by size
-f = ccpv['F'].value_counts().index.values
+f = cpv['F'].value_counts().index.values
 fdic = {j: i for i, j in enumerate(f)}
-ccpv['F'] = ccpv['F'].apply(lambda x: fdic[x])
+cpv['F'] = cpv['F'].apply(lambda x: fdic[x])
 
 pt.raster_plot_families(cpg,'10 biggest')
 
