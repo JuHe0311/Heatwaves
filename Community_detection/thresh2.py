@@ -21,6 +21,7 @@ parser = make_argparser()
 args = parser.parse_args()
 #vt = pd.read_csv(args.data)
 vt = dd.read_csv(args.data)
+print(vt)
 vt = pd.DataFrame(vt)
 print('hey')
 
