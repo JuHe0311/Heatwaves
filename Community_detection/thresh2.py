@@ -31,6 +31,6 @@ print('degreeeees')
 thresholds,minmax = ex.calc_thresh(vt)
 
 # save thresholds and extreme dataset
-thresholds.to_csv(path_or_buf = "../../Results/thresholds.csv", index=False)
-vt.to_csv(path_or_buf = "../../Results/vt.csv", index=False)
-minmax.to_csv(path_or_buf = "../../Results/minmax.csv", index=False)
+thresholds.to_csv(path_or_buf = "../../Results/thresholds2.csv", index=False)
+vt.to_csv(path_or_buf = "../../Results/vt2.csv", index=False)
+minmax.to_csv(path_or_buf = "../../Results/minmax2.csv", index=False)
