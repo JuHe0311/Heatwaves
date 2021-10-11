@@ -22,7 +22,7 @@ args = parser.parse_args()
 #vt = pd.read_csv(args.data)
 vt = dd.read_csv(args.data)
 print(vt)
-vt = pd.DataFrame(vt)
+vt = vt.compute()
 print('hey')
 
 # add correct times
