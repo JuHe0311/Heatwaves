@@ -7,6 +7,7 @@ import argparse
 import numpy as np
 import pandas as pd
 import extr as ex
+from dask import dataframe as dd
 
 ### Argparser ###
 
@@ -18,7 +19,9 @@ def make_argparser():
 
 parser = make_argparser()
 args = parser.parse_args()
-vt = pd.read_csv(args.data)
+#vt = pd.read_csv(args.data)
+vt = dd.read_csv(args.data)
+vt = pd.DataFrame(vt)
 print('hey')
 
 # add correct times
