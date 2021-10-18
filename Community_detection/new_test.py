@@ -79,7 +79,7 @@ for i in range(366):
     tmp, tmp_p = g.partition_nodes(['x','y'],return_gv=True)
     tmp['t2m'] = tmp_p['t2m'].apply(list)
     tmp.reset_index(inplace=True)
-    tmp['thresh'] = tmp['t2m'].apply(calc_perc)
+    tmp['thresh'] = tmp['t2m'].apply(ex.calc_perc)
     tmp.drop(['t2m'],axis=1,inplace=True)
     tmp['ytime'] = i+1
     tmp.apply(append_thresh, axis=1)
