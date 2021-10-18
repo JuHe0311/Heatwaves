@@ -10,6 +10,8 @@ import numpy as np
 import pandas as pd
 import extr as ex
 import matplotlib
+import deepgraph as dg
+
 
 ### functions ###
 
