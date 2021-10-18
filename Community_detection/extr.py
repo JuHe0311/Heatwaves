@@ -70,6 +70,15 @@ def calc_percentile(a_list):
     threshold = np.percentile(a_list,90)
     return threshold
 
+
+def calc_perc(lst):
+    a_list = []
+    for l in lst:
+        for i in range(len(l)):
+            a_list.append(l[i])
+    return calc_percentile(a_list) 
+    
+     
 # this function cuts the 366th day (29th of february) of years
 # input:
 # data: a dataframe (pandas) that contains a day and month column
