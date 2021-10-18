@@ -50,7 +50,7 @@ tdic = {time: itime for itime, time in enumerate(times)}
 vt['itime'] = vt.time.apply(lambda x: tdic[x])
 vt['itime'] = vt['itime'].astype(np.uint16)
 
-ex.conv_to_degreescelcius_2(vt)
+ex.conv_to_degreescelcius(vt)
 vt.to_csv(path_or_buf = "../../Results/degreecs_vt.csv", index=False)
 
 first = np.arange(350,366)
