@@ -63,6 +63,7 @@ g_t = dg.DeepGraph(vt)
 #remove 366th day
 ytime = np.arange(366)
 g_t.filter_by_values_v('ytime',ytime)
+vt.to_csv(path_or_buf = "../../Results/366cut.csv", index=False)
 
 ### calculate threshold
 # partition the node table
