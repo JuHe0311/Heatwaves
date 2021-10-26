@@ -86,7 +86,7 @@ result.to_csv(path_or_buf = "../../Results/thresh.csv", index=False)
 print(result)
 # calculate extreme dataset
 
-result["keep"] = np.where(result["t2m"] >= result["thresh"], True, False)
+result["keep"] = np.where(result["t2m"] >= result["thresh_x"], True, False)
 extr = result.loc[result['keep'] == True]
 extr.drop(columns=['keep'], inplace=True)
 
