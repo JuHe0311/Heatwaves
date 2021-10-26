@@ -90,4 +90,4 @@ result["keep"] = np.where(result["t2m"] >= result["thresh_x"], True, False)
 extr = result.loc[result['keep'] == True]
 extr.drop(columns=['keep'], inplace=True)
 
-extr.v.to_csv(path_or_buf = "../../Results/extr.csv", index=False)
+extr.to_csv(path_or_buf = "../../Results/extr.csv", index=False)
