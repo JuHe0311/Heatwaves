@@ -15,7 +15,7 @@ import con_sep as cs
 
 #### create cpv dataset --> partition nodes based on their spatio-temporal neigborhood ####  
 # create the graph
-def create_cpv(extr_data, vt):
+def create_cpv(extr_data):
   extr_data['time']=pd.to_datetime(extr_data['time'])
   g = dg.DeepGraph(extr_data)
 
@@ -34,8 +34,8 @@ def create_cpv(extr_data, vt):
   # are consolidated under the label 0
   g.append_cp(consolidate_singles=True)
   # we don't need the edges any more
- # del g.e
-
+  del g.e
+  print(g.v)
   # create supernode table of connected nodes --> partitioning of the graph by the component membership of the nodes
   # feature functions, will be applied to each component of g
   feature_funcs = {'time': [np.min, np.max],
@@ -45,7 +45,7 @@ def create_cpv(extr_data, vt):
                  'longitude': [np.mean], 't2m': [np.max]}
   # include: 'daily_mag': [np.sum],
   # partition the node table
-  cpv, cpg = g.partition_nodes('cp', feature_funcs, return_gv=True)
+  cpv, gv = g.partition_nodes('cp', feature_funcs, return_gv=True)
 
   # append geographical id sets
   cpv['g_ids'] = cpg['g_id'].apply(set)
@@ -72,9 +72,9 @@ def create_cpv(extr_data, vt):
   g.filter_by_values_v('cp', cps)
   cpv.set_index('cp', inplace=True)
   cpv.to_csv(path_or_buf = "../../Results/cpv_small.csv", index=False)
-  gv = g.v
-  gv.to_csv(path_or_buf = "../../Results/gv.csv", index=False)
-  return g,cpg,cpv
+  #gvg = g.v
+  #gv.to_csv(path_or_buf = "../../Results/gv.csv", index=False)
+  return g,gv,cpv
 
 
 
