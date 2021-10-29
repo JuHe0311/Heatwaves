@@ -41,10 +41,9 @@ def create_cpv(extr_data, vt):
   feature_funcs = {'time': [np.min, np.max],
                  'itime': [np.min, np.max],
                  't2m': [np.mean],
-                 'daily_mag': [np.sum],
                  'latitude': [np.mean],
                  'longitude': [np.mean], 't2m': [np.max]}
-
+  # include: 'daily_mag': [np.sum],
   # partition the node table
   cpv, gv = g.partition_nodes('cp', feature_funcs, return_gv=True)
 
@@ -55,61 +54,27 @@ def create_cpv(extr_data, vt):
   # append time spans
   cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
   #rename feature name
-  cpv.rename(columns={'daily_mag_sum': 'HWMId_magnitude'}, inplace=True)
+  #cpv.rename(columns={'daily_mag_sum': 'HWMId_magnitude'}, inplace=True)
 
   # discard singular components
   cpv.drop(0, inplace=True)
   cpv['dt']=pd.to_timedelta(cpv['dt'])
 
   ###### filter out small heatwaves that are shorter than 2 days #####
-  # initiate DeepGraph
-  cpg = dg.DeepGraph(cpv)
-
-  cpg.v['small'] = 0
-  for i in range(1,len(cpg.v)):
-      if cpg.v.dt.loc[i].days > 1:
-          cpg.v.small.loc[i] = 1        
-
-  # create edges
-  cpg.create_edges(connectors=[cs.cp_node_intersection, 
-                             cs.cp_intersection_strength],
-                 no_transfer_rs=['intsec_card'],
-                 logfile='create_cpe',
-                 step_size=1e7)
+  a = pd.Timedelta(days=1)
+  cpv["keep"] = np.where(cpv.dt > a, True, False)
+  cpv = cpv[cpv.keep != False]
+  cpv.drop(columns=['keep'], inplace=True)
   
-  # filter out small heatwave events from the initial deep graph g
-  vt['small'] = np.ones(len(vt), dtype=int) * -1
-  gcpv = cpv.groupby('small')
-  it = gcpv.apply(lambda x: x.index.values)
-
-  for small in range(len(it)):
-      cp_index = g.v.cp.isin(it.iloc[small])
-      g.v.loc[cp_index, 'small'] = small
-  g.filter_by_values_v('small', 1)
-
-  # redo cpv and cpg as they did not take over the changes made to g
-  feature_funcs = {'time': [np.min, np.max],
-                 'itime': [np.min, np.max],
-                 't2m': [np.mean],
-                 'daily_mag': [np.sum],
-                 'latitude': [np.mean],
-                 'longitude': [np.mean], 't2m': [np.max]}
-  cpv_small, gv = g.partition_nodes('cp', feature_funcs, return_gv=True)
-  cpv_small['g_ids'] = gv['g_id'].apply(set)
-  cpv_small['n_unique_g_ids'] = cpv_small['g_ids'].apply(len)
-  cpv_small['dt'] = cpv_small['time_amax'] - cpv_small['time_amin']
-  cpv_small.rename(columns={'daily_mag_sum': 'HWMId_magnitude'}, inplace=True)
-
-  # initiate DeepGraph
-  cpg = dg.DeepGraph(cpv_small)
-
-  cpg.create_edges(connectors=[cs.cp_node_intersection, 
-                             cs.cp_intersection_strength],
-                 no_transfer_rs=['intsec_card'],
-                 logfile='create_cpe',
-                 step_size=1e7)
-  cpv_small.to_csv(path_or_buf = "../../Results/cpv_small.csv", index=False)
-  return g,cpg,cpv_small
+  # filter out small events from g by only keeping the cps that are in cpv
+  cpv.reset_index(inplace=True)
+  cps = set(cpv.cp)
+  g.filter_by_values_v('cp', cps)
+  cpv.set_index('cp', inplace=True)
+  cpv.to_csv(path_or_buf = "../../Results/cpv_small.csv", index=False)
+  gv = g.v
+  gv.to_csv(path_or_buf = "../../Results/gv.csv", index=False)
+  return g,cpg,cpv
 
 
 
