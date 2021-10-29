@@ -67,7 +67,6 @@ vt.to_csv(path_or_buf = "../../Results/366cut.csv", index=False)
 cpv_t, gv_t = g_t.partition_nodes(['x','y','ytime'],return_gv=True)
 cpv_t['t2m'] = gv_t['t2m'].apply(list)
 cpv_t.reset_index(inplace=True)
-vt['thresh'] = np.ones(len(vt), dtype=int) * -1
 tmp2 = pd.DataFrame(columns=['x','y','ytime','thresh'])
 for i in range(366):
     g = dg.DeepGraph(cpv_t)
