@@ -56,13 +56,11 @@ def create_cpv(extr_data):
   # discard singular components
   cpv.drop(0, inplace=True)
   cpv['dt']=pd.to_timedelta(cpv['dt'])
-  print(cpv)
   ###### filter out small heatwaves that are shorter than 2 days #####
   a = pd.Timedelta(days=1)
   cpv["keep"] = np.where(cpv.dt > a, True, False)
   cpv = cpv[cpv.keep != False]
   cpv.drop(columns=['keep'], inplace=True)
-  print(cpv)
   # filter out small events from g by only keeping the cps that are in cpv
   cpv.reset_index(inplace=True)
   cps = set(cpv.cp)
