@@ -14,6 +14,20 @@ import deepgraph as dg
 
 
 ### functions ###
+def perc25(a_list):
+    threshold = np.percentile(a_list,25)
+    return threshold
+
+def perc75(a_list):
+    threshold = np.percentile(a_list,75)
+    return threshold
+
+def calc_mag(data):
+    if data.t2m > data.t2m_perc25:
+        mag = (data.t2m-data.t2m_perc25)/(data.t2m_perc75-data.t2m_perc25)
+    else:
+        mag = 0
+    return mag
 
 ### Argparser ###
 
@@ -101,14 +115,7 @@ extr['itime'] = extr['itime'].astype(np.uint16)
 # sort by time
 extr.sort_values('time', inplace=True)
 
-def perc25(a_list):
-    threshold = np.percentile(a_list,25)
-    return threshold
-
-def perc75(a_list):
-    threshold = np.percentile(a_list,75)
-    return threshold
-
+# calculate daily magnitude of extreme events
 feature_funcs = {'t2m': [perc25]}
 gg = dg.DeepGraph(vt)
 gg_t = gg.partition_nodes(['x','y'],feature_funcs)
@@ -123,5 +130,7 @@ gg_t.reset_index(inplace=True)
 ex = pd.merge(res,gg_t, on=['x', 'y'])
 ex.drop(columns=['n_nodes'], inplace=True)
 
+ex['magnitude']=ex.apply(calc_mag, axis=1)
+ex.drop(columns=['t2m_perc25','t2m_perc75','thresh'], inplace=True)
 
 ex.to_csv(path_or_buf = "../../Results/extr.csv", index=False)
