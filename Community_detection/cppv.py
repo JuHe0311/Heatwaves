@@ -38,9 +38,9 @@ def create_cpv(extr_data):
   feature_funcs = {'time': [np.min, np.max],
                  'itime': [np.min, np.max],
                  't2m': [np.mean],
+                   'magnitude': [np.sum],
                  'latitude': [np.mean],
                  'longitude': [np.mean], 't2m': [np.max]}
-  # include: 'daily_mag': [np.sum],
   # partition the node table
   cpv, gv = g.partition_nodes('cp', feature_funcs, return_gv=True)
 
@@ -51,7 +51,7 @@ def create_cpv(extr_data):
   # append time spans
   cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
   #rename feature name
-  #cpv.rename(columns={'daily_mag_sum': 'HWMId_magnitude'}, inplace=True)
+  cpv.rename(columns={'daily_mag_sum': 'HWMId_magnitude'}, inplace=True)
 
   # discard singular components
   cpv.drop(0, inplace=True)
