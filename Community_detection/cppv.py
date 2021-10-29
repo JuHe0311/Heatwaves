@@ -18,7 +18,7 @@ import con_sep as cs
 def create_cpv(extr_data):
   extr_data['time']=pd.to_datetime(extr_data['time'])
   g = dg.DeepGraph(extr_data)
-
+  print(g.v)
   # create the edges of the graph --> based on neighboring grids in a 3D dataset
   g.create_edges_ft(ft_feature=('itime', 1), 
                   connectors=[cs.grid_2d_dx, cs.grid_2d_dy], 
@@ -29,7 +29,7 @@ def create_cpv(extr_data):
                   max_pairs=1e7)
   # rename fast track relation
   g.e.rename(columns={'ft_r': 'dt'}, inplace=True)
-
+  print(g.v)
   # all singular components (components comprised of one node only)
   # are consolidated under the label 0
   g.append_cp(consolidate_singles=True)
