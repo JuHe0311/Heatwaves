@@ -45,7 +45,7 @@ def create_cpv(extr_data, vt):
                  'longitude': [np.mean], 't2m': [np.max]}
   # include: 'daily_mag': [np.sum],
   # partition the node table
-  cpv, gv = g.partition_nodes('cp', feature_funcs, return_gv=True)
+  cpv, cpg = g.partition_nodes('cp', feature_funcs, return_gv=True)
 
   # append geographical id sets
   cpv['g_ids'] = gv['g_id'].apply(set)
