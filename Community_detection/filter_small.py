@@ -35,6 +35,6 @@ vt = pd.read_csv(args.original_data)
 # sort by time
 extr.sort_values('time', inplace=True)
 
-g,cpg,cpv = cppv.create_cpv(extr,vt)
+g,cpg,cpv = cppv.create_cpv(extr)
 
 print(cpv)
