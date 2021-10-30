@@ -51,7 +51,7 @@ def create_cpv(extr_data):
   # append time spans
   cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
   #rename feature name
-  cpv.rename(columns={'daily_mag_sum': 'HWMId_magnitude'}, inplace=True)
+  cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
 
   # discard singular components
   cpv.drop(0, inplace=True)
