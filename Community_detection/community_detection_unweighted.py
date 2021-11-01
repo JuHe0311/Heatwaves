@@ -44,16 +44,13 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-de", "--data_extreme", help="Give the path to the extreme value dataset.",
                         type=str)
-    parser.add_argument("-do", "--data_original", help="Give the path to the original value dataset.",
-                        type=str)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
 
 extr = pd.read_csv(args.data_extreme)
-vt = pd.read_csv(args.data_original)
-g,cpv = cp.create_cpv(extr,vt)
+g,gv,cpv = cp.create_cpv(extr)
 
 # calculate threshold
 # calculate 95th percentile as threshold from the Intersection strength between the supernodes
@@ -96,7 +93,7 @@ print(cluster_dict)
 # create clustnodes
 
 # deep graph that is sorted by cp value
-g_temp = g
+g_temp = gv
 g_temp.v.sort_values(by=['cp'], inplace=True)
 # plot
 for i in range(len(cluster_dict)):
