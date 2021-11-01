@@ -17,6 +17,7 @@ import con_sep as cs
 # create the graph
 def create_cpv(extr_data):
   extr_data['time']=pd.to_datetime(extr_data['time'])
+  extr_data.sort_values('time', inplace=True)
   g = dg.DeepGraph(extr_data)
   # create the edges of the graph --> based on neighboring grids in a 3D dataset
   g.create_edges_ft(ft_feature=('itime', 1), 
