@@ -65,7 +65,7 @@ objs = gt.plot_map_generator('longitude', 'latitude', 'time',
 print('nearly there')
 # plot and store frames
 for i, obj in enumerate(objs):
-
+    print(obj)
     # configure plots
     obj['m'].fillcontinents(color='0.2', zorder=0, alpha=.4)
     print('whaat')
