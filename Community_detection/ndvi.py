@@ -41,6 +41,7 @@ parser = make_argparser()
 args = parser.parse_args()
 extr = pd.read_csv(args.data)
 d = xarray.open_dataset(args.ndvi)
+extr['time']=pd.to_datetime(extr['time'])
 
 #create integer based (x,y) coordinates
 d['x'] = (('X'), np.arange(len(d.X)))
