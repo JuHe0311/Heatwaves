@@ -54,7 +54,7 @@ kwds_basemap = {'projection': 'ortho',
 print('whatever')
 # configure scatter plots
 kwds_scatter = {'s': 2,
-                'c': np.log(gt.v.t2m.values / 100.),
+                'c': np.log(gt.v.t2m.values),
                 'edgecolors': 'none',
                 'cmap': 'viridis_r'}
 print('huch')
