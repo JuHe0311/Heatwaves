@@ -75,5 +75,4 @@ for i, obj in enumerate(objs):
                        dpi=300, bbox_inches='tight')
     plt.close(obj['fig'])
 # create video with ffmpeg
-cmd = "ffmpeg -y -r 5 -i ../Results/cp1_ortho_%03d.png -c:v libx264 -r 20 -vf scale=1919:1406 {}.mp4"
-os.system(cmd.format('precipitation_files/cp1_ortho'))
+
