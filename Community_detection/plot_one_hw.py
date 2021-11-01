@@ -39,6 +39,7 @@ m1 = Basemap(projection='ortho',
              lon_0=cpv.loc[1].longitude_mean + 12,
              lat_0=cpv.loc[1].latitude_mean + 8,
              resolution=None)
+print('hey')
 width = (m1.urcrnrx - m1.llcrnrx) * .65
 height = (m1.urcrnry - m1.llcrnry) * .45
 
