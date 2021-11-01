@@ -45,8 +45,7 @@ def make_argparser():
                         type=str)
     parser.add_argument("-de", "--data_extreme", help="Give the path to the extreme value dataset.",
                         type=str)
-    parser.add_argument("-do", "--data_original", help="Give the path to the original value dataset.",
-                        type=str)
+
     return parser
 
 parser = make_argparser()
@@ -54,8 +53,7 @@ args = parser.parse_args()
 
 c_e_2 = pd.read_csv(args.data)
 extr = pd.read_csv(args.data_extreme)
-vt = pd.read_csv(args.data_original)
-g,cpv = cp.create_cpv(extr,vt)
+g,gv,cpv = cp.create_cpv(extr)
 
 # create a weighted graph
 # weights of edges are the intersection strengths between two nodes
