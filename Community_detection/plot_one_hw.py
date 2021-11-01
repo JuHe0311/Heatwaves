@@ -42,7 +42,7 @@ m1 = Basemap(projection='ortho',
 print('hey')
 width = (m1.urcrnrx - m1.llcrnrx) * .65
 height = (m1.urcrnry - m1.llcrnry) * .45
-
+print(width)
 kwds_basemap = {'projection': 'ortho',
                 'lon_0': cpv.loc[1].longitude_mean + 12,
                 'lat_0': cpv.loc[1].latitude_mean + 8,
@@ -51,18 +51,18 @@ kwds_basemap = {'projection': 'ortho',
                 'urcrnrx': 0.5 * width,
                 'urcrnry': 0.5 * height,
                 'resolution': 'i'}
-
+print('whatever')
 # configure scatter plots
 kwds_scatter = {'s': 2,
                 'c': np.log(gt.v.t2m.values / 100.),
                 'edgecolors': 'none',
                 'cmap': 'viridis_r'}
-
+print('huch')
 # create generator of scatter plots on map
 objs = gt.plot_map_generator('longitude', 'latitude', 'time',
                               kwds_basemap=kwds_basemap,
                               kwds_scatter=kwds_scatter)
-
+print('nearly there')
 # plot and store frames
 for i, obj in enumerate(objs):
 
