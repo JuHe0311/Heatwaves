@@ -35,15 +35,15 @@ gt.filter_by_values_v('cp', 1)
 # configure map projection
 from mpl_toolkits.basemap import Basemap
 m1 = Basemap(projection='ortho',
-             lon_0=cpv.loc[1].longitude_mean + 12,
-             lat_0=cpv.loc[1].latitude_mean + 8,
+             lon_0=25,
+             lat_0=60,
              resolution=None)
 width = (m1.urcrnrx - m1.llcrnrx) * .65
 height = (m1.urcrnry - m1.llcrnry) * .45
 
 kwds_basemap = {'projection': 'ortho',
-                'lon_0': cpv.loc[1].longitude_mean + 12,
-                'lat_0': cpv.loc[1].latitude_mean + 8,
+                'lon_0': 25,
+                'lat_0': 60,
                 'llcrnrx': -0.5 * width,
                 'llcrnry': -0.5 * height,
                 'urcrnrx': 0.5 * width,
