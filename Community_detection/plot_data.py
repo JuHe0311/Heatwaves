@@ -55,9 +55,9 @@ for i, obj in enumerate(objs):
     obj['ax'].set_title('{}'.format(obj['group']))
 
     # store and close
-    obj['fig'].savefig('tmp/pcp_{:03d}.png'.format(i),
+    obj['fig'].savefig('pcp_{:03d}.png'.format(i),
                        dpi=300, bbox_inches='tight')
     plt.close(obj['fig'])
 # create video with ffmpeg
-cmd = "ffmpeg -y -r 5 -i tmp/pcp_%03d.png -c:v libx264 -r 20 -vf scale=2052:1004 {}.mp4"
+cmd = "ffmpeg -y -r 5 -i pcp_%03d.png -c:v libx264 -r 20 -vf scale=2052:1004 {}.mp4"
 os.system(cmd.format('precipitation_files/pcp'))
