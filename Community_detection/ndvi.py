@@ -18,6 +18,14 @@ import cppv
 import con_sep as cs
 import plotting as pt
 
+
+def calc_mag(data):
+    if data.t2m > data.t2m_perc25:
+        mag = (data.t2m-data.t2m_perc25)/(data.t2m_perc75-data.t2m_perc25)
+    else:
+        mag = 0
+    return mag
+
 ############### Argparser #################
 
 def make_argparser():
@@ -55,9 +63,6 @@ dt['day'] = datetimes.dt.day
 dt['month'] = datetimes.dt.month
 dt['year'] = datetimes.dt.year
 
-
-dt.X = dt.X.apply(d_round)
-dt.Y = dt.Y.apply(d_round)
 
 # code sniplet calculates the ndvi anomaly at day 8 of september for every year, for every location
 # n is the final pandas dataframe with all anomalies for the 8th of september
