@@ -68,10 +68,11 @@ for i, obj in enumerate(objs):
 
     # configure plots
     obj['m'].fillcontinents(color='0.2', zorder=0, alpha=.4)
+    print('whaat')
     #obj['m'].drawparallels(range(-50, 50, 20), linewidth=.2)
     #obj['m'].drawmeridians(range(0, 360, 20), linewidth=.2)
     obj['ax'].set_title('{}'.format(obj['group']))
-
+    print('whaataaaa')
     # store and close
     obj['fig'].savefig('../Results/cp1_ortho_{:03d}.png'.format(i), 
                        dpi=300, bbox_inches='tight')
