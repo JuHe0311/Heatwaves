@@ -40,8 +40,8 @@ m1 = Basemap(projection='ortho',
              lat_0=cpv.loc[1].latitude_mean,
              resolution=None)
 print('hey')
-width = (m1.urcrnrx - m1.llcrnrx) * .65
-height = (m1.urcrnry - m1.llcrnry) * .45
+width = (m1.urcrnrx - m1.llcrnrx) * 0.65
+height = (m1.urcrnry - m1.llcrnry) * 0.45
 print(width)
 kwds_basemap = {'projection': 'ortho',
                 'lon_0': cpv.loc[1].longitude_mean,
