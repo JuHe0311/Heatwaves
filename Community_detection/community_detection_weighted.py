@@ -53,7 +53,7 @@ args = parser.parse_args()
 
 extr = pd.read_csv(args.data_extreme)
 vt = pd.read_csv(args.data_original)
-g,cpv = cp.create_cpv(extr,vt)
+g,gv,cpv = cp.create_cpv(extr)
 
 # calculate threshold
 # calculate 95th percentile as threshold from the Intersection strength between the supernodes
