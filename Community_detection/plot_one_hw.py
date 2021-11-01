@@ -30,7 +30,7 @@ g = dg.DeepGraph(gv)
 # temporary DeepGraph instance containing 
 # only the largest component
 gt = dg.DeepGraph(g.v)
-gt.filter_by_values_v('cp', 1)
+gt.filter_by_values_v('cp', 200)
 print('hello')
 # configure map projection
 from mpl_toolkits.basemap import Basemap
