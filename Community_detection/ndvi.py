@@ -87,8 +87,8 @@ data.sort_values('time', inplace=True)
 g = dg.DeepGraph(data)
 # create the edges of the graph --> based on neighboring grids in a 3D dataset
 g.create_edges_ft(ft_feature=('itime', 1), 
-                  connectors=[grid_2d_dx, grid_2d_dy], 
-                  selectors=[s_grid_2d_dx, s_grid_2d_dy],
+                  connectors=[cs.grid_2d_dx, cs.grid_2d_dy], 
+                  selectors=[cs.s_grid_2d_dx, cs.s_grid_2d_dy],
                   r_dtype_dic={'ft_r': np.bool,
                                'dx': np.int8,
                                'dy': np.int8}, 
