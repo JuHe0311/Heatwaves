@@ -33,7 +33,7 @@ args = parser.parse_args()
 extr = pd.read_csv(args.data)
 vt = pd.read_csv(args.original_data)
 
-g,cpg,cpv = cppv.create_cpv(extr,vt)
+g,cpg,cpv = cppv.create_cpv(extr)
 
 # clustering step
     
