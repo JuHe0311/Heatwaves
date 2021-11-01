@@ -44,12 +44,15 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-de", "--data_extreme", help="Give the path to the extreme value dataset.",
                         type=str)
+    parser.add_argument("-do", "--data_original", help="Give the path to the original value dataset.",
+                         type=str)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
 
 extr = pd.read_csv(args.data_extreme)
+vt = pd.read_csv(args.data_original)
 g,gv,cpv = cp.create_cpv(extr)
 
 # calculate threshold
