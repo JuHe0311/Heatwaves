@@ -57,7 +57,8 @@ kwds_scatter = {'s': 2,
                 'c': gt.v.t2m.values,
                 'edgecolors': 'none',
                 'cmap': 'viridis_r'}
-print('huch')
+print(cpv.loc[1])
+print(g.v[g.v.cp == 1])
 # create generator of scatter plots on map
 objs = gt.plot_map_generator('longitude', 'latitude', 'time',
                               kwds_basemap=kwds_basemap,
