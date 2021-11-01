@@ -93,7 +93,7 @@ print(cluster_dict)
 # create clustnodes
 
 # deep graph that is sorted by cp value
-g_temp = gv
+g_temp = g
 g_temp.v.sort_values(by=['cp'], inplace=True)
 # plot
 for i in range(len(cluster_dict)):
