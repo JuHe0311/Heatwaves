@@ -28,10 +28,10 @@ v = pd.read_csv(args.data)
 
 g = dg.DeepGraph(v)
 # configure map projection
-kwds_basemap = {'llcrnrlon': v.lon.min() - 1,
-                'urcrnrlon': v.lon.max() + 1,
-                'llcrnrlat': v.lat.min() - 1,
-                'urcrnrlat': v.lat.max() + 1,
+kwds_basemap = {'llcrnrlon': v.longitude.min() - 1,
+                'urcrnrlon': v.longitude.max() + 1,
+                'llcrnrlat': v.latitude.min() - 1,
+                'urcrnrlat': v.latitude.max() + 1,
                 'resolution': 'i'}
 
 # configure scatter plots
