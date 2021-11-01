@@ -15,7 +15,6 @@ from sklearn.model_selection import ShuffleSplit
 import igraph as ig
 import seaborn as sns
 from scipy.cluster.hierarchy import linkage, fcluster
-import cairo
 import plotting as pt
 import cppv as cp
 import con_sep as cs
