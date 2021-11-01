@@ -32,7 +32,7 @@ def make_argparser():
 parser = make_argparser()
 args = parser.parse_args()
 extr = pd.read_csv(args.data)
-d = pd.read_csv(args.ndvi)
+d = pxarray.open_dataset(args.ndvi)
 
 #create integer based (x,y) coordinates
 d['x'] = (('X'), np.arange(len(d.X)))
