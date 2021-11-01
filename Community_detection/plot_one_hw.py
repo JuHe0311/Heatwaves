@@ -62,9 +62,11 @@ print('huch')
 objs = gt.plot_map_generator('longitude', 'latitude', 'time',
                               kwds_basemap=kwds_basemap,
                               kwds_scatter=kwds_scatter)
-print('nearly there')
+print(objs)
 # plot and store frames
 for i, obj in enumerate(objs):
+    print('hey')
+    print(i)
     print(obj)
     # configure plots
     obj['m'].fillcontinents(color='0.2', zorder=0, alpha=.4)
