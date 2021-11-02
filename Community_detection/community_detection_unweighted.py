@@ -18,7 +18,7 @@ from scipy.cluster.hierarchy import linkage, fcluster
 import plotting as pt
 import cppv as cp
 import con_sep as cs
-
+import cairo
 ############### Functions ################
 
 # getting all nodes and supernodes of indices of one cluster (indices are given to the function by a list)
