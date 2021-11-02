@@ -35,7 +35,7 @@ kwds_basemap = {'llcrnrlon': v.longitude.min() - 1,
                 'resolution': 'i'}
 
 # configure scatter plots
-kwds_scatter = {'s': 1.5,
+kwds_scatter = {'s': 500,
                 'c': g.v.t2m.values,
                 'edgecolors': 'none',
                 'cmap': 'viridis_r'}
@@ -59,5 +59,5 @@ for i, obj in enumerate(objs):
                        dpi=300, bbox_inches='tight')
     plt.close(obj['fig'])
 # create video with ffmpeg
-cmd = "ffmpeg -y -r 5 -i pcp_%03d.png -c:v libx264 -r 20 -vf scale=2052:1004 {}.mp4"
+cmd = "ffmpeg -y -r 1 -i pcp_%03d.png -c:v libx264 -r 20 -vf scale=2052:1004 {}.mp4"
 os.system(cmd.format('../../Results/tmp/pcp'))
