@@ -101,3 +101,46 @@ g_temp.v.sort_values(by=['cp'], inplace=True)
 for i in range(len(cluster_dict)):
     ccpv_multi,ccpv_multi_supernodes = get_clustnodes(cluster_dict[i])
     pt.plot_clusters(ccpv_multi, 'n_heatwave_multistep cluster %s unweighted' % i, vt)
+
+    
+########
+
+# calculate threshold
+# calculate 95th percentile as threshold from the Intersection strength between the supernodes
+# create edges
+
+cpg_temp = cpg.e.stack().reset_index()
+cpg_temp = cpg_temp.drop(['level_2'], axis=1)
+cpg_temp.columns = ['source','target','intsec_strenght']
+
+# create a weighted graph
+# weights of edges are the intersection strengths between two nodes
+graph_w = ig.Graph.TupleList(cpg_temp.values, 
+                       weights=True, directed=False)
+graph_w.vs["label"] = graph_w.vs["name"]
+
+# next to do: delete all edges with weight zero!
+graph_w.es.select(weight=0).delete()
+dendrogram_multi = graph_w.community_multilevel(weights=graph_w.es['weight'])
+# save plot somehow
+ig.plot(dendrogram_multi, "../../Results/weighted_dendrogram_multi.png", vertex_label_size=1)
+
+# creates a dictionary of all clusters with the correct cp names of the heatwaves
+cluster_list = list(dendrogram_multi)
+clust = []
+cluster_dict = {}
+for i in range(len(cluster_list)):
+    for j in cluster_list[i]:
+        clust.append(graph.vs[j]["name"])
+    cluster_dict[i] = clust
+    clust = []
+print(cluster_dict)
+# create clustnodes
+
+# deep graph that is sorted by cp value
+g_temp = g
+g_temp.v.sort_values(by=['cp'], inplace=True)
+# plot
+for i in range(len(cluster_dict)):
+    ccpv_multi,ccpv_multi_supernodes = get_clustnodes(cluster_dict[i])
+    pt.plot_clusters(ccpv_multi, 'n_heatwave_multistep cluster %s weighted' % i, vt)
