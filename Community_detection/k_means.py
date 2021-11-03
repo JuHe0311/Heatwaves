@@ -31,7 +31,7 @@ args = parser.parse_args()
 gv = pd.read_csv(args.data)
 g,cpv = cp.cr_cpv(gv)
 print(math.cos(cpv.loc[2].longitude_mean))
-cpv['cos_lat'] = cpv['latitude_mean']*math.cos(cpv['latitude_mean'])
+cpv['cos_lat'] = (cpv['latitude_mean']*math.cos(cpv['latitude_mean']))
 km = KMeans(n_clusters=5)
 y_predicted = km.fit_predict(cpv[['longitude_mean','latitude_mean','cos_lat']])
 cpv['F'] = y_predicted
