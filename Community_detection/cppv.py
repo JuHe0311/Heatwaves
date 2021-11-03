@@ -74,7 +74,7 @@ def create_cpv(extr_data):
 
 
 def cr_cpv(gv):
-  gv['time']=pd.to_datetime(extr_data['time'])
+  gv['time']=pd.to_datetime(gv['time'])
   gv.sort_values('time', inplace=True)
   g = dg.DeepGraph(gv)
   # create the edges of the graph --> based on neighboring grids in a 3D dataset
