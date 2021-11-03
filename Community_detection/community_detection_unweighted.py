@@ -80,7 +80,7 @@ graph.vs["label"] = graph.vs["name"]
 graph.es.select(weight_ne=1.0).delete()
 dendrogram_multi = graph.community_multilevel(weights=graph.es['weight'])
 # save plot somehow
-ig.plot(dendrogram_multi, "../../Results/unweighted_dendrogram_multi.png")
+ig.plot(dendrogram_multi, vertex_label_size=1, "../../Results/unweighted_dendrogram_multi.png")
 
 # creates a dictionary of all clusters with the correct cp names of the heatwaves
 cluster_list = list(dendrogram_multi)
