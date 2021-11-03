@@ -22,8 +22,6 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", help="Give the path to the extreme value dataset.",
                         type=str)
-    parser.add_argument("-do", "--data_original", help="Give the path to the original value dataset.",
-                        type=str)
     return parser
 
 parser = make_argparser()
