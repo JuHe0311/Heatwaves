@@ -73,4 +73,17 @@ def create_cpv(extr_data):
   return g,gv,cpv
 
 
-
+def cr_cpv(gv):
+  gv['time']=pd.to_datetime(extr_data['time'])
+  gv.sort_values('time', inplace=True)
+  g = dg.DeepGraph(gv)
+  # create the edges of the graph --> based on neighboring grids in a 3D dataset
+  g.create_edges_ft(ft_feature=('itime', 1), 
+                  connectors=[cs.grid_2d_dx, cs.grid_2d_dy], 
+                  selectors=[cs.s_grid_2d_dx, cs.s_grid_2d_dy],
+                  r_dtype_dic={'ft_r': np.bool,
+                               'dx': np.int8,
+                               'dy': np.int8}, 
+                  max_pairs=1e7)
+  print(g.v)
+  
