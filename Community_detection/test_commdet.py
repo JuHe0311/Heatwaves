@@ -50,7 +50,7 @@ args = parser.parse_args()
 
 gv = pd.read_csv(args.data_extreme)
 
-cp.cr_cpv(gv)
+cpv=cp.cr_cpv(gv)
 # calculate threshold
 # calculate 95th percentile as threshold from the Intersection strength between the supernodes
 cpg = dg.DeepGraph(cpv)
