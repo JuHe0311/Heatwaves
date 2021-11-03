@@ -96,5 +96,5 @@ def cr_cpv(gv):
   #rename feature name
   cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
 
-  return cpv
+  return g,cpv
   
