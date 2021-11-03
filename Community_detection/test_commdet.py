@@ -54,6 +54,7 @@ cpv,g=cp.cr_cpv(gv)
 # calculate threshold
 # calculate 95th percentile as threshold from the Intersection strength between the supernodes
 cpg = dg.DeepGraph(cpv)
+print(len(cpg.v))
 # create edges
 cpg.create_edges(connectors=[cs.cp_node_intersection, 
                              cs.cp_intersection_strength],
