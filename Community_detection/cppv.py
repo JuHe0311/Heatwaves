@@ -78,12 +78,23 @@ def cr_cpv(gv):
   gv.sort_values('time', inplace=True)
   g = dg.DeepGraph(gv)
   # create the edges of the graph --> based on neighboring grids in a 3D dataset
-  g.create_edges_ft(ft_feature=('itime', 1), 
-                  connectors=[cs.grid_2d_dx, cs.grid_2d_dy], 
-                  selectors=[cs.s_grid_2d_dx, cs.s_grid_2d_dy],
-                  r_dtype_dic={'ft_r': np.bool,
-                               'dx': np.int8,
-                               'dy': np.int8}, 
-                  max_pairs=1e7)
-  print(g.v)
+  feature_funcs = {'time': [np.min, np.max],
+                 'itime': [np.min, np.max],
+                 't2m': [np.mean],
+                   'magnitude': [np.sum],
+                 'latitude': [np.mean],
+                 'longitude': [np.mean], 't2m': [np.max]}
+  # partition the node table
+  cpv, gv = g.partition_nodes('cp', feature_funcs, return_gv=True)
+
+  # append geographical id sets
+  cpv['g_ids'] = gv['g_id'].apply(set)
+  # append cardinality of g_id sets
+  cpv['n_unique_g_ids'] = cpv['g_ids'].apply(len)
+  # append time spans
+  cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
+  #rename feature name
+  cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
+
+  return cpv
   
