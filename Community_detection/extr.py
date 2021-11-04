@@ -67,7 +67,7 @@ def extr_events(data, thresholds,hwmid):
     return extr_dataset
   
 def calc_percentile(a_list):
-    threshold = np.percentile(a_list,90)
+    threshold = np.percentile(a_list,95)
     return threshold
 
 
