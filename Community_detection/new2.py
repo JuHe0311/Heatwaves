@@ -116,24 +116,23 @@ extr['itime'] = extr['itime'].astype(np.uint16)
 extr.sort_values('time', inplace=True)
 
 # calculate daily magnitude of extreme events
-feature_funcs = {'t2m': [perc25]}
+f_funcs = {'t2m': [np.max]}
 gg = dg.DeepGraph(vt)
-gg_t = gg.partition_nodes(['x','y'],feature_funcs)
+gg_t = gg.partition_nodes(['x','y','year'],f_funcs)
 gg_t.reset_index(inplace=True)
-res = pd.merge(extr,gg_t, on=['x', 'y'])
-res.drop(columns=['n_nodes'], inplace=True)
+feature_funcs = {'t2m_amax': [perc75,perc25]}
+ggt = dg.DeepGraph(gg_t)
+ggg = ggt.partition_nodes(['x','y'], feature_funcs)
+rex = pd.merge(extr,ggg, on=['x', 'y'])
+rex.drop(columns=['n_nodes'], inplace=True)
+rex['magnitude']=rex.apply(calc_mag, axis=1)
+rex.drop(columns=['t2m_amax_perc25','t2m_amax_perc75','thresh'], inplace=True)
 
-feature_funcs = {'t2m': [perc75]}
-gg = dg.DeepGraph(vt)
-gg_t = gg.partition_nodes(['x','y'],feature_funcs)
-gg_t.reset_index(inplace=True)
-ex = pd.merge(res,gg_t, on=['x', 'y'])
-ex.drop(columns=['n_nodes'], inplace=True)
 
-ex['magnitude']=ex.apply(calc_mag, axis=1)
-ex.drop(columns=['t2m_perc25','t2m_perc75','thresh'], inplace=True)
+rex.to_csv(path_or_buf = "../../Results/extr95.csv", index=False)
+rex.sort_values('time', inplace=True)
+g,cpg,cpv = cppv.create_cpv(rex)
+cpv.to_csv(path_or_buf = "../../Results/cpv95.csv", index=False)
 
-ex.to_csv(path_or_buf = "../../Results/extr95.csv", index=False)
-ex.sort_values('time', inplace=True)
-g,cpg,cpv = cppv.create_cpv(ex)
+
 
