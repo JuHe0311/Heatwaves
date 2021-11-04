@@ -133,7 +133,7 @@ ex.drop(columns=['n_nodes'], inplace=True)
 ex['magnitude']=ex.apply(calc_mag, axis=1)
 ex.drop(columns=['t2m_perc25','t2m_perc75','thresh'], inplace=True)
 
-ex.to_csv(path_or_buf = "../../Results/extr.csv", index=False)
+ex.to_csv(path_or_buf = "../../Results/extr95.csv", index=False)
 ex.sort_values('time', inplace=True)
 g,cpg,cpv = cppv.create_cpv(ex)
 
