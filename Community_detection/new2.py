@@ -23,11 +23,12 @@ def perc75(a_list):
     return threshold
 
 def calc_mag(data):
-    if data.t2m > data.t2m_perc25:
-        mag = (data.t2m-data.t2m_perc25)/(data.t2m_perc75-data.t2m_perc25)
+    if data.t2m > data.t2m_amax_perc25:
+        mag = (data.t2m-data.t2m_amax_perc25)/(data.t2m_amax_perc75-data.t2m_amax_perc25)
     else:
         mag = 0
     return mag
+
 
 ### Argparser ###
 
