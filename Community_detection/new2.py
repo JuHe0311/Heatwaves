@@ -95,7 +95,7 @@ for i in range(366):
     tmp2 = pd.concat([tmp2,tmp])
 result = pd.merge(vt,tmp2, on=["ytime", "x", 'y'])
 result.drop(columns=['n_nodes', 'ytime'], inplace=True)
-result.to_csv(path_or_buf = "../../Results/thresh.csv", index=False)
+result.to_csv(path_or_buf = "../../Results/thresh95.csv", index=False)
 # calculate extreme dataset
 
 result["keep"] = np.where(result["t2m"] >= result["thresh"], True, False)
