@@ -90,31 +90,42 @@ for i in range(366):
     tmp, tmp_p = g.partition_nodes(['x','y'],return_gv=True)
     tmp['t2m'] = tmp_p['t2m'].apply(list)
     tmp.reset_index(inplace=True)
-    tmp['thresh'] = tmp['t2m'].apply(ex.calc_perc)
+    tmp['thresh'] = tmp['t2m'].apply(ex.calc_perc,1)
+    tmp['thresh0'] = tmp['t2m'].apply(ex.calc_perc,0)
     tmp.drop(['t2m'],axis=1,inplace=True)
     tmp['ytime'] = i+1
     tmp2 = pd.concat([tmp2,tmp])
 result = pd.merge(vt,tmp2, on=["ytime", "x", 'y'])
 result.drop(columns=['n_nodes', 'ytime'], inplace=True)
-result.to_csv(path_or_buf = "../../Results/thresh95.csv", index=False)
+result.to_csv(path_or_buf = "../../Results/thresh.csv", index=False)
 # calculate extreme dataset
 
 result["keep"] = np.where(result["t2m"] >= result["thresh"], True, False)
+result["keep0"] = np.where(result["t2m"] >= result["thresh0"], True, False)
 extr = result.loc[result['keep'] == True]
+extr0 = result.loc[result['keep0'] == True]
 extr.drop(columns=['keep'], inplace=True)
+extr0.drop(columns=['keep0'], inplace=True)
 
 # append some neccessary stuff to the extr dataset
 # append a column indicating geographical locations (i.e., supernode labels)
 extr['g_id'] = extr.groupby(['longitude', 'latitude']).grouper.group_info[0]
 extr['g_id'] = extr['g_id'].astype(np.uint32)    
-
+extr0['g_id'] = ext0r.groupby(['longitude', 'latitude']).grouper.group_info[0]
+extr0['g_id'] = extr0['g_id'].astype(np.uint32)    
 # append integer-based time
 times = pd.date_range(extr.time.min(), extr.time.max(), freq='D')
 tdic = {time: itime for itime, time in enumerate(times)}
 extr['itime'] = extr.time.apply(lambda x: tdic[x])
 extr['itime'] = extr['itime'].astype(np.uint16)
+
+times = pd.date_range(extr0.time.min(), extr0.time.max(), freq='D')
+tdic = {time: itime for itime, time in enumerate(times)}
+extr0['itime'] = extr0.time.apply(lambda x: tdic[x])
+extr0['itime'] = extr0['itime'].astype(np.uint16)
 # sort by time
 extr.sort_values('time', inplace=True)
+extr0.sort_values('time', inplace=True)
 
 # calculate daily magnitude of extreme events
 f_funcs = {'t2m': [np.max]}
@@ -129,11 +140,21 @@ rex.drop(columns=['n_nodes'], inplace=True)
 rex['magnitude']=rex.apply(calc_mag, axis=1)
 rex.drop(columns=['t2m_amax_perc25','t2m_amax_perc75','thresh'], inplace=True)
 
+rex0 = pd.merge(extr0,ggg, on=['x', 'y'])
+rex0.drop(columns=['n_nodes'], inplace=True)
+rex0['magnitude']=rex0.apply(calc_mag, axis=1)
+rex0.drop(columns=['t2m_amax_perc25','t2m_amax_perc75','thresh'], inplace=True)
 
-rex.to_csv(path_or_buf = "../../Results/extr95.csv", index=False)
+rex.to_csv(path_or_buf = "../../Results/extr.csv", index=False)
+rex0.to_csv(path_or_buf = "../../Results/extr95.csv", index=False)
+
 rex.sort_values('time', inplace=True)
 g,cpg,cpv = cppv.create_cpv(rex)
-cpv.to_csv(path_or_buf = "../../Results/cpv95.csv", index=False)
+g0,cpg0,cpv0 = cppv.create_cpv(rex0)
 
+cpv.to_csv(path_or_buf = "../../Results/cpv.csv", index=False)
+cpg.v.to_csv(path_or_buf = "../../Results/gv.csv", index=False)
+cpg0.v.to_csv(path_or_buf = "../../Results/gv0.csv", index=False)
+cpv0.to_csv(path_or_buf = "../../Results/cpv95.csv", index=False)
 
 
