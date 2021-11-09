@@ -153,8 +153,8 @@ g,cpg,cpv = cppv.create_cpv(rex)
 g0,cpg0,cpv0 = cppv.create_cpv(rex0)
 
 cpv.to_csv(path_or_buf = "../../Results/cpv.csv", index=False)
-cpg.v.to_csv(path_or_buf = "../../Results/gv.csv", index=False)
-cpg0.v.to_csv(path_or_buf = "../../Results/gv0.csv", index=False)
+g.v.to_csv(path_or_buf = "../../Results/gv.csv", index=False)
+g0.v.to_csv(path_or_buf = "../../Results/gv0.csv", index=False)
 cpv0.to_csv(path_or_buf = "../../Results/cpv95.csv", index=False)
 
 
