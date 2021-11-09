@@ -26,7 +26,7 @@ def calc_perc(lst,bool):
     for l in lst:
         for i in range(len(l)):
             a_list.append(l[i])
-    if bool = 1:
+    if bool == 1:
         return calc_percentile(a_list) 
     else:
         return calc_percentile0(a_list)
