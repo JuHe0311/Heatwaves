@@ -90,8 +90,8 @@ for i in range(366):
     tmp, tmp_p = g.partition_nodes(['x','y'],return_gv=True)
     tmp['t2m'] = tmp_p['t2m'].apply(list)
     tmp.reset_index(inplace=True)
-    tmp['thresh'] = tmp['t2m'].apply(ex.calc_perc,1)
-    tmp['thresh0'] = tmp['t2m'].apply(ex.calc_perc,0)
+    tmp['thresh'] = tmp['t2m'].apply(ex.calc_perc)
+    tmp['thresh0'] = tmp['t2m'].apply(ex.calc_perc0)
     tmp.drop(['t2m'],axis=1,inplace=True)
     tmp['ytime'] = i+1
     tmp2 = pd.concat([tmp2,tmp])
