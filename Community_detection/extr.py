@@ -16,6 +16,10 @@ def calc_percentile(a_list):
     threshold = np.percentile(a_list,95)
     return threshold
 
+def calc_percentile0(a_list):
+    threshold = np.percentile(a_list,90)
+    return threshold
+
 
 def calc_perc(lst):
     a_list = []
