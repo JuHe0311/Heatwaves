@@ -21,7 +21,7 @@ def calc_percentile0(a_list):
     return threshold
 
 
-def calc_perc(lst,bool):
+def calc_perc(lst):
     a_list = []
     for l in lst:
         for i in range(len(l)):
@@ -29,7 +29,7 @@ def calc_perc(lst,bool):
     return calc_percentile(a_list) 
 
 
-def calc_perc0(lst,bool):
+def calc_perc0(lst):
     a_list = []
     for l in lst:
         for i in range(len(l)):
