@@ -111,7 +111,7 @@ extr0.drop(columns=['keep0'], inplace=True)
 # append a column indicating geographical locations (i.e., supernode labels)
 extr['g_id'] = extr.groupby(['longitude', 'latitude']).grouper.group_info[0]
 extr['g_id'] = extr['g_id'].astype(np.uint32)    
-extr0['g_id'] = ext0r.groupby(['longitude', 'latitude']).grouper.group_info[0]
+extr0['g_id'] = extr0.groupby(['longitude', 'latitude']).grouper.group_info[0]
 extr0['g_id'] = extr0['g_id'].astype(np.uint32)    
 # append integer-based time
 times = pd.date_range(extr.time.min(), extr.time.max(), freq='D')
