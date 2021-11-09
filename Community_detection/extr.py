@@ -26,11 +26,15 @@ def calc_perc(lst,bool):
     for l in lst:
         for i in range(len(l)):
             a_list.append(l[i])
-    if bool == 1:
-        return calc_percentile(a_list) 
-    else:
-        return calc_percentile0(a_list)
-    
+    return calc_percentile(a_list) 
+
+
+def calc_perc0(lst,bool):
+    a_list = []
+    for l in lst:
+        for i in range(len(l)):
+            a_list.append(l[i])
+    return calc_percentile0(a_list) 
      
  
 # function to convert temperature from kelvin to degrees celcius
