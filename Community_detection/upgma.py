@@ -24,16 +24,13 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", help="Give the path to the dataset to be worked on.",
                         type=str)
-    parser.add_argument("-do", "--original_data", help="Give the path to the original dataset to be worked on.",
-                        type=str)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
-extr = pd.read_csv(args.data)
-vt = pd.read_csv(args.original_data)
+gv = pd.read_csv(args.data)
 
-g,cpg,cpv = cppv.create_cpv(extr)
+g,cpv = cppv.create_cpv(gv)
 
 # clustering step
     
@@ -80,6 +77,6 @@ fgv.rename(columns={'latitude_amin': 'latitude',
                     'longitude_amin': 'longitude',
                     'cp_n_cp_nodes': 'n_cp_nodes'}, inplace=True)
 
-pt.plot_families(15,fgv,vt,'families')
+pt.plot_families(15,fgv,gv,'families')
 
 
