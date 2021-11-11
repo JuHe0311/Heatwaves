@@ -46,7 +46,7 @@ lm = linkage(dv, method='average', metric='euclidean')
 del dv
 
 # form flat clusters and append their labels to cpv
-cpv['F'] = fcluster(lm, 1000, criterion='maxclust')
+cpv['F'] = fcluster(lm, 15, criterion='maxclust')
 del lm
 
 # relabel families by size
@@ -80,6 +80,6 @@ fgv.rename(columns={'latitude_amin': 'latitude',
                     'longitude_amin': 'longitude',
                     'cp_n_cp_nodes': 'n_cp_nodes'}, inplace=True)
 
-pt.plot_families(5,fgv,vt,'families')
+pt.plot_families(15,fgv,vt,'families')
 
 
