@@ -41,7 +41,17 @@ del cpg.e
 # create linkage matrix
 lm = linkage(dv, method='average', metric='euclidean')
 del dv
-
+# calculate full dendrogram
+plt.figure(figsize=(60, 40))
+plt.title('UPGMA Heatwave Clustering')
+plt.xlabel('heatwave index')
+plt.ylabel('distance')
+dendrogram(
+    lm,
+    leaf_rotation=90.,  # rotates the x axis labels
+    leaf_font_size=8.,  # font size for the x axis labels
+)
+plt.savefig('../Results/dendrogram.png')
 # form flat clusters and append their labels to cpv
 cpv['F'] = fcluster(lm, 8, criterion='maxclust')
 del lm
