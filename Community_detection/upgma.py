@@ -51,7 +51,7 @@ dendrogram(
     leaf_rotation=90.,  # rotates the x axis labels
     leaf_font_size=8.,  # font size for the x axis labels
 )
-plt.savefig('../Results/dendrogram.png')
+plt.savefig('../../Results/dendrogram.png')
 # form flat clusters and append their labels to cpv
 cpv['F'] = fcluster(lm, 8, criterion='maxclust')
 del lm
