@@ -32,6 +32,15 @@ gv = pd.read_csv(args.data)
 
 g,cpv = cppv.cr_cpv(gv)
 
+# initiate DeepGraph
+cpg = dg.DeepGraph(cpv)
+# create edges
+cpg.create_edges(connectors=[cs.cp_node_intersection, 
+                             cs.cp_intersection_strength],
+                 no_transfer_rs=['intsec_card'],
+                 logfile='create_cpe',
+                 step_size=1e7)
+print(cpg.e.intsec_strength.value_counts())
 # clustering step
     
 # create condensed distance matrix
