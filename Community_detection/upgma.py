@@ -98,4 +98,6 @@ fgv.rename(columns={'latitude_amin': 'latitude',
 
 pt.plot_families(8,fgv,gv,'families')
 
+g.v.to_csv(path_or_buf = "../../Results/gv_f.csv", index=False)
+
 
