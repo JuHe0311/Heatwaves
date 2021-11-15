@@ -24,16 +24,59 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", help="Give the path to the dataset to be worked on.",
                         type=str)
+    parser.add_argument("-lsm", "--land_sea_mask", help="Give the path to the land sea mask to be worked on.",
+                        type=str)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
-gv = pd.read_csv(args.data)
+gvv = pd.read_csv(args.data)
+lsc = xarray.open_dataset(args.land_sea_mask)
 
-g,cpv = cppv.cr_cpv(gv)
+#create integer based (x,y) coordinates
+lsc['x'] = (('longitude'), np.arange(len(lsc.longitude)))
+lsc['y'] = (('latitude'), np.arange(len(lsc.latitude)))
 
+#convert to dataframe
+vt = lsc.to_dataframe()
+#reset index
+vt.reset_index(inplace=True)
+
+gv = pd.merge(gvv,vt, on=['x','y'])
+gv.drop(columns=['latitude_y','longitude_y','time_y'], inplace=True)
+gv.rename(columns={'latitude_x': 'latitude','longitude_x':'longitude','time_x':'time'}, inplace=True)
+
+gv['time']=pd.to_datetime(gv['time'])
+gv.sort_values('time', inplace=True)
+g = dg.DeepGraph(gv)
+# create the edges of the graph --> based on neighboring grids in a 3D dataset
+feature_funcs = {'time': [np.min, np.max],
+                 'itime': [np.min, np.max],
+                 't2m': [np.mean],
+                   'magnitude': [np.sum],
+                 'latitude': [np.mean],
+                 'longitude': [np.mean], 't2m': [np.max], 'lsm':[np.mean]}
+# partition the node table
+cpv, cgv = g.partition_nodes('cp', feature_funcs, return_gv=True)
+
+# append geographical id sets
+cpv['g_ids'] = cgv['g_id'].apply(set)
+# append cardinality of g_id sets
+cpv['n_unique_g_ids'] = cpv['g_ids'].apply(len)
+# append time spans
+cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
+#rename feature name
+cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
+
+# remove heatwaves with predominantly water coverage
+cpv["keep"] = np.where(cpv['lsm_mean'] > 0.5, True, False)
+cpv2 = cpv.loc[cpv2['keep'] == True]
+cpv2.drop(columns=['keep'], inplace=True)
+
+# only use the largest x clusters
+cpv2 = cpv2.iloc[:100]
 # initiate DeepGraph
-cpg = dg.DeepGraph(cpv)
+cpg = dg.DeepGraph(cpv2)
 # create edges
 cpg.create_edges(connectors=[cs.cp_node_intersection, 
                              cs.cp_intersection_strength],
