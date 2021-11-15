@@ -13,7 +13,7 @@ import argparse
 import sklearn
 from sklearn.model_selection import ShuffleSplit
 import seaborn as sns
-from scipy.cluster.hierarchy import linkage, fcluster
+from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
 import cppv
 import con_sep as cs
 import plotting as pt
