@@ -105,19 +105,19 @@ dendrogram(
 )
 plt.savefig('../../Results/dendrogram.png')
 # form flat clusters and append their labels to cpv
-cpv['F'] = fcluster(lm, 8, criterion='maxclust')
+cpv2['F'] = fcluster(lm, 8, criterion='maxclust')
 del lm
 
 # relabel families by size
-f = cpv['F'].value_counts().index.values
+f = cpv2['F'].value_counts().index.values
 fdic = {j: i for i, j in enumerate(f)}
-cpv['F'] = cpv['F'].apply(lambda x: fdic[x])
+cpv2['F'] = cpv2['F'].apply(lambda x: fdic[x])
 
 pt.raster_plot_families(cpg,'10 biggest')
 
 # create F col
 g.v['F'] = np.ones(len(g.v), dtype=int) * -1
-gcpv = cpv.groupby('F')
+gcpv = cpv2.groupby('F')
 it = gcpv.apply(lambda x: x.index.values)
 
 for F in range(len(it)):
