@@ -128,7 +128,7 @@ for F in range(len(it)):
 def n_cp_nodes(cp):
     return len(cp.unique())
 
-feature_funcs = {'daily_mag': [np.sum],
+feature_funcs = {'magnitude': [np.sum],
                  'latitude': np.min,
                  'longitude': np.min,
                  'cp': n_cp_nodes}
