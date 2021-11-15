@@ -70,7 +70,7 @@ cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
 
 # remove heatwaves with predominantly water coverage
 cpv["keep"] = np.where(cpv['lsm_mean'] > 0.5, True, False)
-cpv2 = cpv.loc[cpv2['keep'] == True]
+cpv2 = cpv.loc[cpv['keep'] == True]
 cpv2.drop(columns=['keep'], inplace=True)
 
 # only use the largest x clusters
