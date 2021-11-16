@@ -163,7 +163,7 @@ def plot_families5000(number_families,fgv,v,plot_title):
 def raster_plot_families(cpg,plot_title):
   cpgt = dg.DeepGraph(cpg.v[cpg.v.F <= 10])
   obj = cpgt.plot_rects_label_numeric('F', 'itime_amin', 'itime_amax', 
-                                    colors=np.log(cpgt.v.HWMId_magnitude.values))
+                                    colors=cpgt.v.HWMId_magnitude.values)
   obj['ax'].set_xlabel('time', fontsize=20)
   obj['ax'].set_ylabel('family', fontsize=20)
   obj['ax'].grid()
