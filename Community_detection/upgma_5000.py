@@ -103,7 +103,7 @@ dendrogram(
     leaf_rotation=90.,  # rotates the x axis labels
     leaf_font_size=8.,  # font size for the x axis labels
 )
-plt.savefig('../../Results/dendrogram.png')
+plt.savefig('../../Results/dendrogram5000.png')
 # form flat clusters and append their labels to cpv
 cpv2['F'] = fcluster(lm, 8, criterion='maxclust')
 del lm
@@ -113,7 +113,7 @@ f = cpv2['F'].value_counts().index.values
 fdic = {j: i for i, j in enumerate(f)}
 cpv2['F'] = cpv2['F'].apply(lambda x: fdic[x])
 
-pt.raster_plot_families(cpg,'10 biggest')
+pt.raster_plot_families(cpg,'10 biggest5000')
 
 # create F col
 g.v['F'] = np.ones(len(g.v), dtype=int) * -1
