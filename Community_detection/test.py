@@ -36,12 +36,17 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-t", "--threshold", help="Give the path to the original dataset to be worked on.",
                         type=str)
+    parser.add_argument("-d", "--data", help="Give the path to the original dataset to be worked on.",
+                        type=str)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
 result = pd.read_csv(args.threshold)
+vt = pd.read_csv(args.data)
 result['time']=pd.to_datetime(result['time'])
+vt['time']=pd.to_datetime(vt['time'])
+
 # calculate extreme dataset
 
 result["keep"] = np.where(result["t2m"] >= result["thresh"], True, False)
