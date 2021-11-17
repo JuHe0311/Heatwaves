@@ -54,7 +54,7 @@ for name, col in cols.items():
                       kwds_scatter=kwds_scatter)
 
     # configure plots
-    obj['m'].drawcoastlines(linewidth=.8)
+    obj['m'].drawcoastlines(linewidth=.8,zorder=10)
     obj['m'].drawparallels(range(-50, 50, 20), linewidth=.2)
     obj['m'].drawmeridians(range(0, 360, 20), linewidth=.2)
     obj['ax'].set_title(name)
