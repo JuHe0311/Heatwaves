@@ -105,7 +105,7 @@ dendrogram(
 )
 plt.savefig('../../Results/dendrogram5000.png')
 # form flat clusters and append their labels to cpv
-cpv2['F'] = fcluster(lm, 8, criterion='maxclust')
+cpv2['F'] = fcluster(lm, 6, criterion='maxclust')
 del lm
 
 # relabel families by size
@@ -139,6 +139,6 @@ fgv.rename(columns={'latitude_amin': 'latitude',
                     'longitude_amin': 'longitude',
                     'cp_n_cp_nodes': 'n_cp_nodes'}, inplace=True)
 
-pt.plot_families5000(8,fgv,gv,'families')
+pt.plot_families5000(6,fgv,gv,'families')
 
 g.v.to_csv(path_or_buf = "../../Results/gv_f5000.csv", index=False)
