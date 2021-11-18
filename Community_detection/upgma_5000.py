@@ -74,7 +74,7 @@ cpv2 = cpv.loc[cpv['keep'] == True]
 cpv2.drop(columns=['keep'], inplace=True)
 
 # only use the largest x clusters
-cpv2 = cpv2.iloc[:5000]
+cpv2 = cpv2.iloc[:3000]
 # initiate DeepGraph
 cpg = dg.DeepGraph(cpv2)
 # create edges
