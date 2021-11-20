@@ -105,7 +105,7 @@ dendrogram(
 )
 plt.savefig('../../Results/dendrogram.png')
 # form flat clusters and append their labels to cpv
-cpv2['F'] = fcluster(lm, 8, criterion='maxclust')
+cpv2['F'] = fcluster(lm, 6, criterion='maxclust')
 del lm
 
 # relabel families by size
