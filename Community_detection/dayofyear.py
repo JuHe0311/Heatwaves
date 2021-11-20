@@ -29,7 +29,7 @@ def make_argparser():
 parser = make_argparser()
 args = parser.parse_args()
 gv = pd.read_csv(args.data)
-
+g = dg.DeepGraph(gv)
 def sel_family(number,dataset):
     fam = dataset.loc[dataset['F']==number]
     return fam
