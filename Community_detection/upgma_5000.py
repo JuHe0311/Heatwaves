@@ -74,7 +74,7 @@ cpv2 = cpv.loc[cpv['keep'] == True]
 cpv2.drop(columns=['keep'], inplace=True)
 
 # only use the largest x clusters
-cpv2 = cpv2.iloc[:5000]
+cpv2 = cpv2.iloc[:3000]
 # initiate DeepGraph
 cpg = dg.DeepGraph(cpv2)
 # create edges
@@ -103,7 +103,7 @@ dendrogram(
     leaf_rotation=90.,  # rotates the x axis labels
     leaf_font_size=8.,  # font size for the x axis labels
 )
-plt.savefig('../../Results/dendrogram5000.png')
+plt.savefig('../../Results/dendrogram3000.png')
 # form flat clusters and append their labels to cpv
 cpv2['F'] = fcluster(lm, 6, criterion='maxclust')
 del lm
@@ -113,7 +113,7 @@ f = cpv2['F'].value_counts().index.values
 fdic = {j: i for i, j in enumerate(f)}
 cpv2['F'] = cpv2['F'].apply(lambda x: fdic[x])
 
-pt.raster_plot_families(cpg,'10 biggest5000')
+pt.raster_plot_families(cpg,'10_biggest3000')
 
 # create F col
 g.v['F'] = np.ones(len(g.v), dtype=int) * -1
@@ -139,6 +139,6 @@ fgv.rename(columns={'latitude_amin': 'latitude',
                     'longitude_amin': 'longitude',
                     'cp_n_cp_nodes': 'n_cp_nodes'}, inplace=True)
 
-pt.plot_families5000(6,fgv,gv,'families')
+pt.plot_families5000(6,fgv,gv,'families3')
 
-g.v.to_csv(path_or_buf = "../../Results/gv_f5000.csv", index=False)
+g.v.to_csv(path_or_buf = "../../Results/gv_f3000.csv", index=False)
