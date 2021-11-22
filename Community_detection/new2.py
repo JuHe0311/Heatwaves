@@ -45,37 +45,42 @@ d = xarray.open_dataset(args.original_data)
 #create integer based (x,y) coordinates
 d['x'] = (('longitude'), np.arange(len(d.longitude)))
 d['y'] = (('latitude'), np.arange(len(d.latitude)))
+
 #convert to dataframe
 vt = d.to_dataframe()
+
 #reset index
 vt.reset_index(inplace=True)
+
 # add correct times
 datetimes = pd.to_datetime(vt['time'])
+
 # assign your new columns
 vt['day'] = datetimes.dt.day
 vt['month'] = datetimes.dt.month
 vt['year'] = datetimes.dt.year
+
 # append dayofyear 
 vt['ytime'] = vt.time.apply(lambda x: x.dayofyear)
+
 # append integer-based time
 times = pd.date_range(vt.time.min(), vt.time.max(), freq='D')
 tdic = {time: itime for itime, time in enumerate(times)}
 vt['itime'] = vt.time.apply(lambda x: tdic[x])
 vt['itime'] = vt['itime'].astype(np.uint16)
 
+# convert temperature from kelvin to degrees celcius
 ex.conv_to_degreescelcius(vt)
-vt.to_csv(path_or_buf = "../../Results/degreecs_vt.csv", index=False)
 
 first = np.arange(350,366)
 second = np.arange(1,366)
 third = np.arange(1,16)
 time = np.concatenate((first, second, third), axis=None)
-
 g_t = dg.DeepGraph(vt)
+
 #remove 366th day
 ytime = np.arange(366)
 g_t.filter_by_values_v('ytime',ytime)
-vt.to_csv(path_or_buf = "../../Results/366cut.csv", index=False)
 
 ### calculate threshold
 # partition the node table
@@ -91,41 +96,33 @@ for i in range(366):
     tmp['t2m'] = tmp_p['t2m'].apply(list)
     tmp.reset_index(inplace=True)
     tmp['thresh'] = tmp['t2m'].apply(ex.calc_perc)
-    tmp['thresh0'] = tmp['t2m'].apply(ex.calc_perc0)
     tmp.drop(['t2m'],axis=1,inplace=True)
     tmp['ytime'] = i+1
     tmp2 = pd.concat([tmp2,tmp])
 result = pd.merge(vt,tmp2, on=["ytime", "x", 'y'])
-result.drop(columns=['n_nodes', 'ytime'], inplace=True)
-result.to_csv(path_or_buf = "../../Results/thresh.csv", index=False)
-# calculate extreme dataset
+result.drop(columns=['n_nodes'], inplace=True)
 
+# save threshold dataset
+result.to_csv(path_or_buf = "../../Results/thresh.csv", index=False)
+
+# calculate extreme dataset
 result["keep"] = np.where(result["t2m"] >= result["thresh"], True, False)
-result["keep0"] = np.where(result["t2m"] >= result["thresh0"], True, False)
 extr = result.loc[result['keep'] == True]
-extr0 = result.loc[result['keep0'] == True]
 extr.drop(columns=['keep'], inplace=True)
-extr0.drop(columns=['keep0'], inplace=True)
 
 # append some neccessary stuff to the extr dataset
 # append a column indicating geographical locations (i.e., supernode labels)
 extr['g_id'] = extr.groupby(['longitude', 'latitude']).grouper.group_info[0]
 extr['g_id'] = extr['g_id'].astype(np.uint32)    
-extr0['g_id'] = extr0.groupby(['longitude', 'latitude']).grouper.group_info[0]
-extr0['g_id'] = extr0['g_id'].astype(np.uint32)    
+  
 # append integer-based time
 times = pd.date_range(extr.time.min(), extr.time.max(), freq='D')
 tdic = {time: itime for itime, time in enumerate(times)}
 extr['itime'] = extr.time.apply(lambda x: tdic[x])
 extr['itime'] = extr['itime'].astype(np.uint16)
 
-times = pd.date_range(extr0.time.min(), extr0.time.max(), freq='D')
-tdic = {time: itime for itime, time in enumerate(times)}
-extr0['itime'] = extr0.time.apply(lambda x: tdic[x])
-extr0['itime'] = extr0['itime'].astype(np.uint16)
 # sort by time
 extr.sort_values('time', inplace=True)
-extr0.sort_values('time', inplace=True)
 
 # calculate daily magnitude of extreme events
 f_funcs = {'t2m': [np.max]}
@@ -140,21 +137,17 @@ rex.drop(columns=['n_nodes'], inplace=True)
 rex['magnitude']=rex.apply(calc_mag, axis=1)
 rex.drop(columns=['t2m_amax_perc25','t2m_amax_perc75','thresh'], inplace=True)
 
-rex0 = pd.merge(extr0,ggg, on=['x', 'y'])
-rex0.drop(columns=['n_nodes'], inplace=True)
-rex0['magnitude']=rex0.apply(calc_mag, axis=1)
-rex0.drop(columns=['t2m_amax_perc25','t2m_amax_perc75','thresh'], inplace=True)
 
+# save the extreme dataset
 rex.to_csv(path_or_buf = "../../Results/extr.csv", index=False)
-rex0.to_csv(path_or_buf = "../../Results/extr95.csv", index=False)
 
+# create heatwaves from the extreme dataset
 rex.sort_values('time', inplace=True)
 g,cpg,cpv = cppv.create_cpv(rex)
-g0,cpg0,cpv0 = cppv.create_cpv(rex0)
 
+# save heatwaves
 cpv.to_csv(path_or_buf = "../../Results/cpv.csv", index=False)
 g.v.to_csv(path_or_buf = "../../Results/gv.csv", index=False)
-g0.v.to_csv(path_or_buf = "../../Results/gv0.csv", index=False)
-cpv0.to_csv(path_or_buf = "../../Results/cpv95.csv", index=False)
+
 
 
