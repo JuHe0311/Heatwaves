@@ -76,4 +76,9 @@ plt.xlabel('Land content')
 plt.ylabel('Number heatwaves')
 plt.savefig('../../Results/land_content.png')
 
+cpv["keep"] = np.where(cpv['lsm_new_mean'] > 0.2, True, False)
+cpv2 = cpv.loc[cpv['keep'] == True]
+cpv2.drop(columns=['keep'], inplace=True)
+
+
 cpv.v.to_csv(path_or_buf = "../../Results/cpv_lsc.csv", index=False)
