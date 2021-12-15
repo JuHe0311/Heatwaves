@@ -12,7 +12,7 @@ import scipy
 import argparse
 import sklearn
 import plotting as pt
-import cppv as cp
+import con_sep as cp
 from sklearn.cluster import KMeans
 import seaborn as sns
 import math
@@ -28,14 +28,186 @@ def make_argparser():
 parser = make_argparser()
 args = parser.parse_args()
 
-gv = pd.read_csv(args.data)
-g,cpv = cp.cr_cpv(gv)
-print(math.cos(cpv.loc[2].longitude_mean))
-cpv['cos_lat'] = cpv['latitude_mean']*np.cos(cpv['latitude_mean'])
-km = KMeans(n_clusters=5)
-y_predicted = km.fit_predict(cpv[['longitude_mean','latitude_mean','cos_lat']])
-cpv['F'] = y_predicted
+extr = pd.read_csv(args.data)
+extr['time']=pd.to_datetime(extr['time'])
+# append day of year
+extr['ytime'] = extr.time.apply(lambda x: x.dayofyear)
+# sort by time
+extr.sort_values('time', inplace=True)
+g = dg.DeepGraph(extr)
+# create the edges of the graph --> based on neighboring grids in a 3D dataset
+g.create_edges_ft(ft_feature=('itime', 1), 
+                  connectors=[cp.grid_2d_dx, cp.grid_2d_dy], 
+                  selectors=[cp.s_grid_2d_dx, cp.s_grid_2d_dy],
+                  r_dtype_dic={'ft_r': np.bool,
+                               'dx': np.int8,
+                               'dy': np.int8}, 
+                  max_pairs=1e7)
 
-sns.scatterplot(cpv['longitude_mean'],cpv['latitude_mean'], hue=cpv['F'])
-plt.savefig("../../Results/k_means.png")
+# rename fast track relation
+g.e.rename(columns={'ft_r': 'dt'}, inplace=True)
+# all singular components (components comprised of one node only)
+# are consolidated under the label 0
+g.append_cp(consolidate_singles=True)
+# we don't need the edges any more
+del g.e
+# create supernode table of connected nodes --> partitioning of the graph by the component membership of the nodes
+# feature functions, will be applied to each component of g
+feature_funcs = {'time': [np.min, np.max],
+                 'itime': [np.min, np.max],
+                 't2m': [np.mean],
+                 'magnitude': [np.sum],
+                 'latitude': [np.mean],
+                 'longitude': [np.mean], 't2m': [np.max], 'ytime':[np.mean]}
 
+# partition the node table
+cpv, gv = g.partition_nodes('cp', feature_funcs, return_gv=True)
+
+# append geographical id sets
+cpv['g_ids'] = gv['g_id'].apply(set)
+
+# append geographical id sets
+cpv['ytimes'] = gv['ytime'].apply(set)
+
+# append cardinality of g_id sets
+cpv['n_unique_g_ids'] = cpv['g_ids'].apply(len)
+
+# append time spans
+cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
+
+# append time spans
+cpv['timespan'] = cpv.dt.dt.days+1
+
+cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
+# discard singular components
+cpv.drop(0, inplace=True)
+
+
+fig, ax = plt.subplots(figsize=(9,6), nrows=1, ncols=1)
+levels=10
+cmap='coolwarm'
+label='Data'
+sns.kdeplot(x=cpv.ytime_mean,
+                            y=cpv.timespan,
+                            ax=ax,
+                            fill=True,
+                            levels=levels,
+                            label=label,
+                            cmap=cmap,
+                            cbar=True)
+plt.savefig("../../Results/density_plot.png")
+
+
+# kmeans clustering 
+from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_samples, silhouette_score
+import matplotlib.cm as cm
+
+
+
+range_n_clusters = [2, 3, 4, 5, 6]
+
+for n_clusters in range_n_clusters:
+    # Create a subplot with 1 row and 2 columns
+    fig, (ax1, ax2) = plt.subplots(1, 2)
+    fig.set_size_inches(18, 7)
+
+    # The 1st subplot is the silhouette plot
+    # The silhouette coefficient can range from -1, 1 but in this example all
+    # lie within [-0.1, 1]
+    ax1.set_xlim([-0.1, 1])
+    # The (n_clusters+1)*10 is for inserting blank space between silhouette
+    # plots of individual clusters, to demarcate them clearly.
+    ax1.set_ylim([0, len(cpv) + (n_clusters + 1) * 10])
+
+    # Initialize the clusterer with n_clusters value and a random generator
+    # seed of 10 for reproducibility.
+    clusterer = KMeans(n_clusters=n_clusters, random_state=10)
+    cluster_labels = clusterer.fit_predict(cpv[['ytime_mean','timespan']])
+
+    # The silhouette_score gives the average value for all the samples.
+    # This gives a perspective into the density and separation of the formed
+    # clusters
+    silhouette_avg = silhouette_score(cpv[['ytime_mean','timespan']], cluster_labels)
+    print(
+        "For n_clusters =",
+        n_clusters,
+        "The average silhouette_score is :",
+        silhouette_avg,
+    )
+
+    # Compute the silhouette scores for each sample
+    sample_silhouette_values = silhouette_samples(cpv[['ytime_mean','timespan']], cluster_labels)
+
+    y_lower = 10
+    for i in range(n_clusters):
+        # Aggregate the silhouette scores for samples belonging to
+        # cluster i, and sort them
+        ith_cluster_silhouette_values = sample_silhouette_values[cluster_labels == i]
+
+        ith_cluster_silhouette_values.sort()
+
+        size_cluster_i = ith_cluster_silhouette_values.shape[0]
+        y_upper = y_lower + size_cluster_i
+
+        color = cm.nipy_spectral(float(i) / n_clusters)
+        ax1.fill_betweenx(
+            np.arange(y_lower, y_upper),
+            0,
+            ith_cluster_silhouette_values,
+            facecolor=color,
+            edgecolor=color,
+            alpha=0.7,
+        )
+
+        # Label the silhouette plots with their cluster numbers at the middle
+        ax1.text(-0.05, y_lower + 0.5 * size_cluster_i, str(i))
+
+        # Compute the new y_lower for next plot
+        y_lower = y_upper + 10  # 10 for the 0 samples
+
+    ax1.set_title("The silhouette plot for the various clusters.")
+    ax1.set_xlabel("The silhouette coefficient values")
+    ax1.set_ylabel("Cluster label")
+
+    # The vertical line for average silhouette score of all the values
+    ax1.axvline(x=silhouette_avg, color="red", linestyle="--")
+
+    ax1.set_yticks([])  # Clear the yaxis labels / ticks
+    ax1.set_xticks([-0.1, 0, 0.2, 0.4, 0.6, 0.8, 1])
+    # 2nd Plot showing the actual clusters formed
+    colors = cm.nipy_spectral(cluster_labels.astype(float) / n_clusters)
+    ax2.scatter(
+        x=cpv['ytime_mean'], y=cpv['timespan'], marker=".", s=30, lw=0, alpha=0.7, c=colors, edgecolor="k"
+    )
+
+    # Labeling the clusters
+    centers = clusterer.cluster_centers_
+    # Draw white circles at cluster centers
+    ax2.scatter(
+        centers[:, 0],
+        centers[:, 1],
+        marker="o",
+        c="white",
+        alpha=1,
+        s=200,
+        edgecolor="k",
+    )
+
+    for i, c in enumerate(centers):
+        ax2.scatter(c[0], c[1], marker="$%d$" % i, alpha=1, s=50, edgecolor="k")
+
+    ax2.set_title("The visualization of the clustered data.")
+    ax2.set_xlabel("Feature space for the 1st feature")
+    ax2.set_ylabel("Feature space for the 2nd feature")
+
+    plt.suptitle(
+        "Silhouette analysis for KMeans clustering on sample data with n_clusters = %d"
+        % n_clusters,
+        fontsize=14,
+        fontweight="bold",
+    )
+    plt.savefig("../../Results/k_means_%.png", % n_cluster)
+
+    
