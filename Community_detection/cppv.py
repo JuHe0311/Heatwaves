@@ -41,7 +41,7 @@ def create_cpv(extr_data):
                  't2m': [np.mean],
                    'magnitude': [np.sum],
                  'latitude': [np.mean],
-                 'longitude': [np.mean], 't2m': [np.max]}
+                 'longitude': [np.mean], 't2m': [np.max],'ytime':[np.mean]}
   # partition the node table
   cpv, gv = g.partition_nodes('cp', feature_funcs, return_gv=True)
 
