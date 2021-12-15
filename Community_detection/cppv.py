@@ -49,8 +49,12 @@ def create_cpv(extr_data):
   cpv['g_ids'] = gv['g_id'].apply(set)
   # append cardinality of g_id sets
   cpv['n_unique_g_ids'] = cpv['g_ids'].apply(len)
+  # append geographical id sets
+  cpv['ytimes'] = gv['ytime'].apply(set)
   # append time spans
   cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
+  # append time spans
+  cpv['timespan'] = cpv.dt.dt.days+1
   #rename feature name
   cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
 
