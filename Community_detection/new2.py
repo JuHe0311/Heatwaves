@@ -103,7 +103,7 @@ result = pd.merge(vt,tmp2, on=["ytime", "x", 'y'])
 result.drop(columns=['n_nodes'], inplace=True)
 
 # save threshold dataset
-result.to_csv(path_or_buf = "../../Results/thresh.csv", index=False)
+result.to_csv(path_or_buf = "../../Results/thresh_new.csv", index=False)
 
 # calculate extreme dataset
 result["keep"] = np.where(result["t2m"] >= result["thresh"], True, False)
@@ -139,15 +139,15 @@ rex.drop(columns=['t2m_amax_perc25','t2m_amax_perc75','thresh'], inplace=True)
 
 
 # save the extreme dataset
-rex.to_csv(path_or_buf = "../../Results/extr.csv", index=False)
+rex.to_csv(path_or_buf = "../../Results/extr_new.csv", index=False)
 
 # create heatwaves from the extreme dataset
 rex.sort_values('time', inplace=True)
 g,cpg,cpv = cppv.create_cpv(rex)
 
 # save heatwaves
-cpv.to_csv(path_or_buf = "../../Results/cpv.csv", index=False)
-g.v.to_csv(path_or_buf = "../../Results/gv.csv", index=False)
+cpv.to_csv(path_or_buf = "../../Results/cpv_new.csv", index=False)
+g.v.to_csv(path_or_buf = "../../Results/gv_new.csv", index=False)
 
 
 
