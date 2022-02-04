@@ -37,6 +37,7 @@ cpv = cpv[cpv.keep != False]
 cpv.drop(columns=['keep'], inplace=True)
 # filter out small events from g by only keeping the cps that are in cpv
 cpv.reset_index(inplace=True)
+print(cpv)
 cps = set(cpv.cp)
 g.filter_by_values_v('cp', cps)
 cpv.set_index('cp', inplace=True)
