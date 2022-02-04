@@ -61,9 +61,9 @@ def create_cpv(extr_data):
   # discard singular components
   cpv.drop(0, inplace=True)
   cpv['dt']=pd.to_timedelta(cpv['dt'])
-  ###### filter out small heatwaves that are shorter than 2 days #####
+  ###### filter out small heatwaves that are shorter than 2 days and that have less than 3 different grid ids#####
   a = pd.Timedelta(days=1)
-  cpv["keep"] = np.where(cpv.dt > a, True, False)
+  cpv["keep"] = np.where(((cpv.dt > a)&(cpv.n_unique_g_ids > 2)), True, False)
   cpv = cpv[cpv.keep != False]
   cpv.drop(columns=['keep'], inplace=True)
   # filter out small events from g by only keeping the cps that are in cpv
