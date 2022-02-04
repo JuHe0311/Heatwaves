@@ -43,7 +43,7 @@ def create_cpv(extr_data):
                  'latitude': [np.mean],
                  'longitude': [np.mean], 't2m': [np.max],'ytime':[np.mean]}
   # partition the node table
-  g.v.astype({'ytime': 'int64'}).dtypes
+  g.v['ytime'] = g.v.ytime.astype(int)
   g.v.astype({'x': 'int64'}).dtypes
   g.v.astype({'y': 'int64'}).dtypes
   print(g.v.dtypes)
