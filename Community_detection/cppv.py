@@ -43,9 +43,9 @@ def create_cpv(extr_data):
                  'latitude': [np.mean],
                  'longitude': [np.mean], 't2m': [np.max],'ytime':[np.mean]}
   # partition the node table
-  df.astype({'ytime': 'int64'}).dtypes
-  df.astype({'x': 'int64'}).dtypes
-  df.astype({'y': 'int64'}).dtypes
+  g.v.astype({'ytime': 'int64'}).dtypes
+  g.v.astype({'x': 'int64'}).dtypes
+  g.v.astype({'y': 'int64'}).dtypes
   print(g.v.dtypes)
   cpv, gv = g.partition_nodes('cp', feature_funcs, return_gv=True)
 
