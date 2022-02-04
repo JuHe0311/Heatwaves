@@ -43,6 +43,7 @@ def create_cpv(extr_data):
                  'latitude': [np.mean],
                  'longitude': [np.mean], 't2m': [np.max],'ytime':[np.mean]}
   # partition the node table
+  print(g.v)
   cpv, gv = g.partition_nodes('cp', feature_funcs, return_gv=True)
 
   # append geographical id sets
