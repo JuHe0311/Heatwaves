@@ -39,8 +39,9 @@ cpv.drop(columns=['keep'], inplace=True)
 cpv.reset_index(inplace=True)
 print(cpv)
 cps = set(cpv.cp)
-g.filter_by_values_v('cp', cps)
+gg = dg.DeepGraph(g)
+gg.filter_by_values_v('cp', cps)
 cpv.set_index('cp', inplace=True)
-gvg = g.v
+gvg = gg.v
 gvg.to_csv(path_or_buf = "../../Results/gv_95_nosmall.csv", index=False)
 cpv.to_csv(path_or_buf = "../../Results/cpv_95_nosmall.csv", index=False)
