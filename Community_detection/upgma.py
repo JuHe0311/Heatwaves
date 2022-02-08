@@ -24,10 +24,10 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", help="Give the path to the dataset to be worked on.",
                         type=str)
-   parser.add_argument("-n", "--nodes", help="Give the path to the node table to be worked on.",
+    parser.add_argument("-n", "--nodes", help="Give the path to the node table to be worked on.",
                         type=str)
 
-   return parser
+    return parser
 
 parser = make_argparser()
 args = parser.parse_args()
