@@ -34,6 +34,8 @@ args = parser.parse_args()
 cpv = pd.read_csv(args.data)
 g = pd.read_csv(args.nodes)
 
+cpv['g_ids']=set(cpv.g_ids)
+
 # only use the largest x clusters
 #cpv2 = cpv2.iloc[:100]
 # initiate DeepGraph
