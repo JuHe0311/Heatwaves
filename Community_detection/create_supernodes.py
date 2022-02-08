@@ -23,7 +23,7 @@ def make_argparser():
 
 parser = make_argparser()
 args = parser.parse_args()
-extr = cpv.read_csv(args.data)
+extr = pd.read_csv(args.data)
 
 
 g,cpg,cpv = cppv.create_cpv(extr)
