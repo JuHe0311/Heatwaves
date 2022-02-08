@@ -31,7 +31,7 @@ def make_argparser():
 
 parser = make_argparser()
 args = parser.parse_args()
-cpv = pd.read_csv(args.data)
+cpv = pd.read_csv(args.data,dtype={g_ids:'set'})
 g = pd.read_csv(args.nodes)
 
 cpv.g_ids.astype('int')
