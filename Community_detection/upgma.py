@@ -31,7 +31,7 @@ def make_argparser():
 
 parser = make_argparser()
 args = parser.parse_args()
-cpv = pd.read_csv(args.data,dtype={'g_ids':set})
+cpv = pd.read_csv(args.data,dtype={'g_ids':list})
 g = pd.read_csv(args.nodes)
 
 # only use the largest x clusters
