@@ -23,60 +23,21 @@ import plotting as pt
 def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", help="Give the path to the dataset to be worked on.",
-                        type=str)
-    parser.add_argument("-lsm", "--land_sea_mask", help="Give the path to the land sea mask to be worked on.",
-                        type=str)
+                        type=str,
+                       "-n", "--nodes", help="Give the path to the node table to be worked on.",
+                        type=str,)
+
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
-gvv = pd.read_csv(args.data)
-lsc = xarray.open_dataset(args.land_sea_mask)
-
-#create integer based (x,y) coordinates
-lsc['x'] = (('longitude'), np.arange(len(lsc.longitude)))
-lsc['y'] = (('latitude'), np.arange(len(lsc.latitude)))
-
-#convert to dataframe
-vt = lsc.to_dataframe()
-#reset index
-vt.reset_index(inplace=True)
-
-gv = pd.merge(gvv,vt, on=['x','y'])
-gv.drop(columns=['latitude_y','longitude_y','time_y'], inplace=True)
-gv.rename(columns={'latitude_x': 'latitude','longitude_x':'longitude','time_x':'time'}, inplace=True)
-
-gv['time']=pd.to_datetime(gv['time'])
-gv.sort_values('time', inplace=True)
-g = dg.DeepGraph(gv)
-# create the edges of the graph --> based on neighboring grids in a 3D dataset
-feature_funcs = {'time': [np.min, np.max],
-                 'itime': [np.min, np.max],
-                 't2m': [np.mean],
-                   'magnitude': [np.sum],
-                 'latitude': [np.mean],
-                 'longitude': [np.mean], 't2m': [np.max], 'lsm':[np.mean]}
-# partition the node table
-cpv, cgv = g.partition_nodes('cp', feature_funcs, return_gv=True)
-
-# append geographical id sets
-cpv['g_ids'] = cgv['g_id'].apply(set)
-# append cardinality of g_id sets
-cpv['n_unique_g_ids'] = cpv['g_ids'].apply(len)
-# append time spans
-cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
-#rename feature name
-cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
-
-# remove heatwaves with predominantly water coverage
-cpv["keep"] = np.where(cpv['lsm_mean'] > 0.5, True, False)
-cpv2 = cpv.loc[cpv['keep'] == True]
-cpv2.drop(columns=['keep'], inplace=True)
+cpv = pd.read_csv(args.data)
+g = pd.read_csv(args.nodes)
 
 # only use the largest x clusters
 #cpv2 = cpv2.iloc[:100]
 # initiate DeepGraph
-cpg = dg.DeepGraph(cpv2)
+cpg = dg.DeepGraph(cpv)
 # create edges
 cpg.create_edges(connectors=[cs.cp_node_intersection, 
                              cs.cp_intersection_strength],
@@ -105,19 +66,19 @@ dendrogram(
 )
 plt.savefig('../../Results/dendrogram.png')
 # form flat clusters and append their labels to cpv
-cpv2['F'] = fcluster(lm, 6, criterion='maxclust')
+cpv['F'] = fcluster(lm, 6, criterion='maxclust')
 del lm
 
 # relabel families by size
-f = cpv2['F'].value_counts().index.values
+f = cpv['F'].value_counts().index.values
 fdic = {j: i for i, j in enumerate(f)}
-cpv2['F'] = cpv2['F'].apply(lambda x: fdic[x])
+cpv['F'] = cpv['F'].apply(lambda x: fdic[x])
 
 pt.raster_plot_families(cpg,'10 biggest')
 
 # create F col
 g.v['F'] = np.ones(len(g.v), dtype=int) * -1
-gcpv = cpv2.groupby('F')
+gcpv = cpv.groupby('F')
 it = gcpv.apply(lambda x: x.index.values)
 
 for F in range(len(it)):
