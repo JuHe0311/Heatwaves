@@ -78,7 +78,7 @@ def create_cpv(extr_data):
   cpv['cpp'] = cpv['cp'] 
   cpv.set_index('cpp', inplace=True)
   gvg = g.v
-  gvg.to_csv(path_or_buf = "../../Results/gv.csv", index=False)
+  gvg.to_csv(path_or_buf = "../../Results/gv8.csv", index=False)
   return g,gv,cpv
 
 
