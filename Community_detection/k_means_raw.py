@@ -30,7 +30,7 @@ parser = make_argparser()
 args = parser.parse_args()
 
 cpv = pd.read_csv(args.data)
-cpv['time']=pd.to_datetime(cpv['time'])
+#cpv['time']=pd.to_datetime(cpv['time'])
 
 
 fig, ax = plt.subplots(figsize=(9,6), nrows=1, ncols=1)
