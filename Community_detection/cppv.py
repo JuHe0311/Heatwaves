@@ -64,7 +64,7 @@ def create_cpv(extr_data):
   cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
 
   # discard singular components
-  cpv.drop(0, inplace=True)
+  #cpv.drop(0, inplace=True)
   cpv['dt']=pd.to_timedelta(cpv['dt'])
   ###### filter out small heatwaves that are shorter than 2 days and that have less than 3 different grid ids#####
   a = pd.Timedelta(days=1)
