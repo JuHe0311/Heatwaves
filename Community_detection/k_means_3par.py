@@ -76,12 +76,12 @@ for n_clusters in range_n_clusters:
     # Initialize the clusterer with n_clusters value and a random generator
     # seed of 10 for reproducibility.
     clusterer = KMeans(n_clusters=n_clusters, random_state=100)
-    cluster_labels = clusterer.fit_predict(cpv[['ytime_amin','ytime_amax','n_unique_gids']])
+    cluster_labels = clusterer.fit_predict(cpv[['ytime_amin','ytime_amax','n_unique_g_ids']])
 
     # The silhouette_score gives the average value for all the samples.
     # This gives a perspective into the density and separation of the formed
     # clusters
-    silhouette_avg = silhouette_score(cpv[['ytime_amin','ytime_amax','n_unique_gids']], cluster_labels)
+    silhouette_avg = silhouette_score(cpv[['ytime_amin','ytime_amax','n_unique_g_ids']], cluster_labels)
     print(
         "For n_clusters =",
         n_clusters,
@@ -90,7 +90,7 @@ for n_clusters in range_n_clusters:
     )
 
     # Compute the silhouette scores for each sample
-    sample_silhouette_values = silhouette_samples(cpv[['ytime_amin','ytime_amax','n_unique_gids']], cluster_labels)
+    sample_silhouette_values = silhouette_samples(cpv[['ytime_amin','ytime_amax','n_unique_g_ids']], cluster_labels)
 
     y_lower = 10
     for i in range(n_clusters):
@@ -132,7 +132,7 @@ for n_clusters in range_n_clusters:
     colors = cm.nipy_spectral(cluster_labels.astype(float) / n_clusters)
     ax2=fig.add_subplot(111, projection='3d')
     ax2.scatter(
-        x=cpv['ytime_amin'], y=cpv['ytime_amax'],z=cpv['n_unique_gids'], marker=".", s=30, lw=0, alpha=0.7, c=colors, edgecolor="k"
+        x=cpv['ytime_amin'], y=cpv['ytime_amax'],z=cpv['n_unique_g_ids'], marker=".", s=30, lw=0, alpha=0.7, c=colors, edgecolor="k"
     )
 
     # Labeling the clusters
