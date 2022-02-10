@@ -136,7 +136,7 @@ for n_clusters in range_n_clusters:
     ys = cpv['ytime_amax']
     zs = cpv['n_unique_g_ids']
     ax2.scatter(
-        xs,ys,zs, marker=".", s=30, lw=0, alpha=0.7, c=colors, edgecolor="k"
+        xs,ys,zs, marker=".", s=50, lw=0, alpha=0.7, c=colors, edgecolor="k"
     )
 
     # Labeling the clusters
