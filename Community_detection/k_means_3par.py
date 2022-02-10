@@ -39,15 +39,15 @@ fig, ax = plt.subplots(figsize=(9,6), nrows=1, ncols=1)
 levels=10
 cmap='coolwarm'
 label='Data'
-sns.kdeplot(x=cpv.ytime_mean,
-                            y=cpv.timespan,
+sns.kdeplot(x=cpv.ytime_amin,
+                            y=cpv.ytime_amax,
                             ax=ax,
                             fill=True,
                             levels=levels,
                             label=label,
                             cmap=cmap,
                             cbar=True)
-plt.savefig("../../Results/density_plot.png")
+plt.savefig("../../Results/density_plotdoy.png")
 
 
 # kmeans clustering 
@@ -63,7 +63,7 @@ range_n_clusters = [2, 3, 4, 5, 6]
 for n_clusters in range_n_clusters:
     # Create a subplot with 1 row and 2 columns
     fig, (ax1, ax2) = plt.subplots(1, 2)
-    fig.set_size_inches(25, 7)
+    fig.set_size_inches(4, 4)
 
     # The 1st subplot is the silhouette plot
     # The silhouette coefficient can range from -1, 1 but in this example all
