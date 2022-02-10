@@ -18,7 +18,11 @@ import seaborn as sns
 import math
 import cppv
 from mpl_toolkits.mplot3d import Axes3D
-
+# kmeans clustering 
+from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_samples, silhouette_score
+import matplotlib.cm as cm
 
 ############### Argparser ################
 
@@ -32,31 +36,6 @@ parser = make_argparser()
 args = parser.parse_args()
 
 cpv = pd.read_csv(args.data)
-#cpv['time']=pd.to_datetime(cpv['time'])
-
-
-fig, ax = plt.subplots(figsize=(9,6), nrows=1, ncols=1)
-levels=10
-cmap='coolwarm'
-label='Data'
-sns.kdeplot(x=cpv.ytime_amin,
-                            y=cpv.ytime_amax,
-                            ax=ax,
-                            fill=True,
-                            levels=levels,
-                            label=label,
-                            cmap=cmap,
-                            cbar=True)
-plt.savefig("../../Results/density_plotdoy.png")
-
-
-# kmeans clustering 
-from sklearn.datasets import make_blobs
-from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_samples, silhouette_score
-import matplotlib.cm as cm
-
-
 
 range_n_clusters = [2, 3, 4, 5, 6,7,8,9,10]
 
@@ -76,12 +55,12 @@ for n_clusters in range_n_clusters:
     # Initialize the clusterer with n_clusters value and a random generator
     # seed of 10 for reproducibility.
     clusterer = KMeans(n_clusters=n_clusters, random_state=100)
-    cluster_labels = clusterer.fit_predict(cpv[['ytime_amin','ytime_amax','n_unique_g_ids']])
+    cluster_labels = clusterer.fit_predict(cpv[['x_calc_centroid','y_calc_centroidy','ytime_mean']])
 
     # The silhouette_score gives the average value for all the samples.
     # This gives a perspective into the density and separation of the formed
     # clusters
-    silhouette_avg = silhouette_score(cpv[['ytime_amin','ytime_amax','n_unique_g_ids']], cluster_labels)
+    silhouette_avg = silhouette_score(cpv[['x_calc_centroid','y_calc_centroidy','ytime_mean']], cluster_labels)
     print(
         "For n_clusters =",
         n_clusters,
@@ -90,7 +69,7 @@ for n_clusters in range_n_clusters:
     )
 
     # Compute the silhouette scores for each sample
-    sample_silhouette_values = silhouette_samples(cpv[['ytime_amin','ytime_amax','n_unique_g_ids']], cluster_labels)
+    sample_silhouette_values = silhouette_samples(cpv[['x_calc_centroid','y_calc_centroidy','ytime_mean']], cluster_labels)
 
     y_lower = 10
     for i in range(n_clusters):
@@ -132,9 +111,9 @@ for n_clusters in range_n_clusters:
     # 2nd Plot showing the actual clusters formed
     colors = cm.nipy_spectral(cluster_labels.astype(float) / n_clusters)
     ax2=fig.add_subplot(projection='3d')
-    xs = cpv['ytime_amin']
-    ys = cpv['ytime_amax']
-    zs = cpv['n_unique_g_ids']
+    xs = cpv['x_calc_centroid']
+    ys = cpv['y_calc_centroidy']
+    zs = cpv['ytime_mean']
     ax2.scatter(
         xs,ys,zs, marker=".", s=50, lw=0, alpha=0.7, c=colors, edgecolor="k"
     )
@@ -156,9 +135,9 @@ for n_clusters in range_n_clusters:
         ax2.scatter(c[0], c[1], marker="$%d$" % i, alpha=1, s=50, edgecolor="k")
 
     ax2.set_title("The visualization of the clustered data.")
-    ax2.set_xlabel("Day of year min")
-    ax2.set_ylabel("Day of year max")
-    ax2.set_zlabel('Number of individual grid points in a heatwave')
+    ax2.set_xlabel("X_centroids")
+    ax2.set_ylabel("Y_centroids")
+    ax2.set_zlabel('Day of year mean')
 
     plt.suptitle(
         "Silhouette analysis for KMeans clustering on sample data with n_clusters = %d"
@@ -166,6 +145,6 @@ for n_clusters in range_n_clusters:
         fontsize=14,
         fontweight="bold",
     )
-    plt.savefig("../../Results/k_means_doy%s.png" % n_clusters)
+    plt.savefig("../../Results/k_means_centroids%s.png" % n_clusters)
 
     
