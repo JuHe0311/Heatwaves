@@ -63,7 +63,7 @@ range_n_clusters = [2, 3, 4, 5, 6]
 for n_clusters in range_n_clusters:
     # Create a subplot with 1 row and 2 columns
     fig, (ax1, ax2) = plt.subplots(1, 2)
-    fig.set_size_inches(4, 4)
+    fig.set_size_inches(25, 4)
 
     # The 1st subplot is the silhouette plot
     # The silhouette coefficient can range from -1, 1 but in this example all
