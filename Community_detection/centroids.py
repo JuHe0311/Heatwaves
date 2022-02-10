@@ -46,6 +46,7 @@ parser = make_argparser()
 args = parser.parse_args()
 d = pd.read_csv(args.nodes)
 d['time']=pd.to_datetime(d['time'])
+d.sort_values('time', inplace=True)
 g = dg.DeepGraph(d)
 # create the edges of the graph --> based on neighboring grids in a 3D dataset
 g.create_edges_ft(ft_feature=('itime', 1), 
