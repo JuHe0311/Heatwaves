@@ -130,7 +130,7 @@ for n_clusters in range_n_clusters:
     ax1.set_xticks([-0.1, 0, 0.2, 0.4, 0.6, 0.8, 1])
     # 2nd Plot showing the actual clusters formed
     colors = cm.nipy_spectral(cluster_labels.astype(float) / n_clusters)
-    ax2=fig.add_subplot(111, projection='3d')
+    ax2=fig.add_subplot(projection='3d')
     xs = cpv['ytime_amin']
     ys = cpv['ytime_amax']
     zs = cpv['n_unique_g_ids']
