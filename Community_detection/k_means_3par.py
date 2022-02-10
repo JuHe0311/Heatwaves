@@ -131,8 +131,11 @@ for n_clusters in range_n_clusters:
     # 2nd Plot showing the actual clusters formed
     colors = cm.nipy_spectral(cluster_labels.astype(float) / n_clusters)
     ax2=fig.add_subplot(111, projection='3d')
+    xs = cpv['ytime_amin']
+    ys = cpv['ytime_amax']
+    zs = cpv['n_unique_g_ids']
     ax2.scatter(
-        x=cpv['ytime_amin'], y=cpv['ytime_amax'],z=cpv['n_unique_g_ids'], marker=".", s=30, lw=0, alpha=0.7, c=colors, edgecolor="k"
+        xs,ys,zs, marker=".", s=30, lw=0, alpha=0.7, c=colors, edgecolor="k"
     )
 
     # Labeling the clusters
