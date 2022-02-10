@@ -45,7 +45,7 @@ sns.kdeplot(x=cpv.ytime_mean,
                             label=label,
                             cmap=cmap,
                             cbar=True)
-plt.savefig("../../Results/density_plot.png")
+plt.savefig("../../Results/density_plot1.png")
 
 
 # kmeans clustering 
@@ -74,12 +74,12 @@ for n_clusters in range_n_clusters:
     # Initialize the clusterer with n_clusters value and a random generator
     # seed of 10 for reproducibility.
     clusterer = KMeans(n_clusters=n_clusters, random_state=100)
-    cluster_labels = clusterer.fit_predict(cpv[['ytime_amin','ytime_amax']])
+    cluster_labels = clusterer.fit_predict(cpv[['ytime_mean','timespan']])
 
     # The silhouette_score gives the average value for all the samples.
     # This gives a perspective into the density and separation of the formed
     # clusters
-    silhouette_avg = silhouette_score(cpv[['ytime_amin','ytime_amax']], cluster_labels)
+    silhouette_avg = silhouette_score(cpv[['ytime_mean','timespan']], cluster_labels)
     print(
         "For n_clusters =",
         n_clusters,
@@ -88,7 +88,7 @@ for n_clusters in range_n_clusters:
     )
 
     # Compute the silhouette scores for each sample
-    sample_silhouette_values = silhouette_samples(cpv[['ytime_amin','ytime_amax']], cluster_labels)
+    sample_silhouette_values = silhouette_samples(cpv[['ytime_mean','timespan']], cluster_labels)
 
     y_lower = 10
     for i in range(n_clusters):
@@ -129,7 +129,7 @@ for n_clusters in range_n_clusters:
     # 2nd Plot showing the actual clusters formed
     colors = cm.nipy_spectral(cluster_labels.astype(float) / n_clusters)
     ax2.scatter(
-        x=cpv['ytime_amin'], y=cpv['ytime_amax'], marker=".", s=30, lw=0, alpha=0.7, c=colors, edgecolor="k"
+        x=cpv['ytime_mean'], y=cpv['timespan'], marker=".", s=30, lw=0, alpha=0.7, c=colors, edgecolor="k"
     )
 
     # Labeling the clusters
@@ -149,8 +149,8 @@ for n_clusters in range_n_clusters:
         ax2.scatter(c[0], c[1], marker="$%d$" % i, alpha=1, s=50, edgecolor="k")
 
     ax2.set_title("The visualization of the clustered data.")
-    ax2.set_xlabel("Day of year min")
-    ax2.set_ylabel("Day of year max")
+    ax2.set_xlabel("Day of year mean")
+    ax2.set_ylabel("Timespan")
 
     plt.suptitle(
         "Silhouette analysis for KMeans clustering on sample data with n_clusters = %d"
@@ -158,6 +158,6 @@ for n_clusters in range_n_clusters:
         fontsize=14,
         fontweight="bold",
     )
-    plt.savefig("../../Results/k_means_doy%s.png" % n_clusters)
+    plt.savefig("../../Results/k_means_1_%s.png" % n_clusters)
 
     
