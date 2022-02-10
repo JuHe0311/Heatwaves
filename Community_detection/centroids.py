@@ -99,7 +99,7 @@ cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
 #
 a = pd.Timedelta(days=1)
 cpv['dt']=pd.to_timedelta(cpv['dt'])
-cpv["keep"] = np.where(((cpv.dt > a)&(cpv.n_unique_g_ids > 3)), True, False)
+cpv["keep"] = np.where(((cpv.dt > a)&(cpv.n_unique_g_ids > 100)), True, False)
 cpv = cpv[cpv.keep != False]
 cpv.drop(columns=['keep'], inplace=True)
 # filter out small events from g by only keeping the cps that are in cpv
