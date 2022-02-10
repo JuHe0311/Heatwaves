@@ -49,7 +49,7 @@ sns.kdeplot(x=cpv.ytime_mean,
                             label=label,
                             cmap=cmap,
                             cbar=True)
-plt.savefig("../../Results/density_plot.png")
+plt.savefig("../../Results/density_plot1.png")
 
 
 # kmeans clustering 
@@ -162,6 +162,6 @@ for n_clusters in range_n_clusters:
         fontsize=14,
         fontweight="bold",
     )
-    plt.savefig("../../Results/k_means_%s.png" % n_clusters)
+    plt.savefig("../../Results/k_means_1_%s.png" % n_clusters)
 
     
