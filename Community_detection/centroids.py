@@ -94,7 +94,7 @@ cpv['timespan'] = cpv.dt.dt.days+1
 
 cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
 # discard singular components
-cpv.drop(0, inplace=True)
+#cpv.drop(0, inplace=True)
 #
 a = pd.Timedelta(days=1)
 cpv['dt']=pd.to_timedelta(cpv['dt'])
