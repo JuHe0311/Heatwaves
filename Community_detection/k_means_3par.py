@@ -58,7 +58,7 @@ import matplotlib.cm as cm
 
 
 
-range_n_clusters = [2, 3, 4, 5, 6]
+range_n_clusters = [2, 3, 4, 5, 6,7,8,9,10]
 
 for n_clusters in range_n_clusters:
     # Create a subplot with 1 row and 2 columns
