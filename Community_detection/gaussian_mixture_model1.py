@@ -35,13 +35,13 @@ args = parser.parse_args()
 
 cpv = pd.read_csv(args.data)
 #cpv['time']=pd.to_datetime(cpv['time'])
-
+X[[ 'ytime_mean', 'timespan']] = [cpv.ytime_mean, cpv.timespan]
 # define the model
 model = GaussianMixture(n_components=2)
 # fit the model
-model.fit(cpv['ytime_mean'],cpv['timespan'])
+model.fit(X)
 # assign a cluster to each example
-yhat = model.predict(cpv['ytime_mean','timespan'])
+yhat = model.predict(X)
 # retrieve unique clusters
 clusters = unique(yhat)
 # create scatter plot for samples from each cluster
@@ -49,6 +49,6 @@ for cluster in clusters:
 	# get row indexes for samples with this cluster
 	row_ix = where(yhat == cluster)
 	# create scatter of these samples
-	plt.scatter(cpv[row_ix, 0], cpv[row_ix, 1])
+	plt.scatter(X[row_ix, 0], X[row_ix, 1])
 # show the plot
 plt.savefig("../../Results/gaussian1.png")
