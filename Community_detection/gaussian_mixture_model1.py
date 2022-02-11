@@ -44,14 +44,15 @@ model = GaussianMixture(n_components=2)
 model.fit(X)
 # assign a cluster to each example
 yhat = model.predict(X)
+X['yhat'] = yhat
 # retrieve unique clusters
 clusters = unique(yhat)
-print(clusters)
 # create scatter plot for samples from each cluster
 for cluster in clusters:
 	# get row indexes for samples with this cluster
 	row_ix = where(yhat == cluster)
+	print(row_ix)
 	# create scatter of these samples
-	plt.scatter(X[row_ix, 0], X[row_ix, 1])
+	plt.scatter(X['ytime_mean'], X['timespan'], hue=X.yhat)
 # show the plot
 plt.savefig("../../Results/gaussian1.png")
