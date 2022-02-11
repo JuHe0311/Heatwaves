@@ -35,9 +35,9 @@ args = parser.parse_args()
 
 cpv = pd.read_csv(args.data)
 #cpv['time']=pd.to_datetime(cpv['time'])
-X = pd.DataFrame(columns = [ 'ytime_mean', 'timespan'])
+X = pd.DataFrame(columns = [ 'ytime_mean', 'n_unique_g_ids'])
 X['ytime_mean'] = cpv.ytime_mean
-X['timespan'] = cpv.timespan
+X['n_unique_g_ids'] = cpv.n_unique_g_ids
 range_n_clusters = [2, 3, 4, 5, 6]
 for n in range_n_clusters:
     # define the model
@@ -50,6 +50,6 @@ for n in range_n_clusters:
     # retrieve unique clusters
     clusters = unique(yhat)
     # create scatter plot for samples from each cluster
-    fig = sns.lmplot(x='ytime_mean', y='timespan', data=X, hue='cluster', fit_reg=False)
+    fig = sns.lmplot(x='ytime_mean', y='n_unique_g_ids', data=X, hue='cluster', fit_reg=False)
     # show the plot
-    fig.savefig("../../Results/gaussian1_%s.png" % n)
+    fig.savefig("../../Results/gaussian2_%s.png" % n)
