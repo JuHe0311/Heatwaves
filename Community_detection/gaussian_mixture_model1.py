@@ -37,9 +37,9 @@ cpv = pd.read_csv(args.data)
 #cpv['time']=pd.to_datetime(cpv['time'])
 
 # define the model
-model = GaussianMixture(n_components=4)
+model = GaussianMixture(n_components=2)
 # fit the model
-model.fit(cpv['ytime_mean','timespan'])
+model.fit(cpv['ytime_mean'],cpv['timespan'])
 # assign a cluster to each example
 yhat = model.predict(cpv['ytime_mean','timespan'])
 # retrieve unique clusters
