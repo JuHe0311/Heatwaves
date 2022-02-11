@@ -104,10 +104,9 @@ cpv = cpv[cpv.keep != False]
 cpv.drop(columns=['keep'], inplace=True)
 # filter out small events from g by only keeping the cps that are in cpv
 cpv.reset_index(inplace=True)
-print(cpv)
 cps = set(cpv.cp)
 g.filter_by_values_v('cp', cps)
-cpv.set_index('cp', inplace=True)
-gvg = g.v
+cpv['cpp'] = cpv['cp'] 
+cpv.set_index('cpp', inplace=True)gvg = g.v
 gvg.to_csv(path_or_buf = "../../Results/gv_95_nosmall_centr.csv", index=False)
 cpv.to_csv(path_or_buf = "../../Results/cpv_95_nosmall_centr.csv", index=False)
