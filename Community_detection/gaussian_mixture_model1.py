@@ -38,7 +38,8 @@ cpv = pd.read_csv(args.data)
 X = pd.DataFrame(columns = [ 'ytime_mean', 'timespan'])
 X['ytime_mean'] = cpv.ytime_mean
 X['timespan'] = cpv.timespan
-for n in range(2,3,4,5,6):
+range_n_clusters = [2, 3, 4, 5, 6]
+for n in range_n_clusters:
     # define the model
     model = GaussianMixture(n_components=n)
     # fit the model
