@@ -41,7 +41,8 @@ print(cpv)
 cps = set(cpv.cp)
 gg = dg.DeepGraph(g)
 gg.filter_by_values_v('cp', cps)
-cpv.set_index('cp', inplace=True)
+cpv['cpp'] = cpv['cp'] 
+cpv.set_index('cpp', inplace=True)
 gvg = gg.v
 gvg.to_csv(path_or_buf = "../../Results/gv_95_nosmall_centr.csv", index=False)
 cpv.to_csv(path_or_buf = "../../Results/cpv_95_nosmall_centr.csv", index=False)
