@@ -48,11 +48,6 @@ X['yhat'] = yhat
 # retrieve unique clusters
 clusters = unique(yhat)
 # create scatter plot for samples from each cluster
-for cluster in clusters:
-	# get row indexes for samples with this cluster
-	row_ix = where(yhat == cluster)
-	print(row_ix)
-	# create scatter of these samples
-	plt.scatter(X['ytime_mean'], X['timespan'], hue=X.yhat)
+fig = sns.lmplot(x='ytime_mean', y='timespan', data=X, hue='yhat', fit_reg=False)
 # show the plot
-plt.savefig("../../Results/gaussian1.png")
+fig.savefig("../../Results/gaussian1.png")
