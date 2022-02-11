@@ -35,6 +35,7 @@ args = parser.parse_args()
 
 cpv = pd.read_csv(args.data)
 #cpv['time']=pd.to_datetime(cpv['time'])
+X = pd.DataFrame(columns = [ 'ytime_mean', 'timespan'])
 X[[ 'ytime_mean', 'timespan']] = [cpv.ytime_mean, cpv.timespan]
 # define the model
 model = GaussianMixture(n_components=2)
