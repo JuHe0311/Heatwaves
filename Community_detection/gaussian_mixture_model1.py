@@ -46,6 +46,7 @@ model.fit(X)
 yhat = model.predict(X)
 # retrieve unique clusters
 clusters = unique(yhat)
+print(clusters)
 # create scatter plot for samples from each cluster
 for cluster in clusters:
 	# get row indexes for samples with this cluster
