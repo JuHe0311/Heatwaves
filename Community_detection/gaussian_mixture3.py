@@ -53,13 +53,14 @@ for n in range_n_clusters:
     # create scatter plot for samples from each cluster
     sns.set(style = "darkgrid")
     fig = plt.figure()
+    
     ax = fig.add_subplot(111, projection = '3d')
-
+    cmap = ListedColormap(sns.color_palette("husl", 256).as_hex())
     ax.set_xlabel("x_centroids")
     ax.set_ylabel("y_centroids")
     ax.set_zlabel("day of year mean")
 
-    ax.scatter(xs='x_centroids',ys='y_centroids',zs='ytime_mean', data=X, hue='cluster')
+    ax.scatter(xs='x_centroids',ys='y_centroids',zs='ytime_mean', data=X, cmap=cmap)
 
     # show the plot
     fig.savefig("../../Results/gaussian3_%s.png" % n)
