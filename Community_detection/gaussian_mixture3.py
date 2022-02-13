@@ -64,7 +64,7 @@ for n in range_n_clusters:
     ax.set_ylabel("y_centroids")
     ax.set_zlabel("day of year mean")
 
-    ax.scatter(xs='x_centroids',ys='y_centroids',zs='ytime_mean', data=X, cmap=cmap)
+    ax.scatter(xs=X.x_centroids,ys=X.y_centroids,zs=X.ytime_mean, cmap=cmap)
 
     # show the plot
     fig.savefig("../../Results/gaussian3_%s.png" % n)
