@@ -35,6 +35,9 @@ parser = make_argparser()
 args = parser.parse_args()
 
 cpv = pd.read_csv(args.data)
+cpv['x_calc_centroid'] = float(cpv['x_calc_centroid'])
+cpv['y_calc_centroidy'] = float(cpv['y_calc_centroidy'])
+
 #cpv['time']=pd.to_datetime(cpv['time'])
 X = pd.DataFrame(columns = [ 'x_centroids', 'y_centroids','ytime_mean'])
 X['x_centroids'] = cpv.x_calc_centroid
