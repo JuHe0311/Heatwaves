@@ -21,6 +21,7 @@ from numpy import unique
 from numpy import where
 from sklearn.datasets import make_classification
 from sklearn.mixture import GaussianMixture
+from matplotlib.colors import ListedColormap
 
 ############### Argparser ################
 
