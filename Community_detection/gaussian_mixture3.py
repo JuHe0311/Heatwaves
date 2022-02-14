@@ -46,7 +46,7 @@ X = pd.DataFrame(columns = [ 'x_centroids', 'y_centroids','ytime_mean'])
 X['x_centroids'] = cpv.x_calc_centroid
 X['y_centroids'] = cpv.y_calc_centroidy
 X['ytime_mean'] = cpv.ytime_mean                            
-range_n_clusters = [2, 3, 4, 5, 6]
+range_n_clusters = [2, 3,4]
 for n in range_n_clusters:
     # define the model
     model = GaussianMixture(n_components=n)
@@ -66,6 +66,6 @@ for n in range_n_clusters:
     ax.set_zlabel("day of year mean")
 
     ax.scatter(xs=X.x_centroids,ys=X.y_centroids,zs=X.ytime_mean, c=X.cluster)    
-    fig.savefig("../../Results/gaussian3_%s.png" % n)
+    #fig.savefig("../../Results/gaussian3_%s.png" % n)
 cpv['cluster'] = X['cluster']
 cpv.to_csv(path_or_buf = "../../Results/cpv_clust.csv", index=False)
