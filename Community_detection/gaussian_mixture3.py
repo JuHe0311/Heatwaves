@@ -67,3 +67,5 @@ for n in range_n_clusters:
 
     ax.scatter(xs=X.x_centroids,ys=X.y_centroids,zs=X.ytime_mean, c=X.cluster)    
     fig.savefig("../../Results/gaussian3_%s.png" % n)
+cpv['cluster'] = X['cluster']
+cpv.to_csv(path_or_buf = "../../Results/cpv_clust.csv", index=False)
