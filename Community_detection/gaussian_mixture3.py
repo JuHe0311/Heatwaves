@@ -60,12 +60,12 @@ for n in range_n_clusters:
     sns.set(style = "darkgrid")
     fig = plt.figure()
 
-     ax = fig.add_subplot(111, projection = '3d')
+    ax = fig.add_subplot(111, projection = '3d')
 
-     cmap = cm.get_cmap('viridis', n)
-     ax.set_xlabel("x_centroids")
-     ax.set_ylabel("y_centroids")
-     ax.set_zlabel("day of year mean")
+    cmap = cm.get_cmap('viridis', n)
+    ax.set_xlabel("x_centroids")
+    ax.set_ylabel("y_centroids")
+    ax.set_zlabel("day of year mean")
 
-     ax.scatter(xs=X.x_centroids,ys=X.y_centroids,zs=X.ytime_mean, c=[matplotlib.cm.spectral(float(i) /10) for i in X.cluster])    
-     fig.savefig("../../Results/gaussian3_%s.png" % n)
+    ax.scatter(xs=X.x_centroids,ys=X.y_centroids,zs=X.ytime_mean, c=[matplotlib.cm.spectral(float(i) /10) for i in X.cluster])    
+    fig.savefig("../../Results/gaussian3_%s.png" % n)
