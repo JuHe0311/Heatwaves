@@ -59,7 +59,7 @@ for n in range_n_clusters:
     # retrieve unique clusters
     clusters = unique(yhat)
     silhouette_avg = silhouette_score(cpv[['x_calc_centroid','y_calc_centroidy','ytime_mean']], X['cluster'])
-    print("For n_clusters =",n_clusters,"The average silhouette_score is :",silhouette_avg,)
+    print("For n_clusters =",n,"The average silhouette_score is :",silhouette_avg,)
     # create scatter plot for samples from each cluster
     #sns.set(style = "darkgrid")
     fig = plt.figure()
