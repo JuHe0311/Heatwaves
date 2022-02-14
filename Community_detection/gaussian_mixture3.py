@@ -46,7 +46,7 @@ X = pd.DataFrame(columns = [ 'x_centroids', 'y_centroids','ytime_mean'])
 X['x_centroids'] = cpv.x_calc_centroid
 X['y_centroids'] = cpv.y_calc_centroidy
 X['ytime_mean'] = cpv.ytime_mean                            
-range_n_clusters = [2, 3,4]
+range_n_clusters = [2, 3,4,5,6]
 for n in range_n_clusters:
     # define the model
     model = GaussianMixture(n_components=n)
@@ -57,6 +57,8 @@ for n in range_n_clusters:
     X['cluster'] = yhat
     # retrieve unique clusters
     clusters = unique(yhat)
+    silhouette_avg = silhouette_score(cpv[['x_calc_centroid','y_calc_centroidy','ytime_mean']], X['cluster'])
+    print("For n_clusters =",n_clusters,"The average silhouette_score is :",silhouette_avg,)
     # create scatter plot for samples from each cluster
     #sns.set(style = "darkgrid")
     fig = plt.figure()
