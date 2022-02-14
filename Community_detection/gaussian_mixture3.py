@@ -60,7 +60,7 @@ for n in range_n_clusters:
     # create scatter plot for samples from each cluster
     #sns.set(style = "darkgrid")
     fig = plt.figure()
-    ax = fig.add_subplot(222, projection = '3d')
+    ax = fig.add_subplot(111, projection = '3d')
     ax.set_xlabel("x_centroids")
     ax.set_ylabel("y_centroids")
     ax.set_zlabel("day of year mean")
