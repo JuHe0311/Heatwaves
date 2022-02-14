@@ -22,6 +22,8 @@ from numpy import where
 from sklearn.datasets import make_classification
 from sklearn.mixture import GaussianMixture
 from matplotlib.colors import ListedColormap
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap
+from matplotlib import cm
 
 ############### Argparser ################
 
@@ -56,6 +58,14 @@ for n in range_n_clusters:
     clusters = unique(yhat)
     # create scatter plot for samples from each cluster
     sns.set(style = "darkgrid")
-    fig = sns.lmplot( x="x_centroids", y="y_centroids", z='ytime_mean', data=X, fit_reg=False, hue='cluster', legend=False, palette="Set2")
-    # show the plot
+    fig = plt.figure()
+
+     ax = fig.add_subplot(111, projection = '3d')
+
+     cmap = cm.get_cmap('viridis', n)
+     ax.set_xlabel("x_centroids")
+     ax.set_ylabel("y_centroids")
+     ax.set_zlabel("day of year mean")
+
+     ax.scatter(xs=X.x_centroids,ys=X.y_centroids,zs=X.ytime_mean, c=[matplotlib.cm.spectral(float(i) /10) for i in X.cluster]))    
     fig.savefig("../../Results/gaussian3_%s.png" % n)
