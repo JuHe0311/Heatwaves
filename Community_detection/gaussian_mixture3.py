@@ -68,5 +68,5 @@ for n in range_n_clusters:
     ax.set_ylabel("y_centroids")
     ax.set_zlabel("day of year mean")
 
-    ax.scatter(xs=X.x_centroids,ys=X.y_centroids,zs=X.ytime_mean, c=[matplotlib.cm.spectral(float(i) /10) for i in X.cluster])    
+    ax.scatter(xs=X.x_centroids,ys=X.y_centroids,zs=X.ytime_mean, c=X.cluster)    
     fig.savefig("../../Results/gaussian3_%s.png" % n)
