@@ -25,6 +25,7 @@ from sklearn.mixture import GaussianMixture
 from matplotlib.colors import ListedColormap
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 from matplotlib import cm
+from sklearn.metrics import silhouette_samples, silhouette_score
 
 ############### Argparser ################
 
