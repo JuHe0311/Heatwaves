@@ -3,6 +3,7 @@ import os
 import xarray
 # for plots
 import matplotlib.pyplot as plt
+import matplotlib
 # the usual
 import numpy as np
 import deepgraph as dg
