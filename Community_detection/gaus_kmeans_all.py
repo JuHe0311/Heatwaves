@@ -78,7 +78,7 @@ for n_clusters in range_n_clusters:
         silhouette_avg,
     )
     
-    model = GaussianMixture(n_components=n)
+    model = GaussianMixture(n_components=n_clusters)
     # fit the model
     model.fit(X)
     # assign a cluster to each example
