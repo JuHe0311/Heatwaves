@@ -70,7 +70,7 @@ for n_clusters in range_n_clusters:
     # The silhouette_score gives the average value for all the samples.
     # This gives a perspective into the density and separation of the formed
     # clusters
-    silhouette_avg = silhouette_score(cpv[['x_calc_centroid','y_calc_centroidy','ytime_mean','timespan','n_unique_gids']], cluster_labels)
+    silhouette_avg = silhouette_score(cpv[['x_calc_centroid','y_calc_centroidy','ytime_mean','timespan','n_unique_g_ids']], cluster_labels)
     print(
         "For n_clusters =",
         n_clusters,
