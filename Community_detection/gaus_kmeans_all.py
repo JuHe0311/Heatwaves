@@ -47,7 +47,7 @@ X['timespan'] = cpv.timespan
 X['volume'] = cpv.n_unique_g_ids             
 
 
-range_n_clusters = [2, 3, 4, 5, 6,7,8,9,10]
+range_n_clusters = [2]
 
 for n_clusters in range_n_clusters:
     # Create a subplot with 1 row and 2 columns
@@ -93,6 +93,8 @@ for n_clusters in range_n_clusters:
         "The average silhouette_score for gaussian mixture models is :",
         silhouette_avg_gaus,
     )
+    cpv['cluster_kmeans'] = cluster_labels
+    cpv['cluster_gauss'] = X['cluster']
     # Compute the silhouette scores for each sample
     #sample_silhouette_values = silhouette_samples(cpv[['x_calc_centroid','y_calc_centroidy','ytime_mean','timespan','n_unique_gids']], cluster_labels)
 
