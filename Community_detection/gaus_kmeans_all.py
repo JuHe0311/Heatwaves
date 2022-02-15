@@ -86,7 +86,7 @@ for n_clusters in range_n_clusters:
     X['cluster'] = yhat
     # retrieve unique clusters
     clusters = unique(yhat)
-    silhouette_avg-gaus = silhouette_score(cpv[['x_calc_centroid','y_calc_centroidy','ytime_mean','timespan','n_unique_g_ids']], X['cluster'])
+    silhouette_avg_gaus = silhouette_score(cpv[['x_calc_centroid','y_calc_centroidy','ytime_mean','timespan','n_unique_g_ids']], X['cluster'])
     print(
         "For n_clusters =",
         n_clusters,
