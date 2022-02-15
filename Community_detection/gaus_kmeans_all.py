@@ -97,6 +97,7 @@ for n_clusters in range_n_clusters:
     cpv['cluster_gauss'] = X['cluster']
     # Compute the silhouette scores for each sample
     #sample_silhouette_values = silhouette_samples(cpv[['x_calc_centroid','y_calc_centroidy','ytime_mean','timespan','n_unique_gids']], cluster_labels)
+cpv.to_csv(path_or_buf = "../../Results/cpv_clust_new.csv", index=False)
 
     #y_lower = 10
     #for i in range(n_clusters):
