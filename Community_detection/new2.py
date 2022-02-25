@@ -41,20 +41,20 @@ def make_argparser():
 parser = make_argparser()
 args = parser.parse_args()
 d = xarray.open_dataset(args.original_data)
-
+print('read data')
 #create integer based (x,y) coordinates
 d['x'] = (('longitude'), np.arange(len(d.longitude)))
 d['y'] = (('latitude'), np.arange(len(d.latitude)))
-
+print('created integer based coordinates')
 #convert to dataframe
 vt = d.to_dataframe()
 
 #reset index
 vt.reset_index(inplace=True)
-
+print('reset index')
 # add correct times
 datetimes = pd.to_datetime(vt['time'])
-
+print('datetime')
 # assign your new columns
 vt['day'] = datetimes.dt.day
 vt['month'] = datetimes.dt.month
@@ -62,7 +62,7 @@ vt['year'] = datetimes.dt.year
 
 # append dayofyear 
 vt['ytime'] = vt.time.apply(lambda x: x.dayofyear)
-
+print('ytime')
 # append integer-based time
 times = pd.date_range(vt.time.min(), vt.time.max(), freq='D')
 tdic = {time: itime for itime, time in enumerate(times)}
@@ -71,7 +71,7 @@ vt['itime'] = vt['itime'].astype(np.uint16)
 
 # convert temperature from kelvin to degrees celcius
 ex.conv_to_degreescelcius(vt)
-
+print('degrees')
 first = np.arange(350,366)
 second = np.arange(1,366)
 third = np.arange(1,16)
@@ -81,6 +81,7 @@ g_t = dg.DeepGraph(vt)
 #remove 366th day
 ytime = np.arange(366)
 g_t.filter_by_values_v('ytime',ytime)
+print('366')
 
 ### calculate threshold
 # partition the node table
