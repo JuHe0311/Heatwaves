@@ -12,6 +12,7 @@ import extr as ex
 import matplotlib
 import deepgraph as dg
 import cppv
+import gc
 
 ### functions ###
 def perc25(a_list):
@@ -60,6 +61,8 @@ vt['day'] = datetimes.dt.day
 vt['month'] = datetimes.dt.month
 vt['year'] = datetimes.dt.year
 
+del d
+gc.collect()
 # append dayofyear 
 vt['ytime'] = vt.time.apply(lambda x: x.dayofyear)
 print('ytime')
