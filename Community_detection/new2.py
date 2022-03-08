@@ -49,28 +49,15 @@ d['y'] = (('latitude'), np.arange(len(d.latitude)))
 print('created integer based coordinates')
 #convert to dataframe
 vt = d.to_dataframe()
-
+print(vt)
 #reset index
 vt.reset_index(inplace=True)
 print('reset index')
-# add correct times
-datetimes = pd.to_datetime(vt['time'])
-print('datetime')
-# assign your new columns
-vt['day'] = datetimes.dt.day
-vt['month'] = datetimes.dt.month
-vt['year'] = datetimes.dt.year
-
 del d
 gc.collect()
 # append dayofyear 
 vt['ytime'] = vt.time.apply(lambda x: x.dayofyear)
 print('ytime')
-# append integer-based time
-times = pd.date_range(vt.time.min(), vt.time.max(), freq='D')
-tdic = {time: itime for itime, time in enumerate(times)}
-vt['itime'] = vt.time.apply(lambda x: tdic[x])
-vt['itime'] = vt['itime'].astype(np.uint16)
 
 # convert temperature from kelvin to degrees celcius
 ex.conv_to_degreescelcius(vt)
@@ -140,7 +127,11 @@ rex = pd.merge(extr,ggg, on=['x', 'y'])
 rex.drop(columns=['n_nodes'], inplace=True)
 rex['magnitude']=rex.apply(calc_mag, axis=1)
 rex.drop(columns=['t2m_amax_perc25','t2m_amax_perc75','thresh'], inplace=True)
-
+# assign your new columns
+datetimes = pd.to_datetime(rex['time'])
+rex['day'] = datetimes.dt.day
+rex['month'] = datetimes.dt.month
+rex['year'] = datetimes.dt.year
 
 # save the extreme dataset
 rex.to_csv(path_or_buf = "../../Results/extr_new.csv", index=False)
