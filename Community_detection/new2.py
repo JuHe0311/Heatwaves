@@ -116,10 +116,10 @@ extr['itime'] = extr['itime'].astype(np.uint16)
 extr.sort_values('time', inplace=True)
 
 # assign your new columns
-datetimes = pd.to_datetime(extr['time'])
-extr['day'] = datetimes.dt.day
-extr['month'] = datetimes.dt.month
-extr['year'] = datetimes.dt.year
+datetimes = pd.to_datetime(vt['time'])
+vt['day'] = datetimes.dt.day
+vt['month'] = datetimes.dt.month
+vt['year'] = datetimes.dt.year
 # calculate daily magnitude of extreme events
 f_funcs = {'t2m': [np.max]}
 gg = dg.DeepGraph(vt)
