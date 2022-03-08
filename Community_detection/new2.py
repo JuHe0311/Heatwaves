@@ -141,7 +141,7 @@ rex.drop(columns=['n_nodes'], inplace=True)
 rex['magnitude']=rex.apply(calc_mag, axis=1)
 rex.drop(columns=['t2m_amax_perc25','t2m_amax_perc75','thresh'], inplace=True)
 
-
+print(rex)
 # save the extreme dataset
 rex.to_csv(path_or_buf = "../../Results/extr_new.csv", index=False)
 
@@ -149,6 +149,8 @@ rex.to_csv(path_or_buf = "../../Results/extr_new.csv", index=False)
 rex.sort_values('time', inplace=True)
 g,cpg,cpv = cppv.create_cpv(rex)
 
+print(cpv)
+print(g.v)
 # save heatwaves
 cpv.to_csv(path_or_buf = "../../Results/cpv_new.csv", index=False)
 g.v.to_csv(path_or_buf = "../../Results/gv_new.csv", index=False)
