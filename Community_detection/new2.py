@@ -115,23 +115,32 @@ extr['itime'] = extr['itime'].astype(np.uint16)
 # sort by time
 extr.sort_values('time', inplace=True)
 
+# assign your new columns
+datetimes = pd.to_datetime(rex['time'])
+extr['day'] = datetimes.dt.day
+extr['month'] = datetimes.dt.month
+extr['year'] = datetimes.dt.year
 # calculate daily magnitude of extreme events
 f_funcs = {'t2m': [np.max]}
 gg = dg.DeepGraph(vt)
+
+del vt
+gc.collect()
+
 gg_t = gg.partition_nodes(['x','y','year'],f_funcs)
 gg_t.reset_index(inplace=True)
 feature_funcs = {'t2m_amax': [perc75,perc25]}
 ggt = dg.DeepGraph(gg_t)
 ggg = ggt.partition_nodes(['x','y'], feature_funcs)
 rex = pd.merge(extr,ggg, on=['x', 'y'])
+
+del extr
+gc.collect()
+
 rex.drop(columns=['n_nodes'], inplace=True)
 rex['magnitude']=rex.apply(calc_mag, axis=1)
 rex.drop(columns=['t2m_amax_perc25','t2m_amax_perc75','thresh'], inplace=True)
-# assign your new columns
-datetimes = pd.to_datetime(rex['time'])
-rex['day'] = datetimes.dt.day
-rex['month'] = datetimes.dt.month
-rex['year'] = datetimes.dt.year
+
 
 # save the extreme dataset
 rex.to_csv(path_or_buf = "../../Results/extr_new.csv", index=False)
