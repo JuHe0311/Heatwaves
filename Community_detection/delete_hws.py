@@ -21,18 +21,20 @@ def make_argparser():
                         type=str)
     parser.add_argument("-n", "--nodes", help="Give the path to the original dataset to be worked on.",
                         type=str)
+    parser.add_argument("-x", "--g_ids", help="Give the path to the original dataset to be worked on.",
+                        type=str)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
 cpv = pd.read_csv(args.supernodes)
 g = pd.read_csv(args.nodes)
-
+x = args.g_ids
 
 #
 a = pd.Timedelta(days=1)
 cpv['dt']=pd.to_timedelta(cpv['dt'])
-cpv["keep"] = np.where(((cpv.dt > a)&(cpv.n_unique_g_ids > 100)), True, False)
+cpv["keep"] = np.where(((cpv.dt > a)&(cpv.n_unique_g_ids > x)), True, False)
 cpv = cpv[cpv.keep != False]
 cpv.drop(columns=['keep'], inplace=True)
 # filter out small events from g by only keeping the cps that are in cpv
