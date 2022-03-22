@@ -29,7 +29,7 @@ parser = make_argparser()
 args = parser.parse_args()
 cpv = pd.read_csv(args.supernodes)
 g = pd.read_csv(args.nodes)
-x = args.g_ids
+x = int(args.g_ids)
 
 #
 a = pd.Timedelta(days=1)
