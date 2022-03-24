@@ -46,7 +46,7 @@ def make_argparser():
                         type=str)
     parser.add_argument("-k", "--cluster_number", help="Give the number of clusters for the k-means clustering",
                         type=int)
-    parser.add_argument("-u", "--upgma_clusters", nargs='*' help="Give a list containing the number of upgma clusters",
+    parser.add_argument("-u", "--upgma_clusters", nargs='*', help="Give a list containing the number of upgma clusters",
                         type=int)
     return parser
 
