@@ -102,7 +102,7 @@ cpv['kmeans_clust'] = cluster_labels
 # plot the k means clustering
 fig, ax = plt.subplots()
 fig.set_size_inches(18, 7)
-colors = cm.nipy_spectral(cluster_labels.astype(float) / n_clusters)
+colors = cm.nipy_spectral(cluster_labels.astype(float) / k)
 xs = cpv['doy_cos']
 ys = cpv['doy_sin']
 ax.scatter(xs,ys, marker=".", s=50, lw=0, alpha=0.7, c=colors, edgecolor="k")
