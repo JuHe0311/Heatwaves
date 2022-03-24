@@ -8,13 +8,16 @@ import argparse
 # the usual
 import numpy as np
 import pandas as pd
-import extr as ex
 import matplotlib
 import deepgraph as dg
 import cppv
 import gc
 import plotting as plot
 import con_sep as cs
+# for plots
+import matplotlib.pyplot as plt
+import sklearn
+import seaborn as sns
 from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
 # kmeans clustering 
 from sklearn.datasets import make_blobs
