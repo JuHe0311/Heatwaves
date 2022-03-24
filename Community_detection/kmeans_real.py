@@ -16,6 +16,11 @@ import gc
 import plotting as plot
 import con_sep as cs
 from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
+# kmeans clustering 
+from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_samples, silhouette_score
+import matplotlib.cm as cm
 
 ### functions ###
 
