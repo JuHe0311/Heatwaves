@@ -213,10 +213,10 @@ for i in range(k):
 
     # create family-g_id intersection graph
     fgv = gvv.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
+    fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
     cpv_1.to_csv(path_or_buf = "../../Results/cpv_fam%s.csv" % i, index=False)
     gv_1.to_csv(path_or_buf = "../../Results/gv_fam%s.csv" % i, index=False)
     r = range(no_clusters[i])
-    print(fgv)
     plot.plot_families(no_clusters[i],fgv,gv,'upgma_clustering %s' % k)
 
     
