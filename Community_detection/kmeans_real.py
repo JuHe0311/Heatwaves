@@ -145,9 +145,7 @@ feature_funcs = {'magnitude': [np.sum],
 
 # create family-g_id intersection graph
 fgv = g.partition_nodes(['F_kmeans', 'g_id'], feature_funcs=feature_funcs)
-fgv.rename(columns={'latitude_amin': 'lat',
-                    'longitude_amin': 'lon',
-                    'cp_n_cp_nodes': 'n_cp_nodes'}, inplace=True)
+fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes'}, inplace=True)
 
 plot.plot_families(k,fgv,gv,'heatwave_cluster %s' % k)
 
