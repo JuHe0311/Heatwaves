@@ -124,7 +124,7 @@ for F in range(len(it)):
 
 for f in range(k):
     tmp = dg.DeepGraph(g.v)
-    tmp.filter_by_values_v('F',f)
+    tmp.filter_by_values_v('F_kmeans',f)
     plt.hist(tmp.v.ytime, bins=175, label = 'cluster %s' % f, alpha=0.5)
     plt.title("Day of year distribution of all clusters")
     plt.xlabel('Day of year')
@@ -144,7 +144,7 @@ feature_funcs = {'magnitude': [np.sum],
                  'cp': n_cp_nodes}
 
 # create family-g_id intersection graph
-fgv = g.partition_nodes(['F', 'g_id'], feature_funcs=feature_funcs)
+fgv = g.partition_nodes(['F_kmeans', 'g_id'], feature_funcs=feature_funcs)
 fgv.rename(columns={'latitude_amin': 'lat',
                     'longitude_amin': 'lon',
                     'cp_n_cp_nodes': 'n_cp_nodes'}, inplace=True)
@@ -155,7 +155,7 @@ plot.plot_families(k,fgv,gv,'heatwave_cluster %s' % k)
 
 for i in range(k):
     gvv = dg.DeepGraph(gv)
-    gvv.filter_by_values_v('F',i)
+    gvv.filter_by_values_v('F_kmeans',i)
     gv_1 = gvv.v
     cpv_1 = cpv[cpv.kmeans_clust.eq(i)]
     # initiate DeepGraph
