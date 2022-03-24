@@ -216,7 +216,7 @@ for i in range(k):
     cpv_1.to_csv(path_or_buf = "../../Results/cpv_fam%s.csv" % i, index=False)
     gv_1.to_csv(path_or_buf = "../../Results/gv_fam%s.csv" % i, index=False)
     r = range(no_clusters[i])
-
+    print(fgv)
     plot.plot_families(no_clusters[i],fgv,gv,'upgma_clustering %s' % k)
 
     
