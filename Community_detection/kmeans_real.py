@@ -48,7 +48,7 @@ lsm = xarray.open_dataset(args.land_sea_mask)
 gv = pd.read_csv(args.data)
 k = int(args.cluster_number)
 no_clust = [args.upgma_clusters]
-
+gv['time']=pd.to_datetime(gv['time'])
 g = dg.DeepGraph(gv)
 # create supernodes from deep graph by partitioning the nodes by cp
 # feature functions applied to the supernodes
