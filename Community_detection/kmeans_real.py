@@ -45,17 +45,17 @@ def make_argparser():
     parser.add_argument("-lsm", "--land_sea_mask", help="Give the path to the land sea mask dataset.",
                         type=str)
     parser.add_argument("-k", "--cluster_number", help="Give the number of clusters for the k-means clustering",
-                        type=str)
-    parser.add_argument("-u", "--upgma_clusters", help="Give a list containing the number of upgma clusters",
-                        type=str)
+                        type=int)
+    parser.add_argument("-u", "--upgma_clusters", nargs='*' help="Give a list containing the number of upgma clusters",
+                        type=int)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
 lsm = xarray.open_dataset(args.land_sea_mask)
 gv = pd.read_csv(args.data)
-k = int(args.cluster_number)
-no_clusters = list(args.upgma_clusters)
+k = args.cluster_number
+no_clusters = args.upgma_clusters
 gv['time']=pd.to_datetime(gv['time'])
 g = dg.DeepGraph(gv)
 # create supernodes from deep graph by partitioning the nodes by cp
