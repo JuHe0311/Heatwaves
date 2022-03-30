@@ -17,13 +17,15 @@ def make_argparser():
                        type=str)
     parser.add_argument('-c', "--coarsen_factor", help="Give the factor by which to downsample the grid of the ndvi",
                        type=int)
-
+    parser.add_argument('-s', "--season", nargs='*', help="Give the start and end point of the season",
+                       type=int)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
 d = xarray.open_dataset(args.ndvi_data)
 c = args.coarsen_factor
+season = args.season
 
 # downsample the grid, so the grid fits the grid of the temperature dataset
 # always take the maximum value of the grids that are combined (take into account errors that reduce NDVI)
@@ -48,5 +50,8 @@ dt['year'] = datetimes.dt.year
 # append a column indicating geographical locations (i.e., supernode labels)
 dt['g_id'] = dt.groupby(['X', 'Y']).grouper.group_info[0]
 dt['g_id'] = dt['g_id'].astype(np.uint32)
+
+dt = dt[dt.month == season[1]]
+dt = dt[dt.day >= 15]
 
 dt.to_csv(path_or_buf = "../../Results/ndvi_data_prepared.csv", index=False)
