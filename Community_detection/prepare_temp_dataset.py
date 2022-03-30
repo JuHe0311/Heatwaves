@@ -40,8 +40,6 @@ def make_argparser():
                         type=int)
     parser.add_argument("-lsm", "--land_sea_mask", help="Give the path to the land sea mask.",
                         type=str)
-    parser.add_argument("-d4", "--data2", help="Give the path to the ndvi dataset to be worked on.",
-                        type=str)
 
     return parser
 
