@@ -19,7 +19,7 @@ def seasonal_measures(data,season,ndvi):
     #g.filter_by_values_v('month',seasons)
     fgv = g.partition_nodes(['g_id'], feature_funcs=feature_funcs)
     fgv.reset_index(inplace=True)
-    total = pd.merge(fgv,ndvi, on='g_id','year',how='inner')
+    total = pd.merge(fgv,ndvi, on=['g_id','year'],how='inner')
     return total
 
 # perform the correlation between two variables
