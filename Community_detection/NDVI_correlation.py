@@ -56,7 +56,7 @@ for clust in upgma_clust:
         g = dg.DeepGraph(t)
         g.filter_by_values_v('F_upgma',clust)
         g.filter_by_values_v('year',y)
-        corr_matrix = seasonal_measures(g.v,season1,ndvi)
+        corr_matrix = seasonal_measures(g.v,season,ndvi)
         corr1,p_value1 = correlate(corr_matrix.n_nodes,corr_matrix.ndvi)
         corr2,p_value2 = correlate(corr_matrix.magnitude_sum,corr_matrix.ndvi)
         df1 = {'year': y, 'cluster': clust, 'corr': corr1,'p_value':p_value1}
