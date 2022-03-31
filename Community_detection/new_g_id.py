@@ -33,8 +33,6 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-t", "--threshold_dataset", help="Give the path to the original dataset to be worked on.",
                         type=str)
-    parser.add_argument("-d", "--data", help="Give the path to the original dataset to be worked on.",
-                        type=str)
     return parser
 
 parser = make_argparser()
