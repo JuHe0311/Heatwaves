@@ -45,7 +45,8 @@ t = pd.read_csv(args.temperature_data)
 season = args.season
 t['time_x']=pd.to_datetime(t['time_x'])
 t['year'] = t.time_x.dt.year
-
+print(t)
+print(ndvi)
 # perform the correlation
 n_nodes_corr = pd.DataFrame(columns=['year','cluster','corr','p_value'])
 hwmid_corr = pd.DataFrame(columns=['year','cluster','corr','p_value'])
@@ -56,7 +57,9 @@ for clust in upgma_clust:
         g = dg.DeepGraph(t)
         g.filter_by_values_v('F_upgma',clust)
         g.filter_by_values_v('year',y)
-        corr_matrix = seasonal_measures(g.v,season,ndvi)
+        ndvig = dg.DeepGraph(ndvi)
+        ndvig.filter_by_values_v('year',y)
+        corr_matrix = seasonal_measures(g.v,season,ndvig.v)
         corr1,p_value1 = correlate(corr_matrix.n_nodes,corr_matrix.ndvi)
         corr2,p_value2 = correlate(corr_matrix.magnitude_sum,corr_matrix.ndvi)
         df1 = {'year': y, 'cluster': clust, 'corr': corr1,'p_value':p_value1}
