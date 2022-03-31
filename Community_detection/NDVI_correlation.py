@@ -33,7 +33,7 @@ def make_argparser():
     parser.add_argument('-ndvi', "--ndvi_data", help="Give the path to the ndvi dataset to be worked on.",
                        type=str)
     parser.add_argument('-d', "--temperature_data", help="Give the path to the temperature dataset to be worked on",
-                       type=int)
+                       type=str)
     parser.add_argument('-s', "--season", nargs='*', help="Give the start and end point of the season",
                        type=int)
     return parser
