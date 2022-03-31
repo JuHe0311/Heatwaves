@@ -18,8 +18,7 @@ def seasonal_measures(data,season,ndvi):
     g = dg.DeepGraph(data)
     fgv = g.partition_nodes(['g_id'], feature_funcs=feature_funcs)
     fgv.reset_index(inplace=True)
-    fgv.rename(columns={'x_mean': 'x','y_mean': 'y'}, inplace=True)
-    total = pd.merge(fgv,ndvi, on=['x','y'],how='inner')
+    total = pd.merge(fgv,ndvi, on=['g_id'],how='inner')
     print(total)
     return total
 
