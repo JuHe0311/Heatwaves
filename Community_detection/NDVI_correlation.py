@@ -14,7 +14,7 @@ from scipy import stats
 # calculate the seasonal variables of the heatwaves in one family
 def seasonal_measures(data,season,ndvi):
     seasons = np.arange(season[0],season[1]+1)
-    feature_funcs = {'magnitude':[np.sum],'x':[np.mean],'y':[np.mean],'longitude_x':[np.mean],'latitude_y':[np.mean]}
+    feature_funcs = {'magnitude':[np.sum],'x':[np.mean],'y':[np.mean],'longitude_x':[np.mean],'latitude_x':[np.mean]}
     g = dg.DeepGraph(data)
     fgv = g.partition_nodes(['g_id'], feature_funcs=feature_funcs)
     fgv.reset_index(inplace=True)
