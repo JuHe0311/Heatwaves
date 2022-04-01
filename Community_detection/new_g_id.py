@@ -46,6 +46,7 @@ thresh['g_id'] = thresh.groupby(['longitude', 'latitude']).grouper.group_info[0]
 thresh['g_id'] = thresh['g_id'].astype(np.uint32)  
 
 # append integer-based time
+thresh['time']=pd.to_datetime(thresh['time'])
 times = pd.date_range(thresh.time.min(), thresh.time.max(), freq='D')
 tdic = {time: itime for itime, time in enumerate(times)}
 thresh['itime'] = thresh.time.apply(lambda x: tdic[x])
