@@ -152,8 +152,8 @@ rex.sort_values('time', inplace=True)
 g,cpg,cpv = cppv.create_cpv(rex,b)
 
 # save heatwaves
-cpv.to_csv(path_or_buf = "../../Results/cpv_new.csv", index=False)
-g.v.to_csv(path_or_buf = "../../Results/gv_new.csv", index=False)
+cpv.to_csv(path_or_buf = "../../Results/cpv_new%s.csv" % b, index=False)
+g.v.to_csv(path_or_buf = "../../Results/gv_new%s.csv" % b, index=False)
 
 
 
