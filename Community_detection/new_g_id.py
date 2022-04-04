@@ -91,7 +91,7 @@ rex.to_csv(path_or_buf = "../../Results/extr_new.csv", index=False)
 
 # create heatwaves from the extreme dataset
 rex.sort_values('time', inplace=True)
-g,cpg,cpv = cppv.create_cpv(rex)
+g,cpg,cpv = cppv.create_cpv(rex,1000)
 
 # save heatwaves
 cpv.to_csv(path_or_buf = "../../Results/cpv_new.csv", index=False)
