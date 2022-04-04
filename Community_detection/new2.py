@@ -37,11 +37,14 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-do", "--original_data", help="Give the path to the original dataset to be worked on.",
                         type=str)
+    parser.add_argument("-g", "--g_ids", help="Give the number how many unique g_ids a heatwave needs to be considered a heatwave",
+                        type=int)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
 d = xarray.open_dataset(args.original_data)
+b = args.g_ids
 print('read data')
 #create integer based (x,y) coordinates
 d['x'] = (('longitude'), np.arange(len(d.longitude)))
@@ -146,7 +149,7 @@ rex.to_csv(path_or_buf = "../../Results/extr_new.csv", index=False)
 
 # create heatwaves from the extreme dataset
 rex.sort_values('time', inplace=True)
-g,cpg,cpv = cppv.create_cpv(rex)
+g,cpg,cpv = cppv.create_cpv(rex,b)
 
 # save heatwaves
 cpv.to_csv(path_or_buf = "../../Results/cpv_new.csv", index=False)
