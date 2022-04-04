@@ -15,7 +15,8 @@ import con_sep as cs
 
 #### create cpv dataset --> partition nodes based on their spatio-temporal neigborhood ####  
 # create the graph
-def create_cpv(extr_data):
+# b = how many unique g_ids does a heatwave need to be considered a heatwave?
+def create_cpv(extr_data, b):
   extr_data['time']=pd.to_datetime(extr_data['time'])
   extr_data.sort_values('time', inplace=True)
   g = dg.DeepGraph(extr_data)
@@ -68,7 +69,7 @@ def create_cpv(extr_data):
   cpv['dt']=pd.to_timedelta(cpv['dt'])
   ###### filter out small heatwaves that are shorter than 2 days and that have less than 3 different grid ids#####
   a = pd.Timedelta(days=1)
-  cpv["keep"] = np.where(((cpv.dt > a)&(cpv.n_unique_g_ids > 2)), True, False)
+  cpv["keep"] = np.where(((cpv.dt > a)&(cpv.n_unique_g_ids > b)), True, False)
   cpv = cpv[cpv.keep != False]
   cpv.drop(columns=['keep'], inplace=True)
   # filter out small events from g by only keeping the cps that are in cpv
