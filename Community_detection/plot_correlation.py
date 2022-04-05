@@ -41,6 +41,16 @@ plot.corr_time_series(hwmid_corr,'hwmid')
 n_nodes_corr.drop(n_nodes_corr.loc[n_nodes_corr['significant']==0].index,inplace=True)
 hwmid_corr.drop(hwmid_corr.loc[hwmid_corr['significant']==0].index,inplace=True)
 
+# calculate mean correlation over the years for every family in every cluster
+def mean_correlation(data):
+    feature_funcs = {'corr':[np.mean]}
+    g = dg.DeepGraph(data)
+    fgv = g.partition_nodes(['cluster'], feature_funcs=feature_funcs)
+    print(fgv)
+mean_correlation(n_nodes_corr)
+mean_correlation(hwmid_corr)
+
+       
 # plot boxplots to compare all clusters in 1 family
 
 # somehow print a table?
