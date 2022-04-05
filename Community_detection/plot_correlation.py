@@ -9,7 +9,7 @@ import scipy
 from scipy import stats
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+import plotting as plot
 
 ############### Functions #################
 
@@ -32,8 +32,14 @@ hwmid_corr = pd.read_csv(args.hwmid_corr)
 # add a colum stating whether a correlation is significant
 n_nodes_corr['significant'] = np.where(n_nodes_corr.p_value > 0.9, 1,0)
 hwmid_corr['significant'] = np.where(hwmid_corr.p_value > 0.9, 1,0)
-
+n_nodes_corr.reset_index(inplace=True)
+hwmid_corr.reset_index(inplace=True)
 # plot timeseries for every cluster
+plot.corr_time_series(n_nodes_corr)
+plot.corr_time_series(hwmid_corr)
+# remove non-significant values
+#n_nodes_corr.drop(n_nodes_corr.loc[n_nodes_corr['significant']==0].index,inplace=True)
+#hwmid_corr.drop(hwmid_corr.loc[hwmid_corr['significant']==0].index,inplace=True)
 
 
 # plot boxplots to compare all clusters in 1 family
