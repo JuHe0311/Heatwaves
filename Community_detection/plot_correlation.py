@@ -20,7 +20,7 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-n', "--nnodes_corr", help="Give the path to the n_nodes correlation table.",
                        type=str)
-    parser.add_argument('-h', "--hwmid_corr", help="Give the path to the hwmid correlation table",
+    parser.add_argument('-hwmid', "--hwmid_corr", help="Give the path to the hwmid correlation table",
                        type=str)
     return parser
 
