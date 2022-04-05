@@ -35,8 +35,8 @@ hwmid_corr['significant'] = np.where(hwmid_corr.p_value > 0.9, 1,0)
 n_nodes_corr.reset_index(inplace=True)
 hwmid_corr.reset_index(inplace=True)
 # plot timeseries for every cluster
-plot.corr_time_series(n_nodes_corr)
-plot.corr_time_series(hwmid_corr)
+plot.corr_time_series(n_nodes_corr,'n_nodes')
+plot.corr_time_series(hwmid_corr,'hwmid')
 # remove non-significant values
 #n_nodes_corr.drop(n_nodes_corr.loc[n_nodes_corr['significant']==0].index,inplace=True)
 #hwmid_corr.drop(hwmid_corr.loc[hwmid_corr['significant']==0].index,inplace=True)
