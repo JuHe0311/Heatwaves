@@ -177,4 +177,4 @@ def raster_plot_families(cpg,plot_title):
 def corr_time_series(data):
   plot = sns.scatterplot(data=data,x='year',y='corr',hue='cluster',size='p_value')
   fig = plot.get_figure()
-  fig.savefig('../../Results/corr_timeseries%s' % data)
+  fig.savefig('../../Results/corr_timeseries%s.png' % data)
