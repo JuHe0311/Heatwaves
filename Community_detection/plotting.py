@@ -9,6 +9,7 @@ import deepgraph as dg
 import pandas as pd
 import itertools
 import scipy
+import seaborn as sns
 
 
 def plot_clusters(nodes, plot_title,vt):
@@ -171,3 +172,8 @@ def raster_plot_families(cpg,plot_title):
   cb.set_label('HWMId index', fontsize=15) 
   obj['fig'].savefig('../../Results/raster_%s.png' % plot_title,
                        dpi=300, bbox_inches='tight')
+  
+  
+  def corr_time_series(data):
+    plot = sns.scatterplot(data=data,x='year',y='corr',hue='cluster',size='p_value')
+    plot.savefig('../../Results/corr_timeseries%s' % data)
