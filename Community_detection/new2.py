@@ -74,7 +74,7 @@ g_t = dg.DeepGraph(vt)
 #remove 366th day
 ytime = np.arange(366)
 g_t.filter_by_values_v('ytime',ytime)
-print('366')
+print('366') 
 
 ### calculate threshold
 # partition the node table
@@ -96,18 +96,18 @@ for i in range(366):
 result = pd.merge(vt,tmp2, on=["ytime", "x", 'y'])
 result.drop(columns=['n_nodes'], inplace=True)
 
+# append some neccessary stuff to the dataset
+# append a column indicating geographical locations (i.e., supernode labels)
+result['g_id'] = result.groupby(['longitude', 'latitude']).grouper.group_info[0]
+result['g_id'] = result['g_id'].astype(np.uint32)  
+
 # save threshold dataset
 result.to_csv(path_or_buf = "../../Results/thresh_new.csv", index=False)
 
 # calculate extreme dataset
 result["keep"] = np.where(result["t2m"] >= result["thresh"], True, False)
 extr = result.loc[result['keep'] == True]
-extr.drop(columns=['keep'], inplace=True)
-
-# append some neccessary stuff to the extr dataset
-# append a column indicating geographical locations (i.e., supernode labels)
-extr['g_id'] = extr.groupby(['longitude', 'latitude']).grouper.group_info[0]
-extr['g_id'] = extr['g_id'].astype(np.uint32)    
+extr.drop(columns=['keep'], inplace=True) 
   
 # append integer-based time
 times = pd.date_range(extr.time.min(), extr.time.max(), freq='D')
