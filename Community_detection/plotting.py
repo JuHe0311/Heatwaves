@@ -178,8 +178,10 @@ def corr_time_series(data,name):
   plot = sns.scatterplot(data=data,x='year',y='corr',hue='cluster',size='p_value')
   fig = plot.get_figure()
   fig.savefig('../../Results/corr_timeseries%s.png' % name)
+  fig.clf()
   
 def corr_violinplot(data,name):
   fig = sns.violinplot(x="cluster", y="corr", data=data)
   fig = fig.get_figure()
   fig.savefig('../../Results/corr_violin_plots%s.png' % name)
+  fig.clf()
