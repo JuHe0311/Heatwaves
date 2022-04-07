@@ -179,7 +179,7 @@ def corr_time_series(data,name):
   fig = plot.get_figure()
   fig.savefig('../../Results/corr_timeseries%s.png' % name)
   
-def corr_violinplots(data,name):
+def corr_violinplot(data,name):
   fig = sns.violinplot(x="cluster", y="corr", data=data)
   fig = plot.get_figure()
   fig.savefig('../../Results/corr_violin_plots%s.png' % name)
