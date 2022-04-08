@@ -9,14 +9,14 @@ import argparse
 ############### Functions #################
 
 # hard boundaries for each cluster
-def thresh(data):
+def thresh(data,q):
     my_dict = {}
     upgma_clust = list(data.F_upgma.unique())
     for el in upgma_clust:
         data_tmp = data[data.F_upgma==el]
         g = dg.DeepGraph(data_tmp)
         fgv = g.partition_nodes(['g_id'])
-        thresh = fgv.n_nodes.quantile(0.5)
+        thresh = fgv.n_nodes.quantile(q)
         fgv.reset_index(inplace=True)
         tmp = fgv[fgv.n_nodes <= thresh]
         to_delete = tmp.g_id.tolist()
@@ -40,6 +40,8 @@ def make_argparser():
                         type=int)
     parser.add_argument("-lsm", "--land_sea_mask", help="Give the path to the land sea mask.",
                         type=str)
+    parser.add_argument("-q", "--quantile", help="Give the quantile for the hard boundary for every cluster.",
+                        type=str)
 
     return parser
 
@@ -49,6 +51,7 @@ gv_0 = pd.read_csv(args.data)
 gv_0['time']=pd.to_datetime(gv_0['time'])
 ocean_clust = args.ocean_clusters
 lsm = xarray.open_dataset(args.land_sea_mask)
+q = args.quantile
 
 #create integer based (x,y) coordinates
 lsm['x'] = (('longitude'), np.arange(len(lsm.longitude)))
@@ -67,6 +70,6 @@ total = total[(total.lsm >=0.5)]
 
 # define hard boundaries for each cluster
 #total_thresh = thresh(total)
-kmeans_filt = filter_grids(total,thresh(total))
+kmeans_filt = filter_grids(total,thresh(total,q))
 
 kmeans_filt.to_csv(path_or_buf = "../../Results/kmeans_filtered.csv", index=False)
