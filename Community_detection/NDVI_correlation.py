@@ -19,7 +19,6 @@ def seasonal_measures(data,season,ndvi):
     fgv = g.partition_nodes(['g_id'], feature_funcs=feature_funcs)
     fgv.reset_index(inplace=True)
     total = pd.merge(fgv,ndvi, on=['g_id'],how='inner')
-    print(total)
     return total
 
 # perform the correlation between two variables
@@ -45,8 +44,7 @@ t = pd.read_csv(args.temperature_data)
 season = args.season
 t['time_x']=pd.to_datetime(t['time_x'])
 t['year'] = t.time_x.dt.year
-print(t)
-print(ndvi)
+
 # perform the correlation
 n_nodes_corr = pd.DataFrame(columns=['year','cluster','corr','p_value'])
 hwmid_corr = pd.DataFrame(columns=['year','cluster','corr','p_value'])
