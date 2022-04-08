@@ -47,11 +47,14 @@ datetimes = pd.to_datetime(dt['T'])
 dt['day'] = datetimes.dt.day
 dt['month'] = datetimes.dt.month
 dt['year'] = datetimes.dt.year
+
 # append a column indicating geographical locations (i.e., supernode labels)
 dt['g_id'] = dt.groupby(['X', 'Y']).grouper.group_info[0]
 dt['g_id'] = dt['g_id'].astype(np.uint32)
 
+# only keep the ndvi values from the end of the specified season (month)
 dt = dt[dt.month == season[1]]
 dt = dt[dt.day >= 15]
 
+# save the dataframe
 dt.to_csv(path_or_buf = "../../Results/ndvi_data_prepared.csv", index=False)
