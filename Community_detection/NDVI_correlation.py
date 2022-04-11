@@ -14,10 +14,11 @@ from scipy import stats
 # calculate the seasonal variables of the heatwaves in one family
 def seasonal_measures(data,season,ndvi):
     seasons = np.arange(season[0],season[1]+1)
-    feature_funcs = {'magnitude':[np.sum],'x':[np.mean],'y':[np.mean],'longitude_x':[np.mean],'latitude_x':[np.mean]}
+    feature_funcs = {'magnitude':[np.sum]}
     g = dg.DeepGraph(data)
     fgv = g.partition_nodes(['g_id'], feature_funcs=feature_funcs)
     fgv.reset_index(inplace=True)
+    # merge ndvi and temperature dataset on g_id
     total = pd.merge(fgv,ndvi, on=['g_id'],how='inner')
     return total
 
@@ -50,20 +51,24 @@ n_nodes_corr = pd.DataFrame(columns=['year','cluster','corr','p_value'])
 hwmid_corr = pd.DataFrame(columns=['year','cluster','corr','p_value'])
 upgma_clust = list(t.F_upgma.unique())
 years = list(t.year.unique())
+# for every cluster and every year we perform the correlation individually
 for clust in upgma_clust:
     for y in years:
         g = dg.DeepGraph(t)
+        # only keep the values from the current cluster
         g.filter_by_values_v('F_upgma',clust)
+        # only keep the values from the current year
         g.filter_by_values_v('year',y)
         ndvig = dg.DeepGraph(ndvi)
         ndvig.filter_by_values_v('year',y)
+        # corr_matrix: g_id - ndvi - n_nodes - hwmid_sum
         corr_matrix = seasonal_measures(g.v,season,ndvig.v)
         corr1,p_value1 = correlate(corr_matrix.n_nodes,corr_matrix.ndvi)
         corr2,p_value2 = correlate(corr_matrix.magnitude_sum,corr_matrix.ndvi)
         df1 = {'year': y, 'cluster': clust, 'corr': corr1,'p_value':p_value1}
         n_nodes_corr = n_nodes_corr.append(df1, ignore_index = True)
         df2 = {'year': y, 'cluster': clust, 'corr': corr2,'p_value':p_value2}
-        hwmid_corr = n_nodes_corr.append(df1, ignore_index = True)
+        hwmid_corr = hwmid_corr.append(df2, ignore_index = True)
 
 
 n_nodes_corr.to_csv(path_or_buf = "../../Results/n_nodes_correlation.csv", index=False)
