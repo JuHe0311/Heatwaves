@@ -20,6 +20,7 @@ def seasonal_measures(data,season,ndvi):
     fgv.reset_index(inplace=True)
     # merge ndvi and temperature dataset on g_id
     total = pd.merge(fgv,ndvi, on=['g_id'],how='inner')
+    print(total)
     return total
 
 # perform the correlation between two variables
