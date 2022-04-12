@@ -52,6 +52,7 @@ n_nodes_corr = pd.DataFrame(columns=['year','cluster','corr','p_value'])
 hwmid_corr = pd.DataFrame(columns=['year','cluster','corr','p_value'])
 upgma_clust = list(t.F_upgma.unique())
 years = list(t.year.unique())
+print(years)
 # for every cluster and every year we perform the correlation individually
 for clust in upgma_clust:
     for y in years:
