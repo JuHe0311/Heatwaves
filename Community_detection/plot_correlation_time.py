@@ -38,8 +38,8 @@ parser = make_argparser()
 args = parser.parse_args()
 n_nodes_corr = pd.read_csv(args.nnodes_corr)
 hwmid_corr = pd.read_csv(args.hwmid_corr)
-hwmid_clust = pd.read_csv(args.hwmid_clust)
-n_nodes_clust = pd.read_csv(args.nnodes_clust)
+hwmid_clust = args.hwmid_clust
+n_nodes_clust = args.nnodes_clust
 
 # add a colum stating whether a correlation is significant
 # threshold of significance = 5%
