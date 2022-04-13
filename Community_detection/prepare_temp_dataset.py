@@ -41,7 +41,7 @@ def make_argparser():
     parser.add_argument("-lsm", "--land_sea_mask", help="Give the path to the land sea mask.",
                         type=str)
     parser.add_argument("-q", "--quantile", help="Give the quantile for the hard boundary for every cluster.",
-                        type=int)
+                        type=float)
 
     return parser
 
