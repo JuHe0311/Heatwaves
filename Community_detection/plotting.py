@@ -185,3 +185,16 @@ def corr_violinplot(data,name):
   fig = fig.get_figure()
   fig.savefig('../../Results/corr_violin_plots%s.png' % name)
   fig.clf()
+
+def scatter(n_nodes, name):
+    plt.scatter(n_nodes['year'],n_nodes['corr'])
+    # calc the trendline
+    z = np.polyfit(n_nodes['year'], n_nodes['corr'], 1)
+    p = np.poly1d(z)
+    plt.plot(n_nodes['year'],p(n_nodes['year']),"r--")
+    # the line equation:
+    print('y=%.6fx+(%.6f)' %(z[0],z[1]))
+    plt.ylabel('spearman correlation coefficient')
+    plt.xlabel('years')
+    plt.title(name)
+    plt.savefig('../../Results/scatter_%s.png' % name)
