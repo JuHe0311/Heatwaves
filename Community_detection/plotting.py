@@ -198,3 +198,4 @@ def scatter(n_nodes, name):
     plt.xlabel('years')
     plt.title(name)
     plt.savefig('../../Results/scatter_%s.png' % name)
+    plt.clf()
