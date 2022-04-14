@@ -5,6 +5,7 @@ import numpy as np
 import deepgraph as dg
 import pandas as pd
 import argparse
+import plotting as plot
 
 ############### Functions #################
 
