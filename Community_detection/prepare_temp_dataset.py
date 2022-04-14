@@ -72,3 +72,19 @@ total = total[(total.lsm >=0.5)]
 kmeans_filt = filter_grids(total,thresh(total,q))
 
 kmeans_filt.to_csv(path_or_buf = "../../Results/kmeans_filtered.csv", index=False)
+
+# feature funcs
+def n_cp_nodes(cp):
+    return len(cp.unique())
+
+feature_funcs = {'magnitude': [np.sum],
+                     'latitude': np.min,
+                     'longitude': np.min,
+                     'cp': n_cp_nodes}
+k_means_dg = dg.DeepGraph(kmeans_filt)
+for i in list(kmeans_filt.F_upgma.unique()):
+
+    # create family-g_id intersection graph
+    fgv = k_means_dg.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
+    fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
+    plot.plot_families(no_clusters[i],fgv,vt,'filtered_clusters %s' % i)
