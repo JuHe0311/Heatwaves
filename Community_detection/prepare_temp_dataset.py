@@ -50,7 +50,7 @@ gv_0 = pd.read_csv(args.data)
 gv_0['time']=pd.to_datetime(gv_0['time'])
 ocean_clust = args.ocean_clusters
 lsm = xarray.open_dataset(args.land_sea_mask)
-q = args.quantile
+q = args.boundary
 
 #create integer based (x,y) coordinates
 lsm['x'] = (('longitude'), np.arange(len(lsm.longitude)))
