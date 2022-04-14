@@ -16,9 +16,8 @@ def thresh(data,q):
         data_tmp = data[data.F_upgma==el]
         g = dg.DeepGraph(data_tmp)
         fgv = g.partition_nodes(['g_id'])
-        thresh = fgv.n_nodes.quantile(q)
         fgv.reset_index(inplace=True)
-        tmp = fgv[fgv.n_nodes <= thresh]
+        tmp = fgv[fgv.n_nodes < q]
         to_delete = tmp.g_id.tolist()
         my_dict[el]= to_delete
     return my_dict
@@ -40,8 +39,8 @@ def make_argparser():
                         type=int)
     parser.add_argument("-lsm", "--land_sea_mask", help="Give the path to the land sea mask.",
                         type=str)
-    parser.add_argument("-q", "--quantile", help="Give the quantile for the hard boundary for every cluster.",
-                        type=float)
+    parser.add_argument("-b", "--boundary", help="Give the minimum number of hits of a heatwave for the hard boundary for every cluster.",
+                        type=int)
 
     return parser
 
