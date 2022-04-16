@@ -26,7 +26,7 @@ def scatter(data, name):
     res = stats.linregress(data['year'], data['corr'])
     plt.scatter(data['year'],data['corr'])
     print(f"R-squared: {res.rvalue**2:.6f}")
-    plt.plot(data['year'],data['corr'], 'o', label='original data')
+    plt.plot(data['year'],data['corr'], 'o')
     plt.plot(data['year'], res.intercept + res.slope*data['year'], 'r', label=f'y = {res.intercept:.2f} + {res.slope:.2f}*x')
     plt.legend()
     # the line equation:
