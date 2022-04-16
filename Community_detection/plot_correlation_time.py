@@ -27,13 +27,13 @@ def scatter(data, name):
     plt.scatter(data['year'],data['corr'])
     print(f"R-squared: {res.rvalue**2:.6f}")
     plt.plot(data['year'],data['corr'], 'o', label='original data')
-    plt.plot(data['year'], res.intercept + res.slope*data['year'], 'r', label='y = %s + %s*x' % (res.intercept.2f,res.slope.2f))
+    plt.plot(data['year'], res.intercept + res.slope*data['year'], 'r', label=f'y = {res.intercept.2f} + {res.slope.2f}*x')
     plt.legend()
     # the line equation:
     #print('y=%.6fx+(%.6f)' %(z[0],z[1]))
     plt.ylabel('spearman correlation coefficient')
     plt.xlabel('years')
-    plt.title('%s, R_square: %s' % (name,res.rvalue**2))
+    plt.title(f'{name}, R_square: {res.rvalue**2.5f}')
     plt.savefig('../../Results/scatter_%s.png' % name)
     plt.clf()
     
