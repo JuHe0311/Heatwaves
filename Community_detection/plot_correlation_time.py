@@ -55,14 +55,12 @@ hwmid_corr.drop(hwmid_corr.loc[hwmid_corr['significant']==0].index,inplace=True)
 
 for val in hwmid_clust:
     hwmid_filt = hwmid_corr[hwmid_corr.cluster == val]
-    x,n = mk.original_test(hwmid_filt)
-    print(x,n)
+    print(mk.original_test(hwmid_filt))
     plot.scatter(hwmid_filt,'hwmid_%s' % val)
 
 for val in n_nodes_clust:
     n_nodes_filt = n_nodes_corr[n_nodes_corr.cluster == val]
-    x,n = mk.original_test(n_nodes_filt)
-    print(x,n)
+    print(mk.original_test(n_nodes_filt))
     plot.scatter(n_nodes_filt, 'n_nodes_%s' % val)
 
   
