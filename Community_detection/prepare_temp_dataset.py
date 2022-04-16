@@ -29,6 +29,41 @@ def filter_grids(data,my_dict):
         data.drop(indexNames,inplace=True)
     return data
 
+
+def plot_families(number_families,fgv,v,plot_title):
+  families = np.arange(number_families)
+  for F in families:
+
+    # for easy filtering, we create a new DeepGraph instance for 
+    # each component
+    gt = dg.DeepGraph(fgv.loc[F])
+
+    # configure map projection
+    kwds_basemap = {'llcrnrlon': v.longitude.min() - 1,
+                    'urcrnrlon': v.longitude.max() + 1,
+                    'llcrnrlat': v.latitude.min() - 1,
+                    'urcrnrlat': v.latitude.max() + 1}
+
+    # configure scatter plots
+    kwds_scatter = {'s': 1,
+                        'c': gt.v.n_cp_nodes.values,
+                        'cmap': 'viridis_r',
+                        'edgecolors': 'none'}
+
+    # create scatter plot on map
+    obj = gt.plot_map(lat='latitude', lon='longitude',kwds_basemap=kwds_basemap, kwds_scatter=kwds_scatter)
+
+    # configure plots
+    obj['m'].drawcoastlines(linewidth=.8)
+    obj['m'].drawparallels(range(-50, 50, 20), linewidth=.2)
+    obj['m'].drawmeridians(range(0, 360, 20), linewidth=.2)
+    cb = obj['fig'].colorbar(obj['pc'], fraction=.022, pad=.02)
+    cb.set_label('number of Heatwaves', fontsize=15) 
+    obj['ax'].set_title('Cluster {}'.format(F))
+    
+    obj['fig'].savefig('../../Results/%s_fam_%s.png' % (plot_title,F),
+                       dpi=300, bbox_inches='tight')
+
 ############### Argparser #################
 
 def make_argparser():
@@ -83,9 +118,10 @@ feature_funcs = {'magnitude': [np.sum],
                      'longitude_x': np.min,
                      'cp': n_cp_nodes}
 k_means_dg = dg.DeepGraph(kmeans_filt)
-for i in list(kmeans_filt.F_upgma.unique()):
 
-    # create family-g_id intersection graph
-    fgv = k_means_dg.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
-    fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_x_amin':'longitude','latitude_x_amin':'latitude'}, inplace=True)
-    plot.plot_families(len(list(kmeans_filt.F_upgma.unique())),fgv,vt,'filtered_clusters %s' % i)
+# create family-g_id intersection graph
+fgv = k_means_dg.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
+fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_x_amin':'longitude','latitude_x_amin':'latitude'}, inplace=True)
+plot_families(list(kmeans_filt.F_upgma.unique()),fgv,vt,'filtered_clusters %s' % i)
+
+   
