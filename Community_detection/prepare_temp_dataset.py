@@ -122,6 +122,6 @@ k_means_dg = dg.DeepGraph(kmeans_filt)
 # create family-g_id intersection graph
 fgv = k_means_dg.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
 fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_x_amin':'longitude','latitude_x_amin':'latitude'}, inplace=True)
-plot_families(list(kmeans_filt.F_upgma.unique()),fgv,vt,'filtered_clusters %s' % i)
+plot_families(list(kmeans_filt.F_upgma.unique()),fgv,vt,'filtered_clusters')
 
    
