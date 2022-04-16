@@ -30,8 +30,7 @@ def filter_grids(data,my_dict):
     return data
 
 
-def plot_families(number_families,fgv,v,plot_title):
-  families = np.arange(number_families)
+def plot_families(families,fgv,v,plot_title):
   for F in families:
 
     # for easy filtering, we create a new DeepGraph instance for 
