@@ -27,7 +27,7 @@ def scatter(data, name):
     plt.scatter(data['year'],data['corr'])
     print(f"R-squared: {res.rvalue**2:.6f}")
     plt.plot(data['year'],data['corr'], 'o', label='original data')
-    plt.plot(data['year'], res.intercept + res.slope*data['year'], 'r', label='y = %s + %s' % (res.intercept,res.slope*x))
+    plt.plot(data['year'], res.intercept + res.slope*data['year'], 'r', label='y = %s + %s*x' % (res.intercept,res.slope))
     plt.legend()
     # the line equation:
     #print('y=%.6fx+(%.6f)' %(z[0],z[1]))
