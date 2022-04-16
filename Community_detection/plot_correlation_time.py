@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotting as plot
 import pymannkendall as mk
-
+from sklearn.metrics import r2_score 
 ############### Functions #################
 
 # calculate mean correlation over the years for every family in every cluster
@@ -21,6 +21,22 @@ def mean_correlation(data):
     fgv = g.partition_nodes(['cluster'], feature_funcs=feature_funcs)
     return fgv
 
+
+def scatter(data, name):
+    res = stats.linregress(data['year'], data['corr'])
+    plt.scatter(data['year'],data['corr'])
+    print(f"R-squared: {res.rvalue**2:.6f}")
+    plt.plot(data['year'],data['corr'], 'o', label='original data')
+    plt.plot(x, res.intercept + res.slope*x, 'r', label='y = %s + %s' % (res.intercept,res.slope*x))
+    plt.legend()
+    # the line equation:
+    print('y=%.6fx+(%.6f)' %(z[0],z[1]))
+    plt.ylabel('spearman correlation coefficient')
+    plt.xlabel('years')
+    plt.title('%s, R_square: %s' % (name,res.rvalue**2))
+    plt.savefig('../../Results/scatter_%s.png' % name)
+    plt.clf()
+    
 ############### Argparser #################
 
 def make_argparser():
