@@ -10,6 +10,7 @@ from scipy import stats
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotting as plot
+import pymannkendall as mk
 
 ############### Functions #################
 
@@ -53,12 +54,16 @@ n_nodes_corr.drop(n_nodes_corr.loc[n_nodes_corr['significant']==0].index,inplace
 hwmid_corr.drop(hwmid_corr.loc[hwmid_corr['significant']==0].index,inplace=True)
 
 for val in hwmid_clust:
-  hwmid_filt = hwmid_corr[hwmid_corr.cluster == val]
-  plot.scatter(hwmid_filt,'hwmid_%s' % val)
+    hwmid_filt = hwmid_corr[hwmid_corr.cluster == val]
+    mann_kendall = mk.original_test(hwmid_filt)
+    print(mann_kendall)
+    plot.scatter(hwmid_filt,'hwmid_%s' % val)
 
 for val in n_nodes_clust:
-  n_nodes_filt = n_nodes_corr[n_nodes_corr.cluster == val]
-  plot.scatter(n_nodes_filt, 'n_nodes_%s' % val)
+    n_nodes_filt = n_nodes_corr[n_nodes_corr.cluster == val]
+    mann_kendall = mk.original_test(n_nodes_filt)
+    print(mann_kendall)
+    plot.scatter(n_nodes_filt, 'n_nodes_%s' % val)
 
   
 
