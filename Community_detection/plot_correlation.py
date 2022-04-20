@@ -42,12 +42,12 @@ hwmid_corr['significant'] = np.where(hwmid_corr.p_value < 0.01, 1,0)
 n_nodes_corr.reset_index(inplace=True)
 hwmid_corr.reset_index(inplace=True)
 # plot timeseries for every cluster
-plot.corr_time_series(n_nodes_corr,'n_nodes')
-plot.corr_time_series(hwmid_corr,'hwmid')
+#plot.corr_time_series(n_nodes_corr,'n_nodes')
+#plot.corr_time_series(hwmid_corr,'hwmid')
 
 # plot boxplots to compare all clusters in 1 family
-plot.corr_violinplot(n_nodes_corr,'n_nodes_unfiltered')
-plot.corr_violinplot(hwmid_corr,'hwmid_unfiltered')
+#plot.corr_violinplot(n_nodes_corr,'n_nodes_unfiltered')
+#plot.corr_violinplot(hwmid_corr,'hwmid_unfiltered')
 
 
 # remove non-significant values
@@ -63,5 +63,5 @@ print('mean correlation hwmid')
 print(mean_corr_hwmid)
        
 # plot boxplots to compare all clusters in 1 family
-plot.corr_violinplot(n_nodes_corr,'n_nodes')
-plot.corr_violinplot(hwmid_corr,'hwmid')
+#plot.corr_violinplot(n_nodes_corr,'n_nodes')
+#plot.corr_violinplot(hwmid_corr,'hwmid')
