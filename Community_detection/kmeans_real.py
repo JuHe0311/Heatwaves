@@ -42,8 +42,6 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", help="Give the path to the original dataset to be worked on.",
                         type=str)
-    parser.add_argument("-lsm", "--land_sea_mask", help="Give the path to the land sea mask dataset.",
-                        type=str)
     parser.add_argument("-k", "--cluster_number", help="Give the number of clusters for the k-means clustering",
                         type=int)
     parser.add_argument("-u", "--upgma_clusters", nargs='*', help="Give a list containing the number of upgma clusters",
@@ -52,7 +50,6 @@ def make_argparser():
 
 parser = make_argparser()
 args = parser.parse_args()
-lsm = xarray.open_dataset(args.land_sea_mask)
 gv = pd.read_csv(args.data)
 k = args.cluster_number
 no_clusters = args.upgma_clusters
@@ -81,16 +78,6 @@ cpv['timespan'] = cpv.dt.dt.days+1
 cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
 
 # transform data
-
-cpv['n_nodes_log'] = np.log(cpv.n_nodes)
-cpv['n_unique_g_ids_log'] = np.log(cpv.n_unique_g_ids)
-cpv['magnitude_log'] = np.log(cpv.HWMId_magnitude)
-cpv.magnitude_log[np.isneginf(cpv.magnitude_log)]=0
-cpv['timespan_log'] = np.log(cpv.timespan)
-cpv['n_nodes_std']=(cpv.n_nodes_log-min(cpv.n_nodes_log))/(max(cpv.n_nodes_log)-min(cpv.n_nodes_log))
-cpv['n_unique_g_ids_std']=(cpv.n_unique_g_ids_log-min(cpv.n_unique_g_ids_log))/(max(cpv.n_unique_g_ids_log)-min(cpv.n_unique_g_ids_log))
-cpv['magnitude_std']=(cpv.magnitude_log-min(cpv.magnitude_log))/(max(cpv.magnitude_log)-min(cpv.magnitude_log))
-cpv['timespan_std']=(cpv.timespan_log-min(cpv.timespan_log))/(max(cpv.timespan_log)-min(cpv.timespan_log))
 cpv['doy_cos'] = cpv.ytime_mean.apply(conv_cos)
 cpv['doy_sin'] = cpv.ytime_mean.apply(conv_sin)
 
