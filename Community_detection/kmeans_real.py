@@ -10,8 +10,6 @@ import numpy as np
 import pandas as pd
 import matplotlib
 import deepgraph as dg
-import cppv
-import gc
 import plotting as plot
 import con_sep as cs
 # for plots
