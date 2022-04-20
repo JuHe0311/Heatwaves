@@ -16,7 +16,6 @@ def make_argparser():
 parser = make_argparser()
 args = parser.parse_args()
 gv = pd.read_csv(args.data)
-
 gv['time']=pd.to_datetime(gv['time'])
 gv['month'] = gv.time.dt.month
 gv['year'] = gv.time.dt.year
