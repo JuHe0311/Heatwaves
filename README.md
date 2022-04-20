@@ -12,14 +12,18 @@ save yml file here
 
 # Identification of Heatwaves from a Temperature Dataset
 
-`python new2.py -do [path to daily max temperature .nc] -g [spatial boundary]`
+```
+python new2.py -do [path to daily max temperature .nc] -g [spatial boundary]
+```
 
 # Clustering of Heatwaves
 
-`python kmeans_real.py -d [path to nodes dataset] -k [number of clusters for k means clustering] -u [number of clusters for upgma clustering - len() = k]`
+```
+python kmeans_real.py -d [path to nodes dataset] -k [number of clusters for k means clustering] -u [number of clusters for upgma clustering - len() = k]
+```
 
 # Vegetation Correlation Analysis
 
 ## Preparation of Temperature Dataset
 
-`python -d [path to nodes dataset of one family] -o [numbers of ocean clusters to be removed] -lsm [path to land sea mask data.nc] -b [hard boundary]
+```python -d [path to nodes dataset of one family] -o [numbers of ocean clusters to be removed] -lsm [path to land sea mask data.nc] -b [hard boundary]
