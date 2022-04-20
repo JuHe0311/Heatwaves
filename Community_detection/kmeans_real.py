@@ -15,7 +15,6 @@ import con_sep as cs
 # for plots
 import matplotlib.pyplot as plt
 import sklearn
-import seaborn as sns
 from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
 # kmeans clustering 
 from sklearn.datasets import make_blobs
