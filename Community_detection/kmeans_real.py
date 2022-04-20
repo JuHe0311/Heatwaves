@@ -130,7 +130,7 @@ feature_funcs = {'magnitude': [np.sum],
 fgv = g.partition_nodes(['F_kmeans', 'g_id'], feature_funcs=feature_funcs)
 fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
 
-plot.plot_families(k,fgv,gv,'heatwave_cluster %s' % k)
+plot.plot_families(k,fgv,gv,'heatwave_family %s' % k)
 
 # UPGMA clustering
 # performed for every family individually
