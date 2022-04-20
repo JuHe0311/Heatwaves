@@ -44,7 +44,7 @@ ndvi = pd.read_csv(args.ndvi_data)
 t = pd.read_csv(args.temperature_data)
 season = args.season
 t['time']=pd.to_datetime(t['time'])
-t['year'] = t.time_x.dt.year
+t['year'] = t.time.dt.year
 
 # perform the correlation
 n_nodes_corr = pd.DataFrame(columns=['year','cluster','corr','p_value'])
