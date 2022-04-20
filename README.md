@@ -1,4 +1,4 @@
-# Heatwaves
+# Spatio-Temporal Patterns of European Heat Waves and their Influence on Vegetation
 
 During my master thesis at the University of Tuebingen I created this project.
 
