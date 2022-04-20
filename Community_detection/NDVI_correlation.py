@@ -43,7 +43,7 @@ args = parser.parse_args()
 ndvi = pd.read_csv(args.ndvi_data)
 t = pd.read_csv(args.temperature_data)
 season = args.season
-t['time_x']=pd.to_datetime(t['time_x'])
+t['time']=pd.to_datetime(t['time'])
 t['year'] = t.time_x.dt.year
 
 # perform the correlation
