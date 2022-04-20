@@ -54,11 +54,11 @@ g = dg.DeepGraph(gv)
 # create supernodes from deep graph by partitioning the nodes by cp
 # feature functions applied to the supernodes
 feature_funcs = {'time': [np.min, np.max],
-                 'itime': [np.min, np.max],
                  't2m': [np.mean],
                  'magnitude': [np.sum],
                  'latitude': [np.mean],
-                 'longitude': [np.mean], 't2m': [np.max],'ytime':[np.mean,np.min,np.max],}
+                 'longitude': [np.mean], 
+                 't2m': [np.max],'ytime':[np.mean],}
 # partition graph
 cpv, ggv = g.partition_nodes('cp', feature_funcs, return_gv=True)
 # append neccessary stuff
@@ -116,7 +116,7 @@ for f in range(k):
 plt.savefig('../../Results/day_of_year_distribution')
 
 
-# plot the clusters on a map
+# plot the families on a map
 # feature funcs
 def n_cp_nodes(cp):
     return len(cp.unique())
@@ -133,6 +133,7 @@ fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude',
 plot.plot_families(k,fgv,gv,'heatwave_cluster %s' % k)
 
 # UPGMA clustering
+# performed for every family individually
 
 for i in range(k):
     gvv = dg.DeepGraph(gv)
@@ -168,16 +169,16 @@ for i in range(k):
     )
     plt.savefig('../../Results/dendrogram_fam%s.png' % i)
     # form flat clusters and append their labels to cpv
-    cpv_1['F_t'] = fcluster(lm, no_clusters[i], criterion='maxclust')
+    cpv_1['F_upgma'] = fcluster(lm, no_clusters[i], criterion='maxclust')
     #del lm
 
     # relabel families by size
-    f = cpv_1['F_t'].value_counts().index.values
+    f = cpv_1['F_upgma'].value_counts().index.values
     fdic = {j: i for i, j in enumerate(f)}
-    cpv_1['F_t'] = cpv_1['F_t'].apply(lambda x: fdic[x])
+    cpv_1['F_upgma'] = cpv_1['F_upgma'].apply(lambda x: fdic[x])
     # create F col
     gv_1['F_upgma'] = np.ones(len(gv_1), dtype=int) * -1
-    gcpv = cpv_1.groupby('F_t')
+    gcpv = cpv_1.groupby('F_upgma')
     it = gcpv.apply(lambda x: x.index.values)
 
     for F in range(len(it)):
