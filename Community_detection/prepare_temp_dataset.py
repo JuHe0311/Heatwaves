@@ -106,6 +106,8 @@ total = total[(total.lsm >=0.5)]
 #total_thresh = thresh(total)
 kmeans_filt = filter_grids(total,thresh(total,q))
 
+kmeans_filt.rename(columns={'time_x': 'time','latitude_x': 'latitude','longitude_x':'longitude'}, inplace=True)
+kmeans_filt.drop(columns=['bnds','time_bnds','latitude_y','longitude_y','time_y'], inplace=True)
 kmeans_filt.to_csv(path_or_buf = "../../Results/kmeans_filtered.csv", index=False)
 
 # feature funcs
@@ -113,14 +115,14 @@ def n_cp_nodes(cp):
     return len(cp.unique())
 
 feature_funcs = {'magnitude': [np.sum],
-                     'latitude_x': np.min,
-                     'longitude_x': np.min,
+                     'latitude': np.min,
+                     'longitude': np.min,
                      'cp': n_cp_nodes}
 k_means_dg = dg.DeepGraph(kmeans_filt)
 
 # create family-g_id intersection graph
 fgv = k_means_dg.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
-fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_x_amin':'longitude','latitude_x_amin':'latitude'}, inplace=True)
+fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
 plot_families(list(kmeans_filt.F_upgma.unique()),fgv,vt,'filtered_clusters')
 
    
