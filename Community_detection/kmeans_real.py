@@ -8,7 +8,6 @@ import argparse
 # the usual
 import numpy as np
 import pandas as pd
-import matplotlib
 import deepgraph as dg
 import plotting as plot
 import con_sep as cs
