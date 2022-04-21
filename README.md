@@ -60,7 +60,7 @@ The preparation of the temperature dataset for correlation analysis contains the
 The program returns:
 - The filtered nodes table for one family
 ```
-python -d [path to nodes dataset of one family] -o [numbers of ocean clusters to be removed] -lsm [path to land sea mask data.nc] -b [hard boundary]
+python prepare_temp_dataset.py -d [path to nodes dataset of one family] -o [numbers of ocean clusters to be removed] -lsm [path to land sea mask data.nc] -b [hard boundary]
 ```
 
 ## Preparation of NDVI Dataset
@@ -71,5 +71,18 @@ After the coarsening monthly anomalies of the NDVI values are computed and the v
 The program returns a filtered and modified NDVI dataset
 
 ```
-python -ndvi [path to NDVI dataset] -c [coarsening factor] -s [start and end month of the season]
+python prepare_ndvi_dataset.py -ndvi [path to NDVI dataset] -c [coarsening factor] -s [start and end month of the season]
 ```
+
+## Correlation Analysis
+The program NDVI_correlation.py calculates the spearman correlation coefficient between two features of heat waves (HWMId and number of heat wave days) and the NDVI for one heat wave family. The correlation is performed grid-wise for every year and every cluster. 
+The two features of the heat waves are summed up for one season so that we end up with one heat wave magnitude sum and the number of heat wave days at one grid point for every year and cluster. These values are correlated with the NDVI value at the respective grid point and year.
+
+The program returns:
+- A correlation coefficient table for the HWMId correlation
+- A correlation coefficient table for the number of heat wave days correlation
+```
+python NDVI_correlation.py -ndvi [path to modified NDVI dataset] -d [filtered nodes table for one family] -s [start and end month of the season]
+```
+
+## Visualization of the Correlation Analysis
