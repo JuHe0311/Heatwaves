@@ -121,7 +121,7 @@ def plot_families(number_families,fgv,v,plot_title):
     obj['m'].drawmeridians(range(0, 360, 20), linewidth=.2)
     cb = obj['fig'].colorbar(obj['pc'], fraction=.022, pad=.02)
     cb.set_label('number of Heatwaves', fontsize=15) 
-    obj['ax'].set_title('Cluster {}'.format(F))
+    obj['ax'].set_title('Family {}'.format(F))
     
     obj['fig'].savefig('../../Results/%s_fam_%s.png' % (plot_title,F),
                        dpi=300, bbox_inches='tight')
