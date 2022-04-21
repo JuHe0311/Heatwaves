@@ -52,5 +52,24 @@ python kmeans_real.py -d [path to nodes dataset] -k [number of clusters for k me
 # Vegetation Correlation Analysis
 
 ## Preparation of Temperature Dataset
+The preparation of the temperature dataset for correlation analysis contains the following steps:
+1. Removal of ocean clusters: All clusters that are predominantly located over the ocean are removed, as vegetation correlation over the ocean does not make any sense
+2. Removal of all individual grid points over the ocean: In all land clusters the individual ocean grid points are removed to avoid noise
+3. Defining a hard boundary for every cluster: To remove noise grid points in every cluster that are only hit a few times by a heat wave are removed from the cluster. The threshold for the boundary can be set individually.
 
-```python -d [path to nodes dataset of one family] -o [numbers of ocean clusters to be removed] -lsm [path to land sea mask data.nc] -b [hard boundary]
+The program returns:
+- The filtered nodes table for one family
+```
+python -d [path to nodes dataset of one family] -o [numbers of ocean clusters to be removed] -lsm [path to land sea mask data.nc] -b [hard boundary]
+```
+
+## Preparation of NDVI Dataset
+The program prepare_NDVI_dataset.py takes as input NDVI data in netCDF4 format, the factor, by which the NDVI dataset should be coarsened and the season start and end point (by month) by which the dataset should be filtered.
+
+After the coarsening monthly anomalies of the NDVI values are computed and the values are filtered so that only the values of the end of the season are kept.
+
+The program returns a filtered and modified NDVI dataset
+
+```
+python -ndvi [path to NDVI dataset] -c [coarsening factor] -s [start and end month of the season]
+```
