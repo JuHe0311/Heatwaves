@@ -7,6 +7,10 @@ What does this project do?
 It detects and visualizes spatio-temporal patterns of heat waves over Europe from daily maximum temperature data. These heat waves are then clustered into families and clustering based on their occurence during the year and their spatial pattern. Finally the clusters are assessed for their influence on vegetation by computing the correlation between NDVI (normalized differenced vegetation index) and heat wave attributes.
 
 # Environment creation
+Throughout the project the paths were the output plots and files are saves are hardcoded. Therefore it is neccessary to have a similar folder structure as I have or to adapt the code. 
+Include image of folder structure!!!!
+
+Within this yml file you can find the environment where all neccessary python modules are installed to run this code.
 
 save yml file here
 
