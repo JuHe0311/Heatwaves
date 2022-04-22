@@ -1,14 +1,9 @@
 # this module contains all functions for different plotting styles of the results
 
 #### Imports ####
-# for plots
 import matplotlib.pyplot as plt
-# the usual
 import numpy as np
 import deepgraph as dg
-import pandas as pd
-import itertools
-import scipy
 import seaborn as sns
 
 
