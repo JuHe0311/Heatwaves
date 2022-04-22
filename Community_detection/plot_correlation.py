@@ -77,11 +77,13 @@ n_nodes_clust = list(n_nodes_corr.cluster.unique())
 for val in hwmid_clust:
     hwmid_filt = hwmid_corr[hwmid_corr.cluster == val]
     if len(hwmid_filt) >= 10:
+        print(val)
         print(mk.original_test(hwmid_filt['corr']))
         scatter(hwmid_filt,'hwmid_%s' % val)
 
 for val in n_nodes_clust:
     n_nodes_filt = n_nodes_corr[n_nodes_corr.cluster == val]
     if len(n_nodes_filt) >= 10:
+        print(val)
         print(mk.original_test(n_nodes_filt['corr']))
         scatter(n_nodes_filt, 'n_nodes_%s' % val)
