@@ -10,6 +10,8 @@ from scipy import stats
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotting as plot
+import pymannkendall as mk
+from sklearn.metrics import r2_score 
 
 ############### Functions #################
 
@@ -20,6 +22,21 @@ def mean_correlation(data):
     fgv = g.partition_nodes(['cluster'], feature_funcs=feature_funcs)
     return fgv
 
+def scatter(data, name):
+    res = stats.linregress(data['year'], data['corr'])
+    plt.scatter(data['year'],data['corr'])
+    print(f"R-squared: {res.rvalue**2:.6f}")
+    plt.plot(data['year'],data['corr'], 'o')
+    plt.plot(data['year'], res.intercept + res.slope*data['year'], 'r', label=f'y = {res.intercept:.2f} + {res.slope:.2f}*x')
+    plt.legend()
+    # the line equation:
+    #print('y=%.6fx+(%.6f)' %(z[0],z[1]))
+    plt.ylabel('spearman correlation coefficient')
+    plt.xlabel('years')
+    plt.title(f'{name}, R_square: {res.rvalue**2:.5f}')
+    plt.savefig('../../Results/scatter_%s.png' % name)
+    plt.clf()
+ 
 ############### Argparser #################
 
 def make_argparser():
@@ -36,19 +53,11 @@ n_nodes_corr = pd.read_csv(args.nnodes_corr)
 hwmid_corr = pd.read_csv(args.hwmid_corr)
 
 # add a colum stating whether a correlation is significant
-# threshold of significance = 5%
+# threshold of significance = 1%
 n_nodes_corr['significant'] = np.where(n_nodes_corr.p_value < 0.01, 1,0)
 hwmid_corr['significant'] = np.where(hwmid_corr.p_value < 0.01, 1,0)
 n_nodes_corr.reset_index(inplace=True)
 hwmid_corr.reset_index(inplace=True)
-# plot timeseries for every cluster
-#plot.corr_time_series(n_nodes_corr,'n_nodes')
-#plot.corr_time_series(hwmid_corr,'hwmid')
-
-# plot boxplots to compare all clusters in 1 family
-#plot.corr_violinplot(n_nodes_corr,'n_nodes_unfiltered')
-#plot.corr_violinplot(hwmid_corr,'hwmid_unfiltered')
-
 
 # remove non-significant values
 n_nodes_corr.drop(n_nodes_corr.loc[n_nodes_corr['significant']==0].index,inplace=True)
@@ -61,7 +70,16 @@ print('mean correlation n_nodes')
 print(mean_corr_nodes)
 print('mean correlation hwmid')
 print(mean_corr_hwmid)
+hwmid_clust = list(hwmid_corr.cluster.unique())
+n_nodes_clust = list(n_nodes_corr.cluster.unique())
        
-# plot boxplots to compare all clusters in 1 family
-#plot.corr_violinplot(n_nodes_corr,'n_nodes')
-#plot.corr_violinplot(hwmid_corr,'hwmid')
+# create time series plots
+for val in hwmid_clust:
+    hwmid_filt = hwmid_corr[hwmid_corr.cluster == val]
+    print(mk.original_test(hwmid_filt['corr']))
+    scatter(hwmid_filt,'hwmid_%s' % val)
+
+for val in n_nodes_clust:
+    n_nodes_filt = n_nodes_corr[n_nodes_corr.cluster == val]
+    print(mk.original_test(n_nodes_filt['corr']))
+    scatter(n_nodes_filt, 'n_nodes_%s' % val)
