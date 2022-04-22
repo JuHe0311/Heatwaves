@@ -14,14 +14,6 @@ import pymannkendall as mk
 from sklearn.metrics import r2_score 
 ############### Functions #################
 
-# calculate mean correlation over the years for every family in every cluster
-def mean_correlation(data):
-    feature_funcs = {'corr':[np.mean]}
-    g = dg.DeepGraph(data)
-    fgv = g.partition_nodes(['cluster'], feature_funcs=feature_funcs)
-    return fgv
-
-
 def scatter(data, name):
     res = stats.linregress(data['year'], data['corr'])
     plt.scatter(data['year'],data['corr'])
