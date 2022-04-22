@@ -90,3 +90,15 @@ python NDVI_correlation.py -ndvi [path to modified NDVI dataset] -d [filtered no
 ```
 
 ## Visualization of the Correlation Analysis
+
+### xxx
+
+```
+python plot_correlation.py -n [path to the correlation coefficient table for the number of heat wave days correlation] -hwmid [path to the correlation coefficient table for the HWMId correlation]
+```
+
+### Timeseries Analysis of Correlation
+
+```
+python plot_correlation_time.py -ndvi [path to modified NDVI dataset] -d [filtered nodes table for one family] -s [start and end month of the season]
+```
