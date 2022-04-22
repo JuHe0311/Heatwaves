@@ -1,12 +1,12 @@
-# this module contains all functions for different plotting styles of the results
+# This module contains all functions for different plotting styles of the results
 
-#### Imports ####
+# Imports
 import matplotlib.pyplot as plt
 import numpy as np
 import deepgraph as dg
 import seaborn as sns
 
-        
+# plots heat wave families or clusters on a map        
 def plot_families(number_families,fgv,v,plot_title):
   families = np.arange(number_families)
   for F in families:
@@ -41,7 +41,7 @@ def plot_families(number_families,fgv,v,plot_title):
     obj['fig'].savefig('../../Results/%s_Cluster %s.png' % (plot_title,F),
                        dpi=300, bbox_inches='tight')
 
-  
+# plots a scatter plot of correlation trends 
 def scatter(n_nodes, name):
     plt.scatter(n_nodes['year'],n_nodes['corr'])
     # calc the trendline
