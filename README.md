@@ -81,6 +81,7 @@ python prepare_ndvi_dataset.py -ndvi [path to NDVI dataset] -c [coarsening facto
 ## Correlation Analysis
 The program NDVI_correlation.py calculates the spearman correlation coefficient between two features of heat waves (HWMId and number of heat wave days) and the NDVI for one heat wave family. The correlation is performed grid-wise for every year and every cluster. 
 The two features of the heat waves are summed up for one season so that we end up with one heat wave magnitude sum and the number of heat wave days at one grid point for every year and cluster. These values are correlated with the NDVI value at the respective grid point and year.
+The season start and end point can be calculated with the program define_seasons.py. Seasons are computed by taking the 10th and 90th percentile of the month distribution of the nodes of a given dataset.
 
 The program returns:
 - A correlation coefficient table for the HWMId correlation
@@ -90,15 +91,9 @@ python NDVI_correlation.py -ndvi [path to modified NDVI dataset] -d [filtered no
 ```
 
 ## Visualization of the Correlation Analysis
-
-### xxx
-
+The program plot_correlation.py visualized the correlation coefficients for one family of heat waves computed in the previous step. The two correlation coefficient tables are needed as input. For this only the significant corelation coefficient values are used. The significance threshold is set to a = 0.01. First the mean correlation coefficient over all years for every cluster and both correlation variables (hwmid and number of heat waves) are calculated and printed to the console.
+Secondly the time series of correlation coefficients for every cluster is plotted. The R^2 value and the slope of the linear regression line are reported. Additionally the Mann-Kendall test is performed and its result is printed to the console.
 ```
 python plot_correlation.py -n [path to the correlation coefficient table for the number of heat wave days correlation] -hwmid [path to the correlation coefficient table for the HWMId correlation]
 ```
 
-### Timeseries Analysis of Correlation
-
-```
-python plot_correlation_time.py -ndvi [path to modified NDVI dataset] -d [filtered nodes table for one family] -s [start and end month of the season]
-```
