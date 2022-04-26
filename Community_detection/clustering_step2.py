@@ -21,8 +21,6 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", help="Give the path to the original dataset to be worked on.",
                         type=str)
-    parser.add_argument("-sn", "--super_nodes", help="Give the path to the supernodes dataset to be worked on.",
-                        type=str)
     parser.add_argument("-u", "--upgma_clusters", help="Give the number of upgma clusters",
                         type=int)
     return parser
@@ -31,8 +29,29 @@ parser = make_argparser()
 args = parser.parse_args()
 gv = pd.read_csv(args.data)
 no_clusters = args.upgma_clusters
-cpv = pd.read_csv(args.super_nodes)
 gv['time']=pd.to_datetime(gv['time'])
+g = dg.DeepGraph(gv)
+# create supernodes from deep graph by partitioning the nodes by cp
+# feature functions applied to the supernodes
+feature_funcs = {'time': [np.min, np.max],
+                 't2m': [np.mean],
+                 'magnitude': [np.sum],
+                 'latitude': [np.mean],
+                 'longitude': [np.mean], 
+                 't2m': [np.max],'ytime':[np.mean],}
+# partition graph
+cpv, ggv = g.partition_nodes('cp', feature_funcs, return_gv=True)
+# append neccessary stuff
+# append geographical id sets
+cpv['g_ids'] = ggv['g_id'].apply(set)
+# append cardinality of g_id sets
+cpv['n_unique_g_ids'] = cpv['g_ids'].apply(len)
+# append time spans
+cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
+# append time spans
+cpv['timespan'] = cpv.dt.dt.days+1
+# not neccessary for precipitation
+cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
 
 
 cpg = dg.DeepGraph(gv)
