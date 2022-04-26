@@ -29,7 +29,7 @@ def make_argparser():
 
 parser = make_argparser()
 args = parser.parse_args()
-gv = pd.read_csv(args.data)
+gvv = pd.read_csv(args.data)
 no_clusters = args.upgma_clusters
 i = args.family
 gv['time']=pd.to_datetime(gv['time'])
@@ -88,8 +88,8 @@ gcpv = cpv.groupby('F_upgma')
 it = gcpv.apply(lambda x: x.index.values)
 
 for F in range(len(it)):
-    cp_index = gv.v.cp.isin(it.iloc[F])
-    gv.v.loc[cp_index, 'F_upgma'] = F
+    cp_index = gvv.v.cp.isin(it.iloc[F])
+    gvv.v.loc[cp_index, 'F_upgma'] = F
     
 print(gv.F_upgma.value_counts())
 # feature funcs
@@ -102,7 +102,7 @@ feature_funcs = {'magnitude': [np.sum],
                      'cp': n_cp_nodes}
 
 # create family-g_id intersection graph
-fgv = gv.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
+fgv = gvv.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
 fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
 cpv.to_csv(path_or_buf = "../../Results/cpv_fam%s.csv" % i, index=False)
 gv.to_csv(path_or_buf = "../../Results/gv_fam%s.csv" % i, index=False)
