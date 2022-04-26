@@ -1,0 +1,88 @@
+# takes net_cdf file and converts it into a pandas dataframe with xarray
+# creates integer based coordinates
+# saves pandas dataframe under Results
+
+# data i/o
+import xarray
+import argparse
+# the usual
+import numpy as np
+import pandas as pd
+import deepgraph as dg
+import plotting as plot
+import con_sep as cs
+import matplotlib.pyplot as plt
+from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
+from sklearn.cluster import KMeans
+
+### Argparser ###
+
+def make_argparser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--data", help="Give the path to the original dataset to be worked on.",
+                        type=str)
+    parser.add_argument("-sn", "--super_nodes", help="Give the path to the supernodes dataset to be worked on.",
+                        type=str)
+    parser.add_argument("-u", "--upgma_clusters", help="Give the number of upgma clusters",
+                        type=int)
+    return parser
+
+parser = make_argparser()
+args = parser.parse_args()
+gv = pd.read_csv(args.data)
+no_clusters = args.upgma_clusters
+cpv = pd.read_csv(args.super_nodes)
+gv['time']=pd.to_datetime(gv['time'])
+
+
+cpg = dg.DeepGraph(gv)
+
+# create edges
+cpg.create_edges(connectors=[cs.cp_node_intersection, 
+                             cs.cp_intersection_strength],
+                             no_transfer_rs=['intsec_card'],
+                             logfile='create_cpe',
+                             step_size=1e7)
+
+# create condensed distance matrix
+dv = 1 - cpg.e.intsec_strength.values
+del cpg.e
+
+# create linkage matrix
+lm = linkage(dv, method='average', metric='euclidean')
+del dv
+    
+# form flat clusters and append their labels to cpv
+cpv['F_upgma'] = fcluster(lm, no_clusters[i], criterion='maxclust')
+#del lm
+
+# relabel families by size
+f = gv['F_upgma'].value_counts().index.values
+fdic = {j: i for i, j in enumerate(f)}
+gv['F_upgma'] = gv['F_upgma'].apply(lambda x: fdic[x])
+# create F col
+gv['F_upgma'] = np.ones(len(gv), dtype=int) * -1
+gcpv = cpv.groupby('F_upgma')
+it = gcpv.apply(lambda x: x.index.values)
+
+#for F in range(len(it)):
+ # cp_index = gv.v.cp.isin(it.iloc[F])
+ # gv.v.loc[cp_index, 'F_upgma'] = F
+    
+    
+# feature funcs
+def n_cp_nodes(cp):
+  return len(cp.unique())
+
+feature_funcs = {'magnitude': [np.sum],
+                     'latitude': np.min,
+                     'longitude': np.min,
+                     'cp': n_cp_nodes}
+
+# create family-g_id intersection graph
+fgv = gv.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
+fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
+cpv.to_csv(path_or_buf = "../../Results/cpv_fam%s.csv" % i, index=False)
+gv.to_csv(path_or_buf = "../../Results/gv_fam%s.csv" % i, index=False)
+r = range(no_clusters[i])
+plot.plot_families(no_clusters[i],fgv,gv,'Familiy %s' % i)
