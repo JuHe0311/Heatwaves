@@ -16,7 +16,6 @@ args = parser.parse_args()
 gv = pd.read_csv(args.data)
 gv['time']=pd.to_datetime(gv['time'])
 gv['month'] = gv.time.dt.month
-gv['year'] = gv.time.dt.year
 
 season = [gv.month.quantile(q=0.1),gv.month.quantile(q=0.9)]
 
