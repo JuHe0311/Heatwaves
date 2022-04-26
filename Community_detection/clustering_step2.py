@@ -75,7 +75,7 @@ lm = linkage(dv, method='average', metric='euclidean')
 del dv
     
 # form flat clusters and append their labels to cpv
-cpv['F_upgma'] = fcluster(lm, no_clusters[i], criterion='maxclust')
+cpv['F_upgma'] = fcluster(lm, no_clusters, criterion='maxclust')
 #del lm
 
 # relabel families by size
@@ -107,4 +107,4 @@ fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude',
 cpv.to_csv(path_or_buf = "../../Results/cpv_fam%s.csv" % i, index=False)
 gv.to_csv(path_or_buf = "../../Results/gv_fam%s.csv" % i, index=False)
 r = range(no_clusters[i])
-plot.plot_families(no_clusters[i],fgv,gv,'Familiy %s' % i)
+plot.plot_families(no_clusters,fgv,gv,'Familiy %s' % i)
