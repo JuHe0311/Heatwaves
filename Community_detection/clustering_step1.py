@@ -94,9 +94,6 @@ for F in range(len(it)):
     cp_index = g.v.cp.isin(it.iloc[F])
     g.v.loc[cp_index, 'F_kmeans'] = F
 
-# save the new datasets with the F_kmeans column
-cpv.to_csv(path_or_buf = "../../Results/cpv_fam%s.csv" % i, index=False)
-gv.to_csv(path_or_buf = "../../Results/gv_fam%s.csv" % i, index=False)
 
 # plot the day of year distribution of the clusters
 for f in range(k):
@@ -162,7 +159,10 @@ for i in range(k):
         leaf_font_size=8.,  # font size for the x axis labels
     )
     plt.savefig('../../Results/dendrogram_fam%s.png' % i)
-    
+    # save the new datasets with the F_kmeans column
+    cpv_1.to_csv(path_or_buf = "../../Results/cpv_fam%s.csv" % i, index=False)
+    gv_1.to_csv(path_or_buf = "../../Results/gv_fam%s.csv" % i, index=False)
+
     
 
 
