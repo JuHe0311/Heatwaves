@@ -81,7 +81,7 @@ cpv['F_upgma'] = fcluster(lm, no_clusters, criterion='maxclust')
 # relabel families by size
 f = cpv['F_upgma'].value_counts().index.values
 fdic = {j: i for i, j in enumerate(f)}
-gv['F_upgma'] = cpv['F_upgma'].apply(lambda x: fdic[x])
+cpv['F_upgma'] = cpv['F_upgma'].apply(lambda x: fdic[x])
 # create F col
 gv['F_upgma'] = np.ones(len(gv), dtype=int) * -1
 gcpv = cpv.groupby('F_upgma')
