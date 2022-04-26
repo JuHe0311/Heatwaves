@@ -91,7 +91,7 @@ it = gcpv.apply(lambda x: x.index.values)
  # cp_index = gv.v.cp.isin(it.iloc[F])
  # gv.v.loc[cp_index, 'F_upgma'] = F
     
-    
+print(gv.F_upgma.value_counts())
 # feature funcs
 def n_cp_nodes(cp):
   return len(cp.unique())
