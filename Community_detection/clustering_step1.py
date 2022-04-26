@@ -14,7 +14,7 @@ import con_sep as cs
 import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
 from sklearn.cluster import KMeans
-
+import matplotlib.cm as cm
 ### functions ###
 
 def conv_sin(doy):
