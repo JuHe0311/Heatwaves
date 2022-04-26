@@ -56,7 +56,7 @@ cpv['timespan'] = cpv.dt.dt.days+1
 # not neccessary for precipitation
 cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
 
-
+gv = dg.DeepGraph(gv)
 cpg = dg.DeepGraph(cpv)
 
 # create edges
@@ -102,8 +102,7 @@ feature_funcs = {'magnitude': [np.sum],
                      'cp': n_cp_nodes}
 
 # create family-g_id intersection graph
-gvv = dg.DeepGraph(gv)
-fgv = gvv.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
+fgv = gv.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
 fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
 cpv.to_csv(path_or_buf = "../../Results/cpv_fam%s.csv" % i, index=False)
 gv.to_csv(path_or_buf = "../../Results/gv_fam%s.csv" % i, index=False)
