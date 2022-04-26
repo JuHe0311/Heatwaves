@@ -102,7 +102,8 @@ feature_funcs = {'magnitude': [np.sum],
                      'cp': n_cp_nodes}
 
 # create family-g_id intersection graph
-fgv = gv.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
+gvv = dg.DeepGraph(gv)
+fgv = gvv.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
 fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
 cpv.to_csv(path_or_buf = "../../Results/cpv_fam%s.csv" % i, index=False)
 gv.to_csv(path_or_buf = "../../Results/gv_fam%s.csv" % i, index=False)
