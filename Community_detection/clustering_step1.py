@@ -11,15 +11,9 @@ import pandas as pd
 import deepgraph as dg
 import plotting as plot
 import con_sep as cs
-# for plots
 import matplotlib.pyplot as plt
-import sklearn
 from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
-# kmeans clustering 
-from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_samples, silhouette_score
-import matplotlib.cm as cm
 
 ### functions ###
 
@@ -40,15 +34,12 @@ def make_argparser():
                         type=str)
     parser.add_argument("-k", "--cluster_number", help="Give the number of clusters for the k-means clustering",
                         type=int)
-    parser.add_argument("-u", "--upgma_clusters", nargs='*', help="Give a list containing the number of upgma clusters",
-                        type=int)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
 gv = pd.read_csv(args.data)
 k = args.cluster_number
-no_clusters = args.upgma_clusters
 gv['time']=pd.to_datetime(gv['time'])
 g = dg.DeepGraph(gv)
 # create supernodes from deep graph by partitioning the nodes by cp
@@ -103,8 +94,11 @@ for F in range(len(it)):
     cp_index = g.v.cp.isin(it.iloc[F])
     g.v.loc[cp_index, 'F_kmeans'] = F
 
-# plot the day of year distribution of the clusters
+# save the new datasets with the F_kmeans column
+cpv.to_csv(path_or_buf = "../../Results/cpv_fam%s.csv" % i, index=False)
+gv.to_csv(path_or_buf = "../../Results/gv_fam%s.csv" % i, index=False)
 
+# plot the day of year distribution of the clusters
 for f in range(k):
     tmp = dg.DeepGraph(g.v)
     tmp.filter_by_values_v('F_kmeans',f)
@@ -132,9 +126,9 @@ fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude',
 
 plot.plot_families(k,fgv,gv,'Family %s' % k)
 
-# UPGMA clustering
-# performed for every family individually
 
+# UPGMA clustering - dendrogram
+# performed for every family individually - dendrogram is saved to find out how many clusters per family are optimal
 for i in range(k):
     gvv = dg.DeepGraph(gv)
     gvv.filter_by_values_v('F_kmeans',i)
@@ -168,41 +162,7 @@ for i in range(k):
         leaf_font_size=8.,  # font size for the x axis labels
     )
     plt.savefig('../../Results/dendrogram_fam%s.png' % i)
-    # form flat clusters and append their labels to cpv
-    cpv_1['F_upgma'] = fcluster(lm, no_clusters[i], criterion='maxclust')
-    #del lm
-
-    # relabel families by size
-    f = cpv_1['F_upgma'].value_counts().index.values
-    fdic = {j: i for i, j in enumerate(f)}
-    cpv_1['F_upgma'] = cpv_1['F_upgma'].apply(lambda x: fdic[x])
-    # create F col
-    gv_1['F_upgma'] = np.ones(len(gv_1), dtype=int) * -1
-    gcpv = cpv_1.groupby('F_upgma')
-    it = gcpv.apply(lambda x: x.index.values)
-
-    for F in range(len(it)):
-        cp_index = gvv.v.cp.isin(it.iloc[F])
-        gvv.v.loc[cp_index, 'F_upgma'] = F
     
-    
-    # feature funcs
-    def n_cp_nodes(cp):
-        return len(cp.unique())
-
-    feature_funcs = {'magnitude': [np.sum],
-                     'latitude': np.min,
-                     'longitude': np.min,
-                     'cp': n_cp_nodes}
-
-    # create family-g_id intersection graph
-    fgv = gvv.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
-    fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
-    cpv_1.to_csv(path_or_buf = "../../Results/cpv_fam%s.csv" % i, index=False)
-    gv_1.to_csv(path_or_buf = "../../Results/gv_fam%s.csv" % i, index=False)
-    r = range(no_clusters[i])
-    plot.plot_families(no_clusters[i],fgv,gv,'Familiy %s' % i)
-
     
 
 
