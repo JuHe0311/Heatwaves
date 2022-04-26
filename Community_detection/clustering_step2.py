@@ -87,9 +87,9 @@ gv['F_upgma'] = np.ones(len(gv), dtype=int) * -1
 gcpv = cpv.groupby('F_upgma')
 it = gcpv.apply(lambda x: x.index.values)
 
-#for F in range(len(it)):
- # cp_index = gv.v.cp.isin(it.iloc[F])
- # gv.v.loc[cp_index, 'F_upgma'] = F
+for F in range(len(it)):
+    cp_index = gv.v.cp.isin(it.iloc[F])
+    gv.v.loc[cp_index, 'F_upgma'] = F
     
 print(gv.F_upgma.value_counts())
 # feature funcs
