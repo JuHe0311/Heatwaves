@@ -54,7 +54,7 @@ cpv['timespan'] = cpv.dt.dt.days+1
 cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
 
 
-cpg = dg.DeepGraph(gv)
+cpg = dg.DeepGraph(cpv)
 
 # create edges
 cpg.create_edges(connectors=[cs.cp_node_intersection, 
