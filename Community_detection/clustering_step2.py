@@ -23,12 +23,15 @@ def make_argparser():
                         type=str)
     parser.add_argument("-u", "--upgma_clusters", help="Give the number of upgma clusters",
                         type=int)
+    parser.add_argument("-i", "--family", help="Give the number of the family",
+                        type=int)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
 gv = pd.read_csv(args.data)
 no_clusters = args.upgma_clusters
+i = args.family
 gv['time']=pd.to_datetime(gv['time'])
 g = dg.DeepGraph(gv)
 # create supernodes from deep graph by partitioning the nodes by cp
