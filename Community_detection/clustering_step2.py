@@ -29,11 +29,11 @@ def make_argparser():
 
 parser = make_argparser()
 args = parser.parse_args()
-gvv = pd.read_csv(args.data)
+gv = pd.read_csv(args.data)
 no_clusters = args.upgma_clusters
 i = args.family
 gv['time']=pd.to_datetime(gv['time'])
-g = dg.DeepGraph(gv)
+gvv = dg.DeepGraph(gv)
 # create supernodes from deep graph by partitioning the nodes by cp
 # feature functions applied to the supernodes
 feature_funcs = {'time': [np.min, np.max],
