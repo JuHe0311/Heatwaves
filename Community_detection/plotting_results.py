@@ -111,8 +111,8 @@ obj['fig'].savefig('../../Results/largest_heatwave.png',
 #one = fam3[fam3.cp ==248]
 times = np.arange(first.itime.min(), first.itime.max()+1)
 tdic = {time: itime for itime, time in enumerate(times)}
-first['dai'] = one.itime.apply(lambda x: tdic[x])
-first['dai'] = one['dai'].astype(np.uint16)
+first['dai'] = first.itime.apply(lambda x: tdic[x])
+first['dai'] = first['dai'].astype(np.uint16)
 
 # configure map projection
 kwds_basemap = {'llcrnrlon': g.v.longitude.min() - 1,
