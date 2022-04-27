@@ -12,7 +12,7 @@ import deepgraph as dg
 import plotting as plot
 import con_sep as cs
 import matplotlib.pyplot as plt
-
+import seaborn as sns
 ### Argparser ###
 
 def make_argparser():
@@ -52,7 +52,7 @@ print(cpv)
 
 # plot seaborn pairplot
 
-sns.pairplot(g.v, x_vars=['n_nodes','HWMId_magnitude', 'days', 'ytime'], y_vars=['n_nodes','HWMId_magnitude', 'days', 'ytime'], kind='reg');
+sns.pairplot(g.v, x_vars=['n_nodes','magnitude', 'days', 'ytime'], y_vars=['n_nodes','magnitude', 'days', 'ytime'], kind='reg');
 
-sns.pairplot(cpv, x_vars=['n_nodes','magnitude_sum', 'timespan', 'ytime_mean'], y_vars=['n_nodes','magnitude_sum', 'timespan', 'ytime_mean'], kind='reg');
+sns.pairplot(cpv, x_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], y_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], kind='reg');
 
