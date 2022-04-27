@@ -55,6 +55,5 @@ print(cpv)
 #fig = sns.pairplot(g.v, x_vars=['magnitude', 't2m', 'ytime'], y_vars=['magnitude', 't2m', 'ytime'], kind='reg');
 #fig = plot.get_figure()
 #fig.savefig('../../Results/pairplot_gv.png')
-fig2 = sns.pairplot(cpv, x_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], y_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], kind='reg');
-fig2 = plot.get_figure()
-fig2.savefig('../../Results/pairplot_cpv.png')
+sns.pairplot(cpv, x_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], y_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], kind='reg');
+plt.savefig('../../Results/pairplot_cpv.png')
