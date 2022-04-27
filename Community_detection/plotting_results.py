@@ -101,5 +101,5 @@ obj['ax'].set_title('largest heat wave')
 cb = obj['fig'].colorbar(obj['pc'], fraction=.022, pad=.02)
 cb.set_label('{}'.format('largest heat wave'), fontsize=15) 
     
-obj['fig'].savefig('../../Results/largest_heatwave.png,
+obj['fig'].savefig('../../Results/largest_heatwave.png',
                        dpi=300, bbox_inches='tight')
