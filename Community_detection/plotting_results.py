@@ -48,7 +48,7 @@ cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
 cpv['timespan'] = cpv.dt.dt.days+1
 # not neccessary for precipitation
 cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
-
+print(cpv)
 
 # plot seaborn pairplot
 
