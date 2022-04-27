@@ -104,3 +104,43 @@ cb.set_label('{}'.format('largest heat wave'), fontsize=15)
     
 obj['fig'].savefig('../../Results/largest_heatwave.png',
                        dpi=300, bbox_inches='tight')
+
+
+# plot progression of largest heat wave
+
+#one = fam3[fam3.cp ==248]
+times = np.arange(first.itime.min(), first.itime.max()+1)
+tdic = {time: itime for itime, time in enumerate(times)}
+first['dai'] = one.itime.apply(lambda x: tdic[x])
+first['dai'] = one['dai'].astype(np.uint16)
+
+# configure map projection
+kwds_basemap = {'llcrnrlon': g.v.longitude.min() - 1,
+                    'urcrnrlon': g.v.longitude.max() + 1,
+                    'llcrnrlat': g.v.latitude.min() - 1,
+                    'urcrnrlat': g.v.latitude.max() + 1}
+    
+ggg = dg.DeepGraph(first)
+    # configure scatter plots
+kwds_scatter = {'s': 1,
+                    'c': first.dai.values,
+                    'cmap': 'rainbow',
+                    'alpha': .5,
+                    'edgecolors': 'none'}
+
+# create scatter plot on map
+obj = ggg.plot_map(lon='longitude', lat='latitude',
+                      kwds_basemap=kwds_basemap,
+                      kwds_scatter=kwds_scatter)
+
+# configure plots
+obj['m'].drawcoastlines(linewidth=.8)
+obj['m'].drawparallels(range(-50, 50, 20), linewidth=.2)
+obj['m'].drawmeridians(range(0, 360, 20), linewidth=.2)
+obj['ax'].set_title('progression of largest heat wave')
+    
+# colorbar
+cb = obj['fig'].colorbar(obj['pc'], fraction=.022, pad=.02)
+cb.set_label('{}'.format('days after initiation'), fontsize=15) 
+obj['fig'].savefig('../../Results/largest_heatwave_progression.png',
+                       dpi=300, bbox_inches='tight')
