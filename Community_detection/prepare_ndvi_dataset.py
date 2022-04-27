@@ -29,7 +29,7 @@ season = args.season
 
 # downsample the grid, so the grid fits the grid of the temperature dataset
 # always take the maximum value of the grids that are combined (take into account errors that reduce NDVI)
-d=d.coarsen(X=c,Y=c,boundary='trim').max()
+d=d.coarsen(X=c,Y=c,boundary='trim').mean()
 
 # calculate monthly anomalies
 clm = d.sel(T=slice('1981-07-08 12:00:00','2015-12-24 00:00:00')).groupby('T.month').max(dim='T')
