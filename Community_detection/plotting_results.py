@@ -73,6 +73,7 @@ feature_funcs = {'magnitude': [np.sum],
 fgv = first_gv.partition_nodes('g_id', feature_funcs=feature_funcs)
 fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
 fgv_v = dg.DeepGraph(fgv)
+print(fgv)
     # configure map projection
 kwds_basemap = {'llcrnrlon': g.v.longitude.min() - 1,
                     'urcrnrlon': g.v.longitude.max() + 1,
