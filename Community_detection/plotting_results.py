@@ -52,8 +52,5 @@ print(cpv)
 
 # plot seaborn pairplot
 
-#fig = sns.pairplot(g.v, x_vars=['magnitude', 't2m', 'ytime'], y_vars=['magnitude', 't2m', 'ytime'], kind='reg');
-#fig = plot.get_figure()
-#fig.savefig('../../Results/pairplot_gv.png')
-sns.pairplot(cpv, x_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], y_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], kind='reg');
+sns.pairplot(cpv, x_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], y_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], kind="kde");
 plt.savefig('../../Results/pairplot_cpv.png')
