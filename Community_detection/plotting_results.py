@@ -9,7 +9,7 @@ import argparse
 import numpy as np
 import pandas as pd
 import deepgraph as dg
-import plotting as plot
+#import plotting as plot
 import con_sep as cs
 import matplotlib.pyplot as plt
 import seaborn as sns
