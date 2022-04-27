@@ -82,7 +82,7 @@ kwds_basemap = {'llcrnrlon': g.v.longitude.min() - 1,
     
     # configure scatter plots
 kwds_scatter = {'s': 1,
-                    'c': fgv.n_cp_nodes,
+                    'c': fgv.n_nodes,
                     'cmap': 'viridis_r',
                     'alpha': .5,
                     'edgecolors': 'none'}
