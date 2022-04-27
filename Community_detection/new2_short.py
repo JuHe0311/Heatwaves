@@ -8,11 +8,9 @@ import argparse
 # the usual
 import numpy as np
 import pandas as pd
-import extr as ex
 import matplotlib
 import deepgraph as dg
 import cppv
-import gc
 
 ### functions ###
 def perc25(a_list):
@@ -29,7 +27,6 @@ def calc_mag(data):
     else:
         mag = 0
     return mag
-
 
 ### Argparser ###
 
