@@ -54,3 +54,52 @@ print(cpv)
 
 sns.pairplot(cpv, x_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], y_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], kind="kde");
 plt.savefig('../../Results/pairplot_cpv.png')
+
+# plot largest heat wave
+print(gv)
+first = gv[gv.cp == 1]
+first_gv = dg.DeepGraph(first)
+
+# feature funcs
+def n_cp_nodes(cp):
+    return len(cp.unique())
+
+feature_funcs = {'magnitude': [np.sum],
+                 'latitude': np.min,
+                 'longitude': np.min,
+                 'cp': n_cp_nodes}
+
+# create g_id intersection graph
+fgv = first_gv.partition_nodes('g_id', feature_funcs=feature_funcs)
+fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
+fgv_v = fgv(dg.DeepGraph)
+    # configure map projection
+kwds_basemap = {'llcrnrlon': g.v.longitude.min() - 1,
+                    'urcrnrlon': g.v.longitude.max() + 1,
+                    'llcrnrlat': g.v.latitude.min() - 1,
+                    'urcrnrlat': g.v.latitude.max() + 1}
+    
+    # configure scatter plots
+kwds_scatter = {'s': 1,
+                    'c': fgv.v.n_cp_nodes,
+                    'cmap': 'viridis_r',
+                    'alpha': .5,
+                    'edgecolors': 'none'}
+
+    # create scatter plot on map
+obj = fgv_v.plot_map(lon='longitude', lat='latitude',
+                      kwds_basemap=kwds_basemap,
+                      kwds_scatter=kwds_scatter)
+
+    # configure plots
+obj['m'].drawcoastlines(linewidth=.8,zorder=10)
+obj['m'].drawparallels(range(-50, 50, 20), linewidth=.2)
+obj['m'].drawmeridians(range(0, 360, 20), linewidth=.2)
+obj['ax'].set_title('largest heat wave')
+    
+    # colorbar
+cb = obj['fig'].colorbar(obj['pc'], fraction=.022, pad=.02)
+cb.set_label('{}'.format('largest heat wave'), fontsize=15) 
+    
+obj['fig'].savefig('../../Results/largest_heatwave.png,
+                       dpi=300, bbox_inches='tight')
