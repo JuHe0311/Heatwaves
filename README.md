@@ -1,6 +1,6 @@
 # Spatio-Temporal Patterns of European Heat Waves and their Influence on Vegetation
 
-During my master thesis at the University of Tuebingen I created this project.
+During my master thesis at the University of Tuebingen in the Machine Learning for Climate Science research group I created this project.
 
 What does this project do? 
 
@@ -36,22 +36,36 @@ python new2.py -do [path to daily max temperature .nc] -g [spatial boundary]
 # Clustering of Heat Waves
 My goal was to cluster the heat waves spatially and temporally. For this approach two subsequent clustering steps were applied. First the heat waves were temporally clustered with k means algorithm and then every familiy from the k means clustering was clustered spatially with UPGMA hierarchial clustering.
 
-The input for the program kmeans.py is the in the previous step computed nodes table, the number of clusters for the k means clustering and a list of integers giving the number of clusters in the UPGMA clustering for every family. 
+## K Means Clustering 
+
+The input for the program clustering_step1.py is the in the previous step computed nodes table and the number of clusters for the k means clustering.
 
 For k means clustering the day of year mean of a heat wave is transformed and now expressed by two values.
-The family and cluster numbers of every node are appended to the nodes table in the columns F_kmeans and F_upgma. 
+The family membership of every node is appended to the nodes table in the column F_kmeans. Additionally UPGMA clustering is performed on every family of heat waves and a dendrogram is returned. From the dendrogram the optimal number of clusters for every family can be visually derived. 
 
 The program returns:
 - A figure of the k means clustering result
 - A histogram of the day of year distribution of the nodes in the different families
 - k plots picturing the spatial distribution of the heat waves in the k means families
 - k dendrograms for every UPGMA clustering of the k heat wave families
-- For every cluster in the UPGMA clustering a plot of the spatial distribution of the heat waves within the cluster
-- k nodes tables for every heat wave family with the added family and cluster information 
-- k supernodes tables for every heat wave family with the added family and cluster information 
+- k nodes tables for every heat wave family with the added family information 
+- k supernodes tables for every heat wave family with the added family information 
 ```
-python kmeans_real.py -d [path to nodes dataset] -k [number of clusters for k means clustering] -u [number of clusters for upgma clustering - len() = k]
+python clustering_step1.py -d [path to nodes dataset] -k [number of clusters for k means clustering]
 ```
+
+## UPGMA Clustering
+The program performs UPGMA clustering for one heat wave family
+The input for the program clustering_step2.py is a nodes table of one heat wave family from the k means clustering, the number of clusters and the number of the family. UPGMA clustering is performed and the spatial distribution of every cluster is plotted. The cluster membership of every node is appended to the nodes table in the column F_upgma.
+
+The program returns:
+- A nodes table for the heat wave family with the added cluster membership information
+- A supernodes table for the heat wave family with the added cluster membership information
+- A plot of the spatial distribution for every cluster
+```
+python clustering_step2.py -d [path to nodes dataset] -u [number of clusters for UPGMA clustering] -i [number of the heat wave family] 
+```
+
 
 # Vegetation Correlation Analysis
 
