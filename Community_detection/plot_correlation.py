@@ -59,10 +59,13 @@ hwmid_corr['significant'] = np.where(hwmid_corr.p_value < 0.01, 1,0)
 n_nodes_corr.reset_index(inplace=True)
 hwmid_corr.reset_index(inplace=True)
 
+
 # remove non-significant values
 n_nodes_corr.drop(n_nodes_corr.loc[n_nodes_corr['significant']==0].index,inplace=True)
 hwmid_corr.drop(hwmid_corr.loc[hwmid_corr['significant']==0].index,inplace=True)
-
+print(n_nodes_corr)
+print('break')
+print(hwmid_corr)
 
 mean_corr_nodes = mean_correlation(n_nodes_corr)
 mean_corr_hwmid = mean_correlation(hwmid_corr)
