@@ -54,7 +54,9 @@ upgma_clust = list(t.F_upgma.unique())
 years = list(t.year.unique())
 # for every cluster and every year we perform the correlation individually
 for clust in upgma_clust:
+    print(clust)
     for y in years:
+        print(y)
         g = dg.DeepGraph(t)
         # only keep the values from the current cluster
         g.filter_by_values_v('F_upgma',clust)
