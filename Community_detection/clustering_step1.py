@@ -99,8 +99,8 @@ for F in range(len(it)):
 for f in range(k):
     tmp = dg.DeepGraph(g.v)
     tmp.filter_by_values_v('F_kmeans',f)
-    plt.hist(tmp.v.ytime, bins=175, label = 'cluster %s' % f, alpha=0.5)
-    plt.title("Day of year distribution of all clusters")
+    plt.hist(tmp.v.ytime, bins=175, label = 'Family %s' % f, alpha=0.5)
+    plt.title("Day of year distribution of all Families")
     plt.xlabel('Day of year')
     plt.ylabel('Occurences')
     plt.legend()
