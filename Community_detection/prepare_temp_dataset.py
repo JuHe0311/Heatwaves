@@ -9,16 +9,22 @@ import plotting as plot
 
 ############### Functions #################
 
+# feature funcs
+def n_cp_nodes(cp):
+    return len(cp.unique())
+
+
 # hard boundaries for each cluster
 def thresh(data,q):
     my_dict = {}
     upgma_clust = list(data.F_upgma.unique())
     for el in upgma_clust:
+        feature_funcs = {'cp': n_cp_nodes}
         data_tmp = data[data.F_upgma==el]
         g = dg.DeepGraph(data_tmp)
-        fgv = g.partition_nodes(['g_id'])
+        fgv = g.partition_nodes(['g_id'], feature_funcs=feature_funcs)
         fgv.reset_index(inplace=True)
-        tmp = fgv[fgv.n_nodes < q]
+        tmp = fgv[fgv.cp_n_cp_nodes < q]
         to_delete = tmp.g_id.tolist()
         my_dict[el]= to_delete
     return my_dict
@@ -110,9 +116,6 @@ kmeans_filt.rename(columns={'time_x': 'time','latitude_x': 'latitude','longitude
 kmeans_filt.drop(columns=['bnds','time_bnds','latitude_y','longitude_y','time_y'], inplace=True)
 kmeans_filt.to_csv(path_or_buf = "../../Results/kmeans_filtered.csv", index=False)
 
-# feature funcs
-def n_cp_nodes(cp):
-    return len(cp.unique())
 
 feature_funcs = {'magnitude': [np.sum],
                      'latitude': np.min,
