@@ -66,7 +66,7 @@ for clust in upgma_clust:
         ndvig.filter_by_values_v('year',y)
         # corr_matrix: g_id - ndvi - n_nodes - hwmid_sum
         corr_matrix = seasonal_measures(g.v,season,ndvig.v)
-        if not (corr_matrix.ndvi.isnull().values.all()):
+        if (len(corr_matrix.ndvi.notna()) >= 3):
             print(corr_matrix.ndvi.value_counts())
             corr1,p_value1 = correlate(corr_matrix.n_nodes,corr_matrix.ndvi)
             corr2,p_value2 = correlate(corr_matrix.magnitude_sum,corr_matrix.ndvi)
