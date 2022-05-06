@@ -24,6 +24,7 @@ def thresh(data,q):
         g = dg.DeepGraph(data_tmp)
         fgv = g.partition_nodes(['g_id'], feature_funcs=feature_funcs)
         fgv.reset_index(inplace=True)
+        print(fgv)
         tmp = fgv[fgv.cp_n_cp_nodes < q]
         to_delete = tmp.g_id.tolist()
         my_dict[el]= to_delete
