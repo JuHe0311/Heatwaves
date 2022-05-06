@@ -20,7 +20,6 @@ def seasonal_measures(data,season,ndvi):
     fgv.reset_index(inplace=True)
     # merge ndvi and temperature dataset on g_id
     total = pd.merge(fgv,ndvi, on=['g_id'],how='inner')
-    print(len(total))
     return total
 
 # perform the correlation between two variables
@@ -54,9 +53,7 @@ upgma_clust = list(t.F_upgma.unique())
 years = list(t.year.unique())
 # for every cluster and every year we perform the correlation individually
 for clust in upgma_clust:
-    print(clust)
     for y in years:
-        print(y)
         g = dg.DeepGraph(t)
         # only keep the values from the current cluster
         g.filter_by_values_v('F_upgma',clust)
@@ -66,14 +63,12 @@ for clust in upgma_clust:
         ndvig.filter_by_values_v('year',y)
         # corr_matrix: g_id - ndvi - n_nodes - hwmid_sum
         corr_matrix = seasonal_measures(g.v,season,ndvig.v)
-        if (len(corr_matrix.ndvi.notna()) >= 3):
-            print(corr_matrix.ndvi.value_counts())
-            corr1,p_value1 = correlate(corr_matrix.n_nodes,corr_matrix.ndvi)
-            corr2,p_value2 = correlate(corr_matrix.magnitude_sum,corr_matrix.ndvi)
-            df1 = {'year': y, 'cluster': clust, 'corr': corr1,'p_value':p_value1}
-            n_nodes_corr = n_nodes_corr.append(df1, ignore_index = True)
-            df2 = {'year': y, 'cluster': clust, 'corr': corr2,'p_value':p_value2}
-            hwmid_corr = hwmid_corr.append(df2, ignore_index = True)
+        corr1,p_value1 = correlate(corr_matrix.n_nodes,corr_matrix.ndvi)
+        corr2,p_value2 = correlate(corr_matrix.magnitude_sum,corr_matrix.ndvi)
+        df1 = {'year': y, 'cluster': clust, 'corr': corr1,'p_value':p_value1}
+        n_nodes_corr = n_nodes_corr.append(df1, ignore_index = True)
+        df2 = {'year': y, 'cluster': clust, 'corr': corr2,'p_value':p_value2}
+        hwmid_corr = hwmid_corr.append(df2, ignore_index = True)
 
 
 n_nodes_corr.to_csv(path_or_buf = "../../Results/n_nodes_correlation.csv", index=False)
