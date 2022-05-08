@@ -55,6 +55,6 @@ dt['g_id'] = dt['g_id'].astype(np.uint32)
 # only keep the ndvi values from the end of the specified season (month)
 dt = dt[dt.month == season[1]]
 dt = dt[dt.day >= 15]
-
+dt.dropna(inplace=True)
 # save the dataframe
 dt.to_csv(path_or_buf = "../../Results/ndvi_data_prepared.csv", index=False)
