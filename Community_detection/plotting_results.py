@@ -48,7 +48,6 @@ cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
 cpv['timespan'] = cpv.dt.dt.days+1
 # not neccessary for precipitation
 cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
-print(cpv)
 
 # plot seaborn pairplot
 
@@ -56,7 +55,6 @@ sns.pairplot(cpv, x_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean']
 plt.savefig('../../Results/pairplot_cpv.png')
 
 # plot largest heat wave
-print(gv)
 first = gv[gv.cp == 10]
 first_gv = dg.DeepGraph(first)
 
@@ -73,8 +71,7 @@ feature_funcs = {'magnitude': [np.sum],
 fgv = first_gv.partition_nodes('g_id', feature_funcs=feature_funcs)
 fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
 fgv_v = dg.DeepGraph(fgv)
-print(fgv)
-    # configure map projection
+# configure map projection
 kwds_basemap = {'llcrnrlon': g.v.longitude.min() - 1,
                     'urcrnrlon': g.v.longitude.max() + 1,
                     'llcrnrlat': g.v.latitude.min() - 1,
