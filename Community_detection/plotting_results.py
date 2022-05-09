@@ -52,7 +52,7 @@ print(cpv)
 
 # plot seaborn pairplot
 
-sns.pairplot(cpv, x_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], y_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], kind="kde");
+sns.pairplot(cpv, x_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], y_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], diag_kind="kde");
 plt.savefig('../../Results/pairplot_cpv.png')
 
 # plot largest heat wave
