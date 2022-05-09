@@ -57,7 +57,7 @@ plt.savefig('../../Results/pairplot_cpv.png')
 
 # plot largest heat wave
 print(gv)
-first = gv[gv.cp == 1]
+first = gv[gv.cp == 10]
 first_gv = dg.DeepGraph(first)
 
 # feature funcs
