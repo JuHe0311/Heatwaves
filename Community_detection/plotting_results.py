@@ -125,7 +125,7 @@ ggg = dg.DeepGraph(first)
 kwds_scatter = {'s': 1,
                     'c': first.dai.values,
                     'cmap': 'rainbow',
-                    'alpha': .5,
+                    'alpha': .4,
                     'edgecolors': 'none'}
 
 # create scatter plot on map
@@ -137,7 +137,7 @@ obj = ggg.plot_map(lon='longitude', lat='latitude',
 obj['m'].drawcoastlines(linewidth=.8)
 obj['m'].drawparallels(range(-50, 50, 20), linewidth=.2)
 obj['m'].drawmeridians(range(0, 360, 20), linewidth=.2)
-obj['ax'].set_title('Progression of Largest Heat Wave')
+obj['ax'].set_title('Progression of 2010 Heat Wave')
     
 # colorbar
 cb = obj['fig'].colorbar(obj['pc'], fraction=.022, pad=.02)
