@@ -100,7 +100,7 @@ for f in range(k):
     tmp = dg.DeepGraph(g.v)
     tmp.filter_by_values_v('F_kmeans',f)
     plt.hist(tmp.v.ytime, bins=175, label = 'Family %s' % f, alpha=0.5)
-    plt.title("Day of Year Distribution of all Families")
+    plt.title("Day of Year Distribution of the Heat Wave Families")
     plt.xlabel('Day of year')
     plt.ylabel('Occurences')
     plt.legend()
