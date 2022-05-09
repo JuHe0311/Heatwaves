@@ -25,6 +25,40 @@ def conv_cos(doy):
     cos_doy=np.cos((doy *2* np.pi / 365))
     return cos_doy
 
+# plots heat wave families or clusters on a map        
+def plot_families(number_families,fgv,v,plot_title):
+  families = np.arange(number_families)
+  for F in families:
+
+    # for easy filtering, we create a new DeepGraph instance for 
+    # each component
+    gt = dg.DeepGraph(fgv.loc[F])
+
+    # configure map projection
+    kwds_basemap = {'llcrnrlon': v.longitude.min() - 1,
+                    'urcrnrlon': v.longitude.max() + 1,
+                    'llcrnrlat': v.latitude.min() - 1,
+                    'urcrnrlat': v.latitude.max() + 1}
+
+    # configure scatter plots
+    kwds_scatter = {'s': 1,
+                        'c': gt.v.n_cp_nodes.values,
+                        'cmap': 'viridis_r',
+                        'edgecolors': 'none'}
+
+    # create scatter plot on map
+    obj = gt.plot_map(lat='latitude', lon='longitude',kwds_basemap=kwds_basemap, kwds_scatter=kwds_scatter)
+
+    # configure plots
+    obj['m'].drawcoastlines(linewidth=.8)
+    obj['m'].drawparallels(range(-50, 50, 20), linewidth=.2)
+    obj['m'].drawmeridians(range(0, 360, 20), linewidth=.2)
+    cb = obj['fig'].colorbar(obj['pc'], fraction=.022, pad=.02)
+    cb.set_label('Number of Heatwaves', fontsize=15) 
+    obj['ax'].set_title('Family %s' % F)
+    
+    obj['fig'].savefig('../../Results/%s_Cluster %s.png' % (plot_title,F),
+                       dpi=300, bbox_inches='tight')
 
 ### Argparser ###
 
@@ -121,7 +155,7 @@ feature_funcs = {'magnitude': [np.sum],
 fgv = g.partition_nodes(['F_kmeans', 'g_id'], feature_funcs=feature_funcs)
 fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
 
-plot.plot_families(k,fgv,gv,'Family %s' % k)
+plot_families(k,fgv,gv,'Family %s' % k)
 
 
 # UPGMA clustering - dendrogram
