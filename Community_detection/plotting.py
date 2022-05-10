@@ -37,7 +37,7 @@ def plot_hits(number_families,fgv,v,plot_title):
     cb.set_label('Number of Heatwave Days', fontsize=15) 
     obj['ax'].set_title('%s Cluster %s' % (plot_title,F))
     
-    obj['fig'].savefig('../../Results/Heatwavedays_%s_Cluster %s.png' % (plot_title,F),
+    obj['fig'].savefig('../../Results/Heatwavedays_%s_Cluster_%s.png' % (plot_title,F),
                        dpi=300, bbox_inches='tight')
 
     
@@ -73,7 +73,7 @@ def plot_families(number_families,fgv,v,plot_title):
     cb.set_label('Number of Heatwaves', fontsize=15) 
     obj['ax'].set_title('%s Cluster %s' % (plot_title,F))
     
-    obj['fig'].savefig('../../Results/%s_Cluster %s.png' % (plot_title,F),
+    obj['fig'].savefig('../../Results/%s_Cluster_%s.png' % (plot_title,F),
                        dpi=300, bbox_inches='tight')
 
 # plots a scatter plot of correlation trends 
