@@ -91,7 +91,6 @@ for F in range(len(it)):
     cp_index = gvv.v.cp.isin(it.iloc[F])
     gvv.v.loc[cp_index, 'F_upgma'] = F
     
-print(gv.F_upgma.value_counts())
 # feature funcs
 def n_cp_nodes(cp):
   return len(cp.unique())
