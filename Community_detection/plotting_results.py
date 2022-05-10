@@ -50,8 +50,10 @@ cpv['timespan'] = cpv.dt.dt.days+1
 cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
 
 # plot seaborn pairplot
-
-sns.pairplot(cpv, x_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], y_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], diag_kind="kde");
+cpv['n_nodes_log'] = np.log(cpv.n_nodes)
+cpv['timespan_log'] = np.log(cpv.timespan)
+cpv['HWMId_magnitude_log'] = np.log(cpv.HWMId_magnitude)
+sns.pairplot(cpv, x_vars=['n_nodes_log','HWMId_magnitude_log', 'timespan_log', 'ytime_mean'], y_vars=['n_nodes_log','HWMId_magnitude_log', 'timespan_log', 'ytime_mean'], diag_kind="kde");
 plt.savefig('../../Results/pairplot_cpv.png')
 
 # plot largest heat wave
@@ -118,7 +120,7 @@ kwds_basemap = {'llcrnrlon': g.v.longitude.min() - 1,
                     'urcrnrlat': g.v.latitude.max() + 1}
     
 ggg = dg.DeepGraph(first)
-    # configure scatter plots
+# configure scatter plots
 kwds_scatter = {'s': 1,
                     'c': first.dai.values,
                     'cmap': 'rainbow',
