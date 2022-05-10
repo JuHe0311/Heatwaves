@@ -53,8 +53,11 @@ cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
 cpv['n_nodes_log'] = np.log(cpv.n_nodes)
 cpv['timespan_log'] = np.log(cpv.timespan)
 cpv['HWMId_magnitude_log'] = np.log(cpv.HWMId_magnitude)
-sns.pairplot(cpv, x_vars=['n_nodes_log','HWMId_magnitude_log', 'timespan_log', 'ytime_mean'], y_vars=['n_nodes_log','HWMId_magnitude_log', 'timespan_log', 'ytime_mean'], diag_kind="kde");
+sns.pairplot(cpv, x_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], y_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean'], diag_kind="kde");
 plt.savefig('../../Results/pairplot_cpv.png')
+sns.pairplot(cpv, x_vars=['n_nodes_log','HWMId_magnitude_log', 'timespan_log', 'ytime_mean'], y_vars=['n_nodes_log','HWMId_magnitude_log', 'timespan_log', 'ytime_mean'], diag_kind="kde");
+plt.savefig('../../Results/pairplot_cpv_log.png')
+
 
 # plot largest heat wave
 first = gv[gv.cp == 10]
