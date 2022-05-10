@@ -106,5 +106,5 @@ fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude',
 cpv.to_csv(path_or_buf = "../../Results/cpv_fam%s.csv" % i, index=False)
 gv.to_csv(path_or_buf = "../../Results/gv_fam%s.csv" % i, index=False)
 #r = range(no_clusters[i])
-plot.plot_families(no_clusters,fgv,gv,'Family %s' % i)
-plot.plot_hits(no_clusters,fgv,gv,'Family %s' % i)
+plot.plot_families(no_clusters,fgv,gv,'Family_%s' % i)
+plot.plot_hits(no_clusters,fgv,gv,'Family_%s' % i)
