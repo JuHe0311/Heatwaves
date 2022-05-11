@@ -63,9 +63,8 @@ hwmid_corr.reset_index(inplace=True)
 # remove non-significant values
 n_nodes_corr.drop(n_nodes_corr.loc[n_nodes_corr['significant']==0].index,inplace=True)
 hwmid_corr.drop(hwmid_corr.loc[hwmid_corr['significant']==0].index,inplace=True)
-print(n_nodes_corr)
-print('break')
-print(hwmid_corr)
+n_nodes_corr.to_csv(path_or_buf = "../../Results/n_nodes_corr_sig.csv, index=False)
+hwmid_corr.to_csv(path_or_buf = "../../Results/hwmid_corr_sig.csv, index=False)
 
 mean_corr_nodes = mean_correlation(n_nodes_corr)
 mean_corr_hwmid = mean_correlation(hwmid_corr)
