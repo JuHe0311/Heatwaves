@@ -84,7 +84,7 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-n", "--n_nodes", help="Give the path to the original dataset to be worked on.",
                         type=str)
-    parser.add_argument("-h", "--hwmid", help="Give the path to the original dataset to be worked on.",
+    parser.add_argument("-hwmid", "--hwmid", help="Give the path to the original dataset to be worked on.",
                         type=str)
     parser.add_argument("-ndvi", "--ndvi", help="Give the path to the original dataset to be worked on.",
                         type=str)
