@@ -9,8 +9,57 @@ import deepgraph as dg
 import con_sep as cs
 import matplotlib.pyplot as plt
 import seaborn as sns
+from scipy import stats
 
 ### Functions ###
+
+# calculate the seasonal variables of the heatwaves in one family
+def seasonal_measures(data,ndvi):
+    feature_funcs = {'magnitude':[np.sum]}
+    g = dg.DeepGraph(data)
+    fgv = g.partition_nodes(['g_id'], feature_funcs=feature_funcs)
+    fgv.reset_index(inplace=True)
+    # merge ndvi and temperature dataset on g_id
+    total = pd.merge(fgv,ndvi, on=['g_id'],how='inner')
+    return total
+
+# perform the correlation between two variables
+def correlate(data_1,data_2):
+    return stats.spearmanr(data_1,data_2,axis=0, nan_policy='omit')
+
+def correlation(gv):
+    n_nodes_corr = pd.DataFrame(columns=['year','cluster','corr','p_value'])
+    hwmid_corr = pd.DataFrame(columns=['year','cluster','corr','p_value'])
+    upgma_clust = list(gv.F_upgma.unique())
+    years = list(gv.year.unique())
+    # for every cluster and every year we perform the correlation individually
+    for clust in upgma_clust:
+        for y in years:
+            g = dg.DeepGraph(gv)
+            # only keep the values from the current cluster
+            g.filter_by_values_v('F_upgma',clust)
+            # only keep the values from the current year
+            g.filter_by_values_v('year',y)
+            ndvig = dg.DeepGraph(ndvi)
+            ndvig.filter_by_values_v('year',y)
+            # corr_matrix: g_id - ndvi - n_nodes - hwmid_sum
+            corr_matrix = seasonal_measures(g.v,ndvig.v)
+            corr1,p_value1 = correlate(corr_matrix.n_nodes,corr_matrix.ndvi)
+            corr2,p_value2 = correlate(corr_matrix.magnitude_sum,corr_matrix.ndvi)
+            df1 = {'year': y, 'cluster': clust, 'corr': corr1,'p_value':p_value1}
+            n_nodes_corr = n_nodes_corr.append(df1, ignore_index = True)
+            df2 = {'year': y, 'cluster': clust, 'corr': corr2,'p_value':p_value2}
+            hwmid_corr = hwmid_corr.append(df2, ignore_index = True)
+    return(n_nodes_corr,hwmid_corr)
+
+def significance(nnodes,hwmid):
+    nnodes['significant'] = np.where(nnodes.p_value < 0.01, 1,0)
+    hwmid['significant'] = np.where(hwmid.p_value < 0.01, 1,0)
+    # remove non-significant values
+    nnodes.drop(nnodes.loc[nnodes['significant']==0].index,inplace=True)
+    hwmid.drop(hwmid.loc[hwmid['significant']==0].index,inplace=True)
+    return(nnodes,hwmid)
+
 
 def plot_hits(fgv,v,plot_title):
 
@@ -157,4 +206,34 @@ for i in range(10):
 #########################################################
 # Split the dataset into three and compare correlation
 
+y1 = np.arange(1981,1993)
+y2 = np.arange(1993,2005)
+y3 = np.arange(2005,2015)
 
+fam1_gv1 = fam1_gv[fam1_gv.time.dt.year.isin(y1)]
+fam1_gv2 = fam1_gv[fam1_gv.time.dt.year.isin(y2)]
+fam1_gv3 = fam1_gv[fam1_gv.time.dt.year.isin(y3)]
+fam1_gv1['year'] = fam1_gv1.time.dt.year
+fam1_gv2['year'] = fam1_gv2.time.dt.year
+fam1_gv3['year'] = fam1_gv3.time.dt.year
+
+n_nodes_corr1,hwmid_corr1 = correlation(fam1_gv1)
+n_nodes_corr2,hwmid_corr2 = correlation(fam1_gv2)
+n_nodes_corr3,hwmid_corr3 = correlation(fam1_gv3)
+
+n_nodes_corr1,hwmid_corr1 = significance(n_nodes_corr1,hwmid_corr1)
+n_nodes_corr2,hwmid_corr2 = significance(n_nodes_corr2,hwmid_corr2)
+n_nodes_corr3,hwmid_corr3 = significance(n_nodes_corr3,hwmid_corr3)
+
+# plot
+hwmids = pd.DataFrame({'1981-1992': hwmid_corr1['corr'], '1993-2004': hwmid_corr2['corr'], '2005-2015': hwmid_corr3['corr']})
+ax = sns.boxplot(data=hwmids)
+ax = sns.swarmplot(data=hwmids,color=".25")
+fig = ax.get_figure()
+fig.savefig("../../Results/hwmid_boxplot.png") 
+
+nnodes = pd.DataFrame({'1981-1992': n_nodes_corr1['corr'], '1993-2004': n_nodes_corr2['corr'], '2005-2015': n_nodes_corr3['corr']})
+ax = sns.boxplot(data=nnodes)
+ax = sns.swarmplot(data=nnodes,color=".25")
+fig = ax.get_figure()
+fig.savefig("../../Results/nnodes_boxplot.png") 
