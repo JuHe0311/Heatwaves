@@ -20,6 +20,7 @@ def seasonal_measures(data,ndvi):
     fgv = g.partition_nodes(['g_id'], feature_funcs=feature_funcs)
     fgv.reset_index(inplace=True)
     print(fgv)
+    print(ndvi)
     # merge ndvi and temperature dataset on g_id
     total = pd.merge(fgv,ndvi, on=['g_id'],how='inner')
     return total
