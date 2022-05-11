@@ -14,15 +14,15 @@ from scipy import stats
 ### Functions ###
 
 # calculate the seasonal variables of the heatwaves in one family
-def seasonal_measures(data,ndvi):
+def seasonal_measures(data,n):
     feature_funcs = {'magnitude':[np.sum]}
     g = dg.DeepGraph(data)
     fgv = g.partition_nodes(['g_id'], feature_funcs=feature_funcs)
     fgv.reset_index(inplace=True)
     print(fgv)
-    print(ndvi)
+    print(n)
     # merge ndvi and temperature dataset on g_id
-    total = pd.merge(fgv,ndvi, on=['g_id'],how='inner')
+    total = pd.merge(fgv,n, on=['g_id'],how='inner')
     return total
 
 # perform the correlation between two variables
