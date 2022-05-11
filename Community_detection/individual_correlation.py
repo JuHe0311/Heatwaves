@@ -41,7 +41,7 @@ def plot_hits(fgv,v,plot_title):
     cb.set_label('Number of Heatwave Days', fontsize=15) 
     obj['ax'].set_title('%s' % (plot_title))
     
-    obj['fig'].savefig('../../Results/Heatwavedays_%s_Cluster %s.png' % (plot_title,F),
+    obj['fig'].savefig('../../Results/Heatwavedays_indiv_corr_%s.png' % plot_title,
                        dpi=300, bbox_inches='tight')
 
     
@@ -74,7 +74,7 @@ def plot_families(fgv,v,plot_title):
     cb.set_label('Number of Heatwaves', fontsize=15) 
     obj['ax'].set_title('%s' % (plot_title))
     
-    obj['fig'].savefig('../../Results/%s_Cluster %s.png' % (plot_title,F),
+    obj['fig'].savefig('../../Results/indiv_corr_%s.png' % plot_title,
                        dpi=300, bbox_inches='tight')
 
 
