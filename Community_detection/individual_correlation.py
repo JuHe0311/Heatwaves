@@ -210,9 +210,9 @@ y1 = np.arange(1981,1993)
 y2 = np.arange(1993,2005)
 y3 = np.arange(2005,2015)
 
-fam1_gv1 = fam1_gv[fam1_gv.time.dt.year.isin(y1)]
-fam1_gv2 = fam1_gv[fam1_gv.time.dt.year.isin(y2)]
-fam1_gv3 = fam1_gv[fam1_gv.time.dt.year.isin(y3)]
+fam1_gv1 = gv[gv.time.dt.year.isin(y1)]
+fam1_gv2 = gv[gv.time.dt.year.isin(y2)]
+fam1_gv3 = gv[gv.time.dt.year.isin(y3)]
 fam1_gv1['year'] = fam1_gv1.time.dt.year
 fam1_gv2['year'] = fam1_gv2.time.dt.year
 fam1_gv3['year'] = fam1_gv3.time.dt.year
