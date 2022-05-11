@@ -19,6 +19,7 @@ def seasonal_measures(data,ndvi):
     g = dg.DeepGraph(data)
     fgv = g.partition_nodes(['g_id'], feature_funcs=feature_funcs)
     fgv.reset_index(inplace=True)
+    print(fgv)
     # merge ndvi and temperature dataset on g_id
     total = pd.merge(fgv,ndvi, on=['g_id'],how='inner')
     return total
@@ -216,7 +217,7 @@ fam1_gv3 = gv[gv.time.dt.year.isin(y3)]
 fam1_gv1['year'] = fam1_gv1.time.dt.year
 fam1_gv2['year'] = fam1_gv2.time.dt.year
 fam1_gv3['year'] = fam1_gv3.time.dt.year
-print(fam1_gv1)
+
 n_nodes_corr1,hwmid_corr1 = correlation(fam1_gv1)
 n_nodes_corr2,hwmid_corr2 = correlation(fam1_gv2)
 n_nodes_corr3,hwmid_corr3 = correlation(fam1_gv3)
