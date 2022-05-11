@@ -45,6 +45,7 @@ def correlation(gv):
             ndvig = dg.DeepGraph(ndvi)
             ndvig.filter_by_values_v('year',y)
             # corr_matrix: g_id - ndvi - n_nodes - hwmid_sum
+            print(ndvig.v)
             corr_matrix = seasonal_measures(g.v,ndvig.v)
             corr1,p_value1 = correlate(corr_matrix.n_nodes,corr_matrix.ndvi)
             corr2,p_value2 = correlate(corr_matrix.magnitude_sum,corr_matrix.ndvi)
