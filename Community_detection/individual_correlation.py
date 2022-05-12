@@ -19,8 +19,6 @@ def seasonal_measures(data,ndvi):
     g = dg.DeepGraph(data)
     fgv = g.partition_nodes(['g_id'], feature_funcs=feature_funcs)
     fgv.reset_index(inplace=True)
-    print(fgv)
-    print(ndvi)
     # merge ndvi and temperature dataset on g_id
     total = pd.merge(fgv,ndvi, on=['g_id'],how='inner')
     return total
@@ -42,11 +40,9 @@ def correlation(gv):
             g.filter_by_values_v('F_upgma',clust)
             # only keep the values from the current year
             g.filter_by_values_v('year',y)
-            print(ndvi)
             ndvig = dg.DeepGraph(ndvi)
             ndvig.filter_by_values_v('year',y)
             # corr_matrix: g_id - ndvi - n_nodes - hwmid_sum
-            print(ndvig.v)
             corr_matrix = seasonal_measures(g.v,ndvig.v)
             corr1,p_value1 = correlate(corr_matrix.n_nodes,corr_matrix.ndvi)
             corr2,p_value2 = correlate(corr_matrix.magnitude_sum,corr_matrix.ndvi)
@@ -150,7 +146,7 @@ args = parser.parse_args()
 gv = pd.read_csv(args.data)
 n_nodes = pd.read_csv(args.n_nodes)
 hwmid = pd.read_csv(args.hwmid)
-ndvi = pd.read_csv(args.hwmid)
+ndvi = pd.read_csv(args.ndvi)
 gv['time']=pd.to_datetime(gv['time'])
 
 
