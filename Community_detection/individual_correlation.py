@@ -42,6 +42,7 @@ def correlation(gv):
             g.filter_by_values_v('F_upgma',clust)
             # only keep the values from the current year
             g.filter_by_values_v('year',y)
+            print(ndvi)
             ndvig = dg.DeepGraph(ndvi)
             ndvig.filter_by_values_v('year',y)
             # corr_matrix: g_id - ndvi - n_nodes - hwmid_sum
