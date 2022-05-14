@@ -159,7 +159,7 @@ hwmid['absolute_values'] = np.absolute(hwmid['corr'])
 
 n_nodes.sort_values(by='absolute_values',axis=0,inplace=True,ascending=False)
 hwmid.sort_values(by='absolute_values',axis=0,inplace=True,ascending=False)
-
+print(n_nodes)
 # plot the heat waves with the 10 highest correlation values for heat wave days
 for i in range(10):
     year_nodes = n_nodes.year.iloc[i]
