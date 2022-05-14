@@ -178,8 +178,8 @@ for i in range(10):
     # create family-g_id intersection graph
     fgv = k_means_dg.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
     fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
-    plot_families(fgv,gv,'Number of Heatwaves, Correlation: %s' % n_nodes['corr'].iloc[i])
-    plot_hits(fgv,gv,'Number of Hits, Correlation: %s' % n_nodes['corr'].iloc[i])
+    plot_families(fgv,gv,'Number of Heatwaves, Number Heat Wave Days Correlation: %s' % n_nodes['corr'].iloc[i])
+    plot_hits(fgv,gv,'Number of Hits, Number Heat Wave Days Correlation: %s' % n_nodes['corr'].iloc[i])
 
 # plot the heat waves with the 10 highest correlation values for heat wave magnitude
 for i in range(10):
@@ -199,8 +199,8 @@ for i in range(10):
     # create family-g_id intersection graph
     fgv = k_means_dg.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
     fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
-    plot_families(fgv,gv,'Number of Heatwaves, Correlation: %s' % i)
-    plot_hits(fgv,gv,'Number of Hits, Correlation: %s' % i)
+    plot_families(fgv,gv,'Number of Heatwaves, HWMId Correlation: %s' % % hwmid['corr'].iloc[i])
+    plot_hits(fgv,gv,'Number of Hits, HWMId Correlation: %s' % % hwmid['corr'].iloc[i])
 
 
 #########################################################
