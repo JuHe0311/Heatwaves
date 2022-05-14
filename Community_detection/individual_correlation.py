@@ -200,7 +200,7 @@ for i in range(10):
     fgv = k_means_dg.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
     fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
     plot_families(fgv,gv,'Number of Heatwaves, HWMId Correlation: %s' % % hwmid['corr'].iloc[i])
-    plot_hits(fgv,gv,'Number of Hits, HWMId Correlation: %s' % % hwmid['corr'].iloc[i])
+    plot_hits(fgv,gv,'Number of Hits, HWMId Correlation: %s' % hwmid['corr'].iloc[i])
 
 
 #########################################################
