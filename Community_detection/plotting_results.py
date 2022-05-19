@@ -98,7 +98,7 @@ obj = fgv_v.plot_map(lon='longitude', lat='latitude',
 obj['m'].drawcoastlines(linewidth=.8,zorder=10)
 obj['m'].drawparallels(range(-50, 50, 20), linewidth=.2)
 obj['m'].drawmeridians(range(0, 360, 20), linewidth=.2)
-obj['ax'].set_title('Largest Heat Wave')
+obj['ax'].set_title('2010 Eastern European Heat Wave')
     
     # colorbar
 cb = obj['fig'].colorbar(obj['pc'], fraction=.022, pad=.02)
@@ -146,3 +146,7 @@ cb = obj['fig'].colorbar(obj['pc'], fraction=.022, pad=.02)
 cb.set_label('{}'.format('Days After Initiation'), fontsize=15) 
 obj['fig'].savefig('../../Results/largest_heatwave_progression.png',
                        dpi=300, bbox_inches='tight')
+
+
+# draw time distribution of Heat waves over time
+
