@@ -55,7 +55,7 @@ cpv['year'] = cpv.time_amin.dt.year
 cpv['n_nodes_log'] = np.log(cpv.n_nodes)
 cpv['timespan_log'] = np.log(cpv.timespan)
 cpv['HWMId_magnitude_log'] = np.log(cpv.HWMId_magnitude)
-sns.pairplot(cpv, x_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean','year'], y_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean','year'], kind="regr");
+sns.pairplot(cpv, x_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean','year'], y_vars=['n_nodes','HWMId_magnitude', 'timespan', 'ytime_mean','year'], diag_kind="kde");
 plt.savefig('../../Results/pairplot_cpv.png')
 sns.pairplot(cpv, x_vars=['n_nodes_log','HWMId_magnitude_log', 'timespan_log', 'ytime_mean'], y_vars=['n_nodes_log','HWMId_magnitude_log', 'timespan_log', 'ytime_mean'], diag_kind="kde");
 plt.savefig('../../Results/pairplot_cpv_log.png')
