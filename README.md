@@ -122,4 +122,17 @@ In a second step the nodes table is divided into three parts by years. For all t
 python individual_correlation.py -n [path to the correlation coefficient table for the number of heat wave days correlation] -hwmid [path to the correlation coefficient table for the HWMId correlation] -ndvi [path to the prepared ndvi dataset] -d [path to the nodes table output from the UPGMA clustering]
 ```
 
+# Plotting Some More Results
+The program plotting_results.py takes the nodes dataset of the extreme heat days and returns several different visualizations that can be found in my master thesis. For this one must also input the number of heat wave that should be plotted as an example.
+
+The program returns:
+- A pairplot of the variables: n_nodes, HWMId_magnitude, timespan, ytime_mean, year
+- A map plot of the specified heat wave
+- A map plot of the progression of the specified heat wave
+
+```
+python plotting_results.py -d [Path to the nodes dataset] -n [number of the heat wave to be plotted]
+```
+
+
 
