@@ -78,7 +78,7 @@ n_nodes_clust = list(n_nodes_corr.cluster.unique())
 # create time series plots
 for val in hwmid_clust:
     hwmid_filt = hwmid_corr[hwmid_corr.cluster == val]
-    if len(hwmid_filt) >= 10:
+    if len(hwmid_filt) >= 30:
         print('hwmid')
         print(val)
         print(mk.original_test(hwmid_filt['corr']))
@@ -86,7 +86,7 @@ for val in hwmid_clust:
 
 for val in n_nodes_clust:
     n_nodes_filt = n_nodes_corr[n_nodes_corr.cluster == val]
-    if len(n_nodes_filt) >= 10:
+    if len(n_nodes_filt) >= 30:
         print('n_nodes')
         print(val)
         print(mk.original_test(n_nodes_filt['corr']))
