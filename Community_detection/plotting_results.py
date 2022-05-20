@@ -19,11 +19,14 @@ def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", help="Give the path to the original dataset to be worked on.",
                         type=str)
+    parser.add_argument("-n", "--number", help="Give the number of heat wave that should be plotted",
+                        type=int)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
 gv = pd.read_csv(args.data)
+no = args.number
 gv['time']=pd.to_datetime(gv['time'])
 g = dg.DeepGraph(gv)
 
@@ -62,7 +65,7 @@ plt.savefig('../../Results/pairplot_cpv_log.png')
 
 
 # plot largest heat wave
-first = gv[gv.cp == 10]
+first = gv[gv.cp == no]
 first_gv = dg.DeepGraph(first)
 
 # feature funcs
@@ -100,7 +103,7 @@ obj = fgv_v.plot_map(lon='longitude', lat='latitude',
 obj['m'].drawcoastlines(linewidth=.8,zorder=10)
 obj['m'].drawparallels(range(-50, 50, 20), linewidth=.2)
 obj['m'].drawmeridians(range(0, 360, 20), linewidth=.2)
-obj['ax'].set_title('2010 Eastern European Heat Wave')
+obj['ax'].set_title('%s. Largest Heat Wave' % no)
     
     # colorbar
 cb = obj['fig'].colorbar(obj['pc'], fraction=.022, pad=.02)
