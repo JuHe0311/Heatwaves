@@ -104,10 +104,22 @@ The program returns:
 python NDVI_correlation.py -ndvi [path to modified NDVI dataset] -d [filtered nodes table for one family] -s [start and end month of the season]
 ```
 
-## Visualization of the Correlation Analysis
+## Visualization of Mean Correlation Analysis
 The program plot_correlation.py visualized the correlation coefficients for one family of heat waves computed in the previous step. The two correlation coefficient tables are needed as input. For this only the significant corelation coefficient values are used. The significance threshold is set to a = 0.01. First the mean correlation coefficient over all years for every cluster and both correlation variables (hwmid and number of heat waves) are calculated and printed to the console.
-Secondly the time series of correlation coefficients for every cluster is plotted. The R^2 value and the slope of the linear regression line are reported. Additionally the Mann-Kendall test is performed and its result is printed to the console.
+Secondly the time series of correlation coefficients for every cluster is plotted if the number of correlation values for this year and cluster is >= 30. The R^2 value and the slope of the linear regression line are reported. Additionally the Mann-Kendall test is performed and its result is printed to the console.
+
+The program returns:
+- The updated nodes and HWMId correlation table with only significant correlation values
 ```
 python plot_correlation.py -n [path to the correlation coefficient table for the number of heat wave days correlation] -hwmid [path to the correlation coefficient table for the HWMId correlation]
 ```
+## Individual Correlation Analysis
+The program individual_correlation.py takes the nodes table that is outputted from the UPGMA clustering, the prepared NDVI dataset and the HWMId and nodes correlation table as input. It first appends a column of the absolute correlation values to the HWMId and nodes correlation tables and then sorts them by this absolute value from high to low. The heat wave magnitude and number of heat waves and heat days for the 10 strongest correlated years and clusters is plotted.
+In a second step the nodes table is divided into three parts by years. For all three datasets significant correlation values are computed and visually compared by plotting the values on boxplots.
+
+```
+
+python individual_correlation.py -n [path to the correlation coefficient table for the number of heat wave days correlation] -hwmid [path to the correlation coefficient table for the HWMId correlation] -ndvi [path to the prepared ndvi dataset] -d [path to the nodes table output from the UPGMA clustering]
+```
+
 
