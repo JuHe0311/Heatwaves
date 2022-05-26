@@ -1,8 +1,4 @@
-# takes net_cdf file and converts it into a pandas dataframe with xarray
-# creates integer based coordinates
-# saves pandas dataframe under Results
-
-# data i/o
+### Imports ###
 import xarray
 import argparse
 # the usual
@@ -53,7 +49,6 @@ cpv['n_unique_g_ids'] = cpv['g_ids'].apply(len)
 cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
 # append time spans
 cpv['timespan'] = cpv.dt.dt.days+1
-# not neccessary for precipitation
 cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
 
 gvv = dg.DeepGraph(gv)
@@ -76,8 +71,6 @@ del dv
     
 # form flat clusters and append their labels to cpv
 cpv['F_upgma'] = fcluster(lm, no_clusters, criterion='maxclust')
-#del lm
-
 # relabel families by size
 f = cpv['F_upgma'].value_counts().index.values
 fdic = {j: i for i, j in enumerate(f)}
@@ -103,8 +96,9 @@ feature_funcs = {'magnitude': [np.sum],
 # create family-g_id intersection graph
 fgv = gvv.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
 fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
+# save updated cpv and gv table
 cpv.to_csv(path_or_buf = "../../Results/cpv_fam%s.csv" % i, index=False)
 gv.to_csv(path_or_buf = "../../Results/gv_fam%s.csv" % i, index=False)
-#r = range(no_clusters[i])
 plot.plot_families(no_clusters,fgv,gv,'Family_%s' % i)
+# uncomment if you want to plot the number of hits and not only the number of heat waves at every grid cell
 #plot.plot_hits(no_clusters,fgv,gv,'Family_%s' % i)
