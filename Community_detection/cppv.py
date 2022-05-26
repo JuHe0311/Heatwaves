@@ -1,4 +1,4 @@
-# Imports:
+### Imports ###
 import numpy as np
 import deepgraph as dg
 import pandas as pd
@@ -65,11 +65,9 @@ def create_cpv(extr_data, b):
   #rename feature name
   cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
 
-  # discard singular components
-  #cpv.drop(0, inplace=True)
-  cpv['dt']=pd.to_timedelta(cpv['dt']) # neccessary?
+  cpv['dt']=pd.to_timedelta(cpv['dt']) 
   
-  #filter out small heatwaves that are shorter than 2 days and that have less than b different grid ids
+  #filter out small heatwaves that are shorter than 3 days and that have less than b different grid ids
   a = pd.Timedelta(days=1)
   cpv["keep"] = np.where(((cpv.dt > a)&(cpv.n_unique_g_ids > b)), True, False)
   cpv = cpv[cpv.keep != False]
