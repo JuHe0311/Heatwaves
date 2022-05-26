@@ -1,4 +1,4 @@
-# Imports:
+### Imports ###
 import xarray
 # the usual
 import numpy as np
@@ -7,12 +7,10 @@ import pandas as pd
 import argparse
 import plotting as plot
 
-############### Functions #################
-
+### Functions ###
 # feature funcs
 def n_cp_nodes(cp):
     return len(cp.unique())
-
 
 # hard boundaries for each cluster
 def thresh(data,q):
@@ -34,7 +32,6 @@ def filter_grids(data,my_dict):
         indexNames = data[(data['F_upgma'] == item[0]) & (data['g_id'].isin(item[1]))].index
         data.drop(indexNames,inplace=True)
     return data
-
 
 def plot_families(families,fgv,v,plot_title):
   for F in families:
@@ -69,8 +66,7 @@ def plot_families(families,fgv,v,plot_title):
     obj['fig'].savefig('../../Results/%s_fam_%s.png' % (plot_title,F),
                        dpi=300, bbox_inches='tight')
 
-############### Argparser #################
-
+### Argparser ###
 def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", help="Give the path to the dataset to be worked on.",
@@ -109,7 +105,6 @@ total = pd.merge(gv_0,vt, on=["x", 'y'], how='inner')
 total = total[(total.lsm >=0.5)]
 
 # define hard boundaries for each cluster
-#total_thresh = thresh(total)
 kmeans_filt = filter_grids(total,thresh(total,q))
 
 kmeans_filt.rename(columns={'time_x': 'time','latitude_x': 'latitude','longitude_x':'longitude'}, inplace=True)
@@ -127,6 +122,7 @@ k_means_dg = dg.DeepGraph(kmeans_filt)
 fgv = k_means_dg.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
 fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
 plot_families(list(kmeans_filt.F_upgma.unique()),fgv,vt,'filtered_clusters')
+# uncomment if you also want to plot the number of extreme heat days at every grid point
 #plot_hits(list(kmeans_filt.F_upgma.unique()),fgv,vt,'filtered_clusters')
 
    
