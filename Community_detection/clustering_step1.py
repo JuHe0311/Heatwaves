@@ -1,8 +1,4 @@
-# takes net_cdf file and converts it into a pandas dataframe with xarray
-# creates integer based coordinates
-# saves pandas dataframe under Results
-
-# data i/o
+### Imports ###
 import xarray
 import argparse
 # the usual
@@ -15,6 +11,7 @@ import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
 from sklearn.cluster import KMeans
 import matplotlib.cm as cm
+
 ### functions ###
 
 def conv_sin(doy):
@@ -93,12 +90,11 @@ cpv['g_ids'] = ggv['g_id'].apply(set)
 cpv['n_unique_g_ids'] = cpv['g_ids'].apply(len)
 # append time spans
 cpv['dt'] = cpv['time_amax'] - cpv['time_amin']
-# append time spans
 cpv['timespan'] = cpv.dt.dt.days+1
-# not neccessary for precipitation
+# rename magnitude_sum column
 cpv.rename(columns={'magnitude_sum': 'HWMId_magnitude'}, inplace=True)
 
-# transform data
+# transform day of year value
 cpv['doy_cos'] = cpv.ytime_mean.apply(conv_cos)
 cpv['doy_sin'] = cpv.ytime_mean.apply(conv_sin)
 
@@ -119,7 +115,7 @@ ax.set_xlabel('doy_cos')
 ax.set_ylabel('doy_sin')
 fig.savefig('../../Results/k-means_clustering')
 
-# create F col
+# create F_kmeans col
 gv['F_kmeans'] = np.ones(len(gv), dtype=int) * -1
 gcpv = cpv.groupby('kmeans_clust')
 it = gcpv.apply(lambda x: x.index.values)
@@ -140,7 +136,6 @@ for f in range(k):
     plt.legend()
 plt.savefig('../../Results/day_of_year_distribution')
 
-
 # plot the families on a map
 # feature funcs
 def n_cp_nodes(cp):
@@ -154,11 +149,9 @@ feature_funcs = {'magnitude': [np.sum],
 # create family-g_id intersection graph
 fgv = g.partition_nodes(['F_kmeans', 'g_id'], feature_funcs=feature_funcs)
 fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
-
 plot_families(k,fgv,gv,'Family %s' % k)
 
-
-# UPGMA clustering - dendrogram
+# UPGMA clustering - dendrograms
 # performed for every family individually - dendrogram is saved to find out how many clusters per family are optimal
 for i in range(k):
     gvv = dg.DeepGraph(gv)
@@ -193,6 +186,7 @@ for i in range(k):
         leaf_font_size=8.,  # font size for the x axis labels
     )
     plt.savefig('../../Results/dendrogram_fam%s.png' % i)
+    
     # save the new datasets with the F_kmeans column
     cpv_1.to_csv(path_or_buf = "../../Results/cpv_fam%s.csv" % i, index=False)
     gv_1.to_csv(path_or_buf = "../../Results/gv_fam%s.csv" % i, index=False)
