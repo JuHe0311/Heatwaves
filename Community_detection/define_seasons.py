@@ -1,9 +1,8 @@
-# Imports:
+### Imports ###
 import pandas as pd
 import argparse
 
-############### Argparser #################
-
+### Argparser ###
 def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', "--data", help="Give the path to the cluster gv dataset.",
