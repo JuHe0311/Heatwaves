@@ -1,16 +1,13 @@
-# Imports:
+### Imports ###
 import xarray
-# the usual
 import numpy as np
 import deepgraph as dg
 import pandas as pd
 import argparse
 
-############### Functions #################
 
 
-############### Argparser #################
-
+### Argparser ###
 def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-ndvi', "--ndvi_data", help="Give the path to the ndvi dataset to be worked on.",
@@ -28,7 +25,6 @@ c = args.coarsen_factor
 season = args.season
 
 # downsample the grid, so the grid fits the grid of the temperature dataset
-# always take the maximum value of the grids that are combined (take into account errors that reduce NDVI)
 d=d.coarsen(X=c,Y=c,boundary='trim').mean()
 
 # calculate monthly anomalies
@@ -56,5 +52,6 @@ dt['g_id'] = dt['g_id'].astype(np.uint32)
 dt = dt[dt.month == season[1]]
 dt = dt[dt.day >= 15]
 dt.dropna(inplace=True)
+
 # save the dataframe
 dt.to_csv(path_or_buf = "../../Results/ndvi_data_prepared.csv", index=False)
