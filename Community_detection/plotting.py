@@ -75,18 +75,3 @@ def plot_families(number_families,fgv,v,plot_title):
     
     obj['fig'].savefig('../../Results/%s_Cluster_%s.png' % (plot_title,F),
                        dpi=300, bbox_inches='tight')
-
-# plots a scatter plot of correlation trends 
-def scatter(n_nodes, name):
-    plt.scatter(n_nodes['year'],n_nodes['corr'])
-    # calc the trendline
-    z = np.polyfit(n_nodes['year'], n_nodes['corr'], 1)
-    p = np.poly1d(z)
-    plt.plot(n_nodes['year'],p(n_nodes['year']),"r--")
-    # the line equation:
-    print('y=%.6fx+(%.6f)' %(z[0],z[1]))
-    plt.ylabel('spearman correlation coefficient')
-    plt.xlabel('years')
-    plt.title(name)
-    plt.savefig('../../Results/scatter_%s.png' % name)
-    plt.clf()
