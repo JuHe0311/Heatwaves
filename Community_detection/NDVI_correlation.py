@@ -1,6 +1,5 @@
-# Imports:
+### Imports ###
 import xarray
-# the usual
 import numpy as np
 import deepgraph as dg
 import pandas as pd
@@ -9,8 +8,7 @@ import scipy
 from scipy import stats
 
 
-############### Functions #################
-
+### Functions ###
 # calculate the seasonal variables of the heatwaves in one family
 def seasonal_measures(data,ndvi):
     feature_funcs = {'magnitude':[np.sum]}
@@ -25,8 +23,7 @@ def seasonal_measures(data,ndvi):
 def correlate(data_1,data_2):
     return stats.spearmanr(data_1,data_2,axis=0, nan_policy='omit')
 
-############### Argparser #################
-
+### Argparser ###
 def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-ndvi', "--ndvi_data", help="Give the path to the ndvi dataset to be worked on.",
