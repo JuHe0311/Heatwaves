@@ -134,5 +134,9 @@ The program returns:
 python plotting_results.py -d [Path to the nodes dataset] -n [number of the heat wave to be plotted]
 ```
 
+The program plot_heatwaves.py takes the nodes and supernodes datasets, an integer number and a column name by which the supernodes table should be sorted as input arguments.
+The program plots the first x heat waves of the sorted supernodes table. With this one can plot for example the ten heat waves with the highest heat wave magnitude. 
 
+```
+python plot_heatwaves.py -d [path to nodes dataset] -cpv [path to supernodes dataset] -n [integer number] -b [column name by which to sort heat waves]
 
