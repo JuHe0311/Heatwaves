@@ -12,8 +12,7 @@ from scipy import stats
 ############### Functions #################
 
 # calculate the seasonal variables of the heatwaves in one family
-def seasonal_measures(data,season,ndvi):
-    seasons = np.arange(season[0],season[1]+1)
+def seasonal_measures(data,ndvi):
     feature_funcs = {'magnitude':[np.sum]}
     g = dg.DeepGraph(data)
     fgv = g.partition_nodes(['g_id'], feature_funcs=feature_funcs)
@@ -34,15 +33,12 @@ def make_argparser():
                        type=str)
     parser.add_argument('-d', "--temperature_data", help="Give the path to the temperature dataset to be worked on",
                        type=str)
-    parser.add_argument('-s', "--season", nargs='*', help="Give the start and end point of the season",
-                       type=int)
     return parser
 
 parser = make_argparser()
 args = parser.parse_args()
 ndvi = pd.read_csv(args.ndvi_data)
 t = pd.read_csv(args.temperature_data)
-season = args.season
 t['time']=pd.to_datetime(t['time'])
 t['year'] = t.time.dt.year
 
@@ -51,6 +47,7 @@ n_nodes_corr = pd.DataFrame(columns=['year','cluster','corr','p_value'])
 hwmid_corr = pd.DataFrame(columns=['year','cluster','corr','p_value'])
 upgma_clust = list(t.F_upgma.unique())
 years = list(t.year.unique())
+
 # for every cluster and every year we perform the correlation individually
 for clust in upgma_clust:
     for y in years:
@@ -62,7 +59,7 @@ for clust in upgma_clust:
         ndvig = dg.DeepGraph(ndvi)
         ndvig.filter_by_values_v('year',y)
         # corr_matrix: g_id - ndvi - n_nodes - hwmid_sum
-        corr_matrix = seasonal_measures(g.v,season,ndvig.v)
+        corr_matrix = seasonal_measures(g.v,ndvig.v)
         corr1,p_value1 = correlate(corr_matrix.n_nodes,corr_matrix.ndvi)
         corr2,p_value2 = correlate(corr_matrix.magnitude_sum,corr_matrix.ndvi)
         df1 = {'year': y, 'cluster': clust, 'corr': corr1,'p_value':p_value1}
@@ -70,6 +67,6 @@ for clust in upgma_clust:
         df2 = {'year': y, 'cluster': clust, 'corr': corr2,'p_value':p_value2}
         hwmid_corr = hwmid_corr.append(df2, ignore_index = True)
 
-
+# save tables of hwmid and nndodes correlation
 n_nodes_corr.to_csv(path_or_buf = "../../Results/n_nodes_correlation.csv", index=False)
 hwmid_corr.to_csv(path_or_buf = "../../Results/hwmid_correlation.csv", index=False)
