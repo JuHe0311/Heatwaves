@@ -1,6 +1,6 @@
 # This module contains all connectors and selectors needed for deep graphs 
 
-# Imports
+### Imports ###
 import numpy as np
 
 # connectors and selectors for Supernode (heat wave) generation
