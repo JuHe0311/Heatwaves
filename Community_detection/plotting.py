@@ -1,6 +1,6 @@
 # This module contains all functions for different plotting styles of the results
 
-# Imports
+### Imports ###
 import matplotlib.pyplot as plt
 import numpy as np
 import deepgraph as dg
