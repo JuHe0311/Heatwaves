@@ -1,8 +1,10 @@
 # takes net_cdf file and converts it into a pandas dataframe with xarray
 # creates integer based coordinates
+# calculates threshold for days of extreme heat
+# computes days of extreme heat and heat waves
 # saves pandas dataframe under Results
 
-# data i/o
+### Imports ###
 import xarray
 import argparse
 # the usual
@@ -14,7 +16,7 @@ import deepgraph as dg
 import cppv
 import gc
 
-### functions ###
+### Functions ###
 def perc25(a_list):
     threshold = np.percentile(a_list,25)
     return threshold
@@ -92,7 +94,7 @@ ytime = np.arange(366)
 g_t.filter_by_values_v('ytime',ytime)
 print('366') 
 
-### calculate threshold
+# calculate threshold
 # partition the node table
 cpv_t, gv_t = g_t.partition_nodes(['x','y','ytime'],return_gv=True)
 cpv_t['t2m'] = gv_t['t2m'].apply(list)
@@ -139,6 +141,7 @@ datetimes = pd.to_datetime(vt['time'])
 vt['day'] = datetimes.dt.day
 vt['month'] = datetimes.dt.month
 vt['year'] = datetimes.dt.year
+
 # calculate daily magnitude of extreme events
 f_funcs = {'t2m': [np.max]}
 gg = dg.DeepGraph(vt)
