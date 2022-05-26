@@ -5,7 +5,6 @@ import pandas as pd
 import argparse
 import matplotlib.pyplot as plt
 import seaborn as sns
-import plotting as plot
 import pymannkendall as mk
 from sklearn.metrics import r2_score 
 
