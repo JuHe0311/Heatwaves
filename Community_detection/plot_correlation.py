@@ -1,20 +1,15 @@
-# Imports:
-import xarray
-# the usual
+### Imports ###
 import numpy as np
 import deepgraph as dg
 import pandas as pd
 import argparse
-import scipy
-from scipy import stats
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotting as plot
 import pymannkendall as mk
 from sklearn.metrics import r2_score 
 
-############### Functions #################
-
+### Functions ###
 # calculate mean correlation over the years for every family in every cluster
 def mean_correlation(data):
     feature_funcs = {'corr':[np.mean]}
@@ -29,16 +24,13 @@ def scatter(data, name):
     plt.plot(data['year'],data['corr'], 'o')
     plt.plot(data['year'], res.intercept + res.slope*data['year'], 'r', label=f'y = {res.intercept:.2f} + {res.slope:.4f}*x')
     plt.legend()
-    # the line equation:
-    #print('y=%.6fx+(%.6f)' %(z[0],z[1]))
     plt.ylabel('spearman correlation coefficient')
     plt.xlabel('years')
     plt.title(f'{name}, R_square: {res.rvalue**2:.5f}')
     plt.savefig('../../Results/scatter_%s.png' % name)
     plt.clf()
  
-############### Argparser #################
-
+### Argparser ###
 def make_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-n', "--nnodes_corr", help="Give the path to the n_nodes correlation table.",
@@ -63,6 +55,7 @@ hwmid_corr.reset_index(inplace=True)
 # remove non-significant values
 n_nodes_corr.drop(n_nodes_corr.loc[n_nodes_corr['significant']==0].index,inplace=True)
 hwmid_corr.drop(hwmid_corr.loc[hwmid_corr['significant']==0].index,inplace=True)
+# save significant correlations
 n_nodes_corr.to_csv(path_or_buf = "../../Results/n_nodes_corr_sig.csv", index=False)
 hwmid_corr.to_csv(path_or_buf = "../../Results/hwmid_corr_sig.csv", index=False)
 
