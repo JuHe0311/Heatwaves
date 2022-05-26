@@ -1,7 +1,5 @@
 ### Imports ###
-import xarray
 import argparse
-# the usual
 import numpy as np
 import pandas as pd
 import deepgraph as dg
@@ -12,7 +10,7 @@ from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
 from sklearn.cluster import KMeans
 import matplotlib.cm as cm
 
-### functions ###
+### Functions ###
 
 def conv_sin(doy):
     sin_doy = np.sin((doy/(365) * 2*np.pi))
