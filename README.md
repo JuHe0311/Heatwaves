@@ -8,7 +8,8 @@ It detects and visualizes spatio-temporal patterns of heat waves over Europe fro
 
 # Environment creation
 Throughout the project the paths were the output plots and files are saves are hardcoded. Therefore it is neccessary to have a similar folder structure as I have or to adapt the code. 
-Include image of folder structure!!!!
+![File Structure](file_structure.jpg)
+
 
 Within the yml file masterthesis_environment.yml you can find the environment where all neccessary python modules are installed to run this code.
 
