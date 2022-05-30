@@ -10,9 +10,8 @@ It detects and visualizes spatio-temporal patterns of heat waves over Europe fro
 Throughout the project the paths were the output plots and files are saves are hardcoded. Therefore it is neccessary to have a similar folder structure as I have or to adapt the code. 
 Include image of folder structure!!!!
 
-Within this yml file you can find the environment where all neccessary python modules are installed to run this code.
+Within the yml file masterthesis_environment.yml you can find the environment where all neccessary python modules are installed to run this code.
 
-save yml file here
 
 # Identification of Heatwaves from a Temperature Dataset
 The program new2.py takes a netCDF4 file of daily maximum temperature data in Kelvin as input. Another input that needs to be given is the number of unique grid points that a heat wave must contain at least to be considered a heat wave. The smaller this integer is the smaller the heat waves are allowed to be spatially. 
