@@ -14,7 +14,7 @@ Within the yml file masterthesis_environment.yml you can find the environment wh
 
 
 # Identification of Heatwaves from a Temperature Dataset
-The program new2.py takes a netCDF4 file of daily maximum temperature data in Kelvin as input. Another input that needs to be given is the number of unique grid points that a heat wave must contain at least to be considered a heat wave. The smaller this integer is the smaller the heat waves are allowed to be spatially. 
+The program heatwave_detection.py takes a netCDF4 file of daily maximum temperature data in Kelvin as input. Another input that needs to be given is the number of unique grid points that a heat wave must contain at least to be considered a heat wave. The smaller this integer is the smaller the heat waves are allowed to be spatially. 
 
 The program converts the temperature data from Kelvin to °C, removes the 366th day of leap years, for simplicity and then calculates a daily quantile based threshold for every grid point. With this thresholds an extreme event dataset is created which only contains data with temperature values above the threshold. 
 
@@ -29,7 +29,7 @@ The program returns the following datasets:
 - supernodes table
 
 ```
-python new2.py -do [path to daily max temperature .nc] -g [spatial boundary]
+python heatwave_detection.py -do [path to daily max temperature .nc] -g [spatial boundary]
 ```
 
 # Clustering of Heat Waves
