@@ -179,8 +179,9 @@ for i in range(10):
     # create family-g_id intersection graph
     fgv = k_means_dg.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
     fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
-    plot_families(fgv,gv,'Number Heat Wave Events Correlation: %s' % n_nodes['corr'].iloc[i])
-    plot_hits(fgv,gv,'Number Heat Wave Events Correlation: %s' % n_nodes['corr'].iloc[i])
+    correlation_value = float("{0:.3f}".format(n_nodes['corr'].iloc[i]))
+    plot_families(fgv,gv,'Number Heat Wave Events Correlation: %s' % correlation_value)
+    plot_hits(fgv,gv,'Number Heat Wave Events Correlation: %s' % correlation_value)
 
 # plot the heat waves with the 10 highest correlation values for heat wave magnitude
 for i in range(10):
