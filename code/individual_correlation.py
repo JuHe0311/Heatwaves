@@ -88,7 +88,7 @@ def plot_hits(fgv,v,plot_title):
     obj['m'].drawmeridians(range(0, 360, 20), linewidth=.2)
     cb = obj['fig'].colorbar(obj['pc'], fraction=.022, pad=.02)
     cb.set_label('Number of Heatwave Days', fontsize=15) 
-    obj['ax'].set_title('%s' % (plot_title.3f))
+    obj['ax'].set_title('%s' % (plot_title))
     
     obj['fig'].savefig('../../Results/fam3/Heatwavedays_indiv_corr_%s.png' % plot_title,
                        dpi=300, bbox_inches='tight')
@@ -121,7 +121,7 @@ def plot_families(fgv,v,plot_title):
     obj['m'].drawmeridians(range(0, 360, 20), linewidth=.2)
     cb = obj['fig'].colorbar(obj['pc'], fraction=.022, pad=.02)
     cb.set_label('Number of Heatwaves', fontsize=15) 
-    obj['ax'].set_title('%s' % (plot_title.3f))
+    obj['ax'].set_title('%s' % (plot_title))
     
     obj['fig'].savefig('../../Results/fam3/indiv_corr_%s.png' % plot_title,
                        dpi=300, bbox_inches='tight')
@@ -179,8 +179,8 @@ for i in range(10):
     # create family-g_id intersection graph
     fgv = k_means_dg.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
     fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
-    plot_families(fgv,gv,'Number Heat Wave Days Correlation: %s' % n_nodes['corr'].iloc[i])
-    plot_hits(fgv,gv,'Number Heat Wave Days Correlation: %s' % n_nodes['corr'].iloc[i])
+    plot_families(fgv,gv,'Number Heat Wave Events Correlation: %s' % n_nodes['corr'].iloc[i]:.3f)
+    plot_hits(fgv,gv,'Number Heat Wave Events Correlation: %s' % n_nodes['corr'].iloc[i]:.3f)
 
 # plot the heat waves with the 10 highest correlation values for heat wave magnitude
 for i in range(10):
@@ -200,8 +200,9 @@ for i in range(10):
     # create family-g_id intersection graph
     fgv = k_means_dg.partition_nodes(['F_upgma', 'g_id'], feature_funcs=feature_funcs)
     fgv.rename(columns={'cp_n_cp_nodes': 'n_cp_nodes', 'longitude_amin':'longitude','latitude_amin':'latitude'}, inplace=True)
-    plot_families(fgv,gv,'HWMId Correlation: %s' % hwmid['corr'].iloc[i])
-    plot_hits(fgv,gv,'HWMId Correlation: %s' % hwmid['corr'].iloc[i])
+    correlation_value = hwmid['corr'].iloc[i]:.3f
+    plot_families(fgv,gv,'HWMId Correlation: %s' % hwmid['corr'].iloc[i]:.3f)
+    plot_hits(fgv,gv,'HWMId Correlation: %s' % hwmid['corr'].iloc[i]:.3f)
 
 
 #########################################################
